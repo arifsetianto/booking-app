@@ -4,7 +4,8 @@ use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
 use function Livewire\Volt\{state};
 
-new #[Layout('layouts.guest')] class extends Component {
+new #[Layout('layouts.guest')] class extends Component
+{
     public function agree(): void
     {
         $this->redirectIntended(default: '/login-email', navigate: true);
