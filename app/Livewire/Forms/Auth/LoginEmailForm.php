@@ -20,7 +20,7 @@ class LoginEmailForm extends Form
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function authenticate(): void
+    public function authenticate(): User
     {
         $this->ensureIsNotRateLimited();
 
@@ -33,6 +33,8 @@ class LoginEmailForm extends Form
         }
 
         RateLimiter::clear($this->throttleKey());
+
+        return User::where('email', $this->email)->first();
     }
 
     /**

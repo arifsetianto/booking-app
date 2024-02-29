@@ -35,4 +35,9 @@ Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
 
+
+Route::view('orders', 'app/orders/list')
+     ->middleware(['auth'])
+     ->name('order.list');
+
 require __DIR__.'/auth.php';

@@ -1,5 +1,6 @@
 <?php
 
+use App\Event\UserAuthenticated;
 use App\Livewire\Forms\Auth\LoginEmailForm;
 use Illuminate\Support\Facades\Session;
 use Livewire\Attributes\Layout;
@@ -16,9 +17,11 @@ new #[Layout('layouts.guest')] class extends Component {
     {
         $this->validate();
 
-        $this->form->authenticate();
+        $user = $this->form->authenticate();
 
         Session::regenerate();
+
+        event(new UserAuthenticated($user));
 
         $this->redirectIntended(default: '/email-link-verification', navigate: true);
     }

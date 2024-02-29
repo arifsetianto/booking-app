@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginEmailController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
@@ -10,6 +11,14 @@ Route::middleware('guest')->group(function () {
 
     Volt::route('login-email', 'pages.auth.login-email')
         ->name('email.login');
+
+    Volt::route('email-link-verification', 'pages.auth.email-link-verification')
+        ->name('email.link.verification');
+
+    Route::get(
+        'login/{email}',
+        LoginEmailController::class,
+    )->middleware('signed')->name('login.email.store');
 
     Volt::route('register', 'pages.auth.register')
         ->name('register');
