@@ -35,6 +35,9 @@ Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
 
+Route::view('complete-profile', 'complete-profile')
+     ->middleware(['auth'])
+     ->name('profile.complete');
 
 Route::view('orders', 'app/orders/list')
      ->middleware(['auth'])

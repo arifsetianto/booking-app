@@ -15,32 +15,45 @@ new #[Layout('layouts.guest')] class extends Component
 ?>
 
 <div>
-    <div class="text-center">
 
-        <h1 class="mb-4 text-2xl font-extrabold leading-none tracking-tight text-gray-900 md:text-3xl lg:text-4xl dark:text-white">Order your FREE <span class="text-blue-600 dark:text-blue-500">ThaiQuran</span> today!</h1>
-        <h1 class="text-2xl font-extrabold dark:text-white mt-5">Available Stock 500</h1>
-
-    </div>
-    <div class="my-5">
-
-        <h2 class="mb-2 text-lg font-semibold text-gray-900 dark:text-white">Rules:</h2>
-        <ul class="max-w-md space-y-1 text-gray-500 list-disc list-inside dark:text-gray-400">
-            <li>We DO NOT ship outside Thailand</li>
-            <li>This service strictly for Thai Nationality</li>
-            <li>This service strictly for 1 ThaiQuran per 1 Thai ID, please note our policy to prioritize to serving
-                those who have not yet received any ThaiQuran
+    <div class="sm:p-2 md:p-4">
+        <h5 class="mb-4 text-2xl font-extrabold text-center leading-none tracking-tight text-gray-900 md:text-3xl lg:text-4xl dark:text-gray-400">Order your FREE<br/><span class="text-blue-600 dark:text-blue-500">ThaiQuran</span> today!</h5>
+        <div class="flex flex-col justify-center py-5 items-center text-gray-900 dark:text-white">
+            <span class="text-xl font-semibold mb-2 text-gray-900 dark:text-gray-400">Available Stock</span>
+            <span class="text-5xl font-extrabold tracking-tight text-gray-900">500</span>
+        </div>
+        <ul role="list" class="space-y-5 my-7">
+            <li class="flex items-start">
+                <svg class="flex-shrink-0 w-4 h-4 text-blue-700 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+                </svg>
+                <span class="text-base font-normal leading-tight text-gray-500 dark:text-gray-400 ms-3">We DO NOT ship outside Thailand</span>
             </li>
-            <li>This step is required to collect your information so we can verify your Order History</li>
-            <li>We understand if you are worried about missing the chance to get your FREE ThaiQuran, InsyaAllah there
-                will be the next Order Batch for you to join! or you can always access ThaiQuran Online version for
-                FREE!
+            <li class="flex items-start">
+                <svg class="flex-shrink-0 w-4 h-4 text-blue-700 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+                </svg>
+                <span class="text-base font-normal leading-tight text-gray-500 dark:text-gray-400 ms-3">This service strictly for Thai Nationality</span>
+            </li>
+            <li class="flex items-start">
+                <svg class="flex-shrink-0 w-4 h-4 text-blue-700 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+                </svg>
+                <span class="text-base font-normal leading-tight text-gray-500 dark:text-gray-400 ms-3">This service strictly for 1 ThaiQuran per 1 Thai ID, please note our policy to prioritize to serving those who have not yet received any ThaiQuran</span>
+            </li>
+            <li class="flex items-start">
+                <svg class="flex-shrink-0 w-4 h-4 text-blue-700 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+                </svg>
+                <span class="text-base font-normal leading-tight text-gray-500 dark:text-gray-400 ms-3">This step is required to collect your information so we can verify your Order History</span>
+            </li>
+            <li class="flex items-start">
+                <svg class="flex-shrink-0 w-4 h-4 text-blue-700 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+                </svg>
+                <span class="text-base font-normal leading-tight text-gray-500 dark:text-gray-400 ms-3">We understand if you are worried about missing the chance to get your FREE ThaiQuran, InsyaAllah there will be the next Order Batch for you to join! or you can always access ThaiQuran Online version for FREE!</span>
             </li>
         </ul>
-
-    </div>
-    <div class="p-4 md:p-5">
-        <button wire:click="agree" class="text-white inline-flex w-full justify-center bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-            Yes, I Agree
-        </button>
+        <button type="button" wire:click="agree" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-200 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-900 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex justify-center w-full text-center">Yes, I Agree</button>
     </div>
 </div>
