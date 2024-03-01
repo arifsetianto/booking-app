@@ -16,6 +16,9 @@ use Laravel\Sanctum\HasApiTokens;
 /**
  * @property-read Role[]|Collection $roles
  * @property UserStatus $status
+ * @property Profile $profile
+ * @property string $name
+ * @property string $email
  *
  * @author  Arif Setianto <arifsetiantoo@gmail.com>
  */

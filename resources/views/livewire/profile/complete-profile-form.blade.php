@@ -1,7 +1,11 @@
 <?php
 
+use App\Models\Religion;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
+use App\ValueObject\Gender;
+use App\ValueObject\UserStatus;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rule;
@@ -11,14 +15,33 @@ use function Livewire\Volt\{state};
 new class extends Component {
     public ?string $name = '';
     public string $email = '';
+    public ?string $phone = '';
+    public ?string $instagram = '';
+    public ?string $address = '';
+    public ?string $gender = '';
+    public ?string $religion = '';
+
+    public array $genders = [];
+    public array $religions = [];
 
     /**
      * Mount the component.
      */
     public function mount(): void
     {
-        $this->name = Auth::user()->name;
-        $this->email = Auth::user()->email;
+        /** @var User $user */
+        $user = Auth::user();
+
+        $this->name = $user->name;
+        $this->email = $user->email;
+        $this->phone = $user->profile->phone;
+        $this->instagram = $user->profile->instagram;
+        $this->address = $user->profile->address;
+        $this->gender = $user->profile->gender?->value;
+        $this->religion = $user->profile->religion?->id;
+
+        $this->genders = Gender::getOptions();
+        $this->religions = Religion::get()->map(fn($item) => ['value' => $item->id, 'label' => $item->name])->toArray();
     }
 
     /**
@@ -26,12 +49,13 @@ new class extends Component {
      */
     public function updateProfileInformation(): void
     {
+        /** @var User $user */
         $user = Auth::user();
 
         $validated = $this->validate(
             [
-                'name'  => ['required', 'string', 'max:255'],
-                'email' => [
+                'name'      => ['required', 'string', 'max:255'],
+                'email'     => [
                     'required',
                     'string',
                     'lowercase',
@@ -39,18 +63,33 @@ new class extends Component {
                     'max:255',
                     Rule::unique(User::class)->ignore($user->id)
                 ],
+                'phone'     => ['required', 'string', 'max:30'],
+                'instagram' => ['required', 'string', 'max:100'],
+                'address'   => ['required', 'string'],
+                'gender'    => ['required', Rule::in(Gender::getValues())],
+                'religion'  => ['required', 'uuid', 'exists:religions,id']
             ]
         );
 
-        $user->fill($validated);
+        $user->fill(Arr::only($validated, ['name', 'email']));
+        $user->status = UserStatus::COMPLETED;
+
+        $user->profile->phone = $this->phone;
+        $user->profile->instagram = $this->instagram;
+        $user->profile->address = $this->address;
+        $user->profile->gender = Gender::from($this->gender);
+        $user->profile->religion()->associate(Religion::find($this->religion));
 
         if ($user->isDirty('email')) {
             $user->email_verified_at = null;
         }
 
         $user->save();
+        $user->profile->save();
 
-        $this->dispatch('profile-updated', name: $user->name);
+        //$this->dispatch('profile-updated', name: $user->name);
+
+        $this->redirectIntended(default: '/orders', navigate: true);
     }
 
     /**
@@ -88,14 +127,14 @@ new class extends Component {
     <form wire:submit="updateProfileInformation" class="mt-6 space-y-6">
         <div>
             <x-input-label for="name" :value="__('Name')"/>
-            <x-text-input wire:model="name" id="name" name="name" type="text" class="mt-1 block w-full" required
+            <x-text-input wire:model="name" id="name" name="name" type="text" class="mt-1 block w-full"
                           autofocus autocomplete="name"/>
             <x-input-error class="mt-2" :messages="$errors->get('name')"/>
         </div>
 
         <div>
             <x-input-label for="email" :value="__('Email')"/>
-            <x-text-input wire:model="email" id="email" name="email" type="email" class="mt-1 block w-full" required
+            <x-text-input wire:model="email" id="email" name="email" type="email" class="mt-1 block w-full"
                           autocomplete="username"/>
             <x-input-error class="mt-2" :messages="$errors->get('email')"/>
 
@@ -121,22 +160,38 @@ new class extends Component {
 
         <div>
             <x-input-label for="phone" :value="__('Phone')"/>
-            <x-text-input wire:model="phone" id="phone" name="phone" type="text" class="mt-1 block w-full" required
+            <x-text-input wire:model="phone" id="phone" name="phone" type="text" class="mt-1 block w-full"
                           autofocus autocomplete="phone"/>
             <x-input-error class="mt-2" :messages="$errors->get('phone')"/>
         </div>
 
         <div>
             <x-input-label for="instagram" :value="__('Instagram')"/>
-            <x-text-input wire:model="instagram" id="instagram" name="instagram" type="text" class="mt-1 block w-full" required
+            <x-text-input wire:model="instagram" id="instagram" name="instagram" type="text" class="mt-1 block w-full"
                           autofocus autocomplete="instagram"/>
             <x-input-error class="mt-2" :messages="$errors->get('instagram')"/>
         </div>
 
         <div>
+            <x-input-label for="gender" :value="__('Gender')"/>
+            <x-select-input wire:model="gender" id="gender" name="gender" class="mt-1 block w-full"
+                            :options="$genders"
+                            autofocus/>
+            <x-input-error class="mt-2" :messages="$errors->get('gender')"/>
+        </div>
+
+        <div>
+            <x-input-label for="religion" :value="__('Religion')"/>
+            <x-select-input wire:model="religion" id="religion" name="religion" class="mt-1 block w-full"
+                            :options="$religions"
+                            autofocus/>
+            <x-input-error class="mt-2" :messages="$errors->get('religion')"/>
+        </div>
+
+        <div>
             <x-input-label for="address" :value="__('Address')"/>
-            <x-text-input wire:model="address" id="address" name="address" type="text" class="mt-1 block w-full" required
-                          autofocus autocomplete="address"/>
+            <x-text-area wire:model="address" id="address" name="address" class="mt-1 block w-full"
+                         autofocus autocomplete="address"/>
             <x-input-error class="mt-2" :messages="$errors->get('address')"/>
         </div>
 

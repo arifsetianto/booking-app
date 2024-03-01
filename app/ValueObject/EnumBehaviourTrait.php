@@ -31,9 +31,20 @@ trait EnumBehaviourTrait
      */
     public static function getValues(): array
     {
-        return collect(self::cases())->map(function ($item) {
-            return $item->value;
-        })->toArray();
+        return collect(self::cases())->map(
+            function ($item) {
+                return $item->value;
+            }
+        )->toArray();
     }
 
+    /**
+     * @return array
+     */
+    public static function getOptions(): array
+    {
+        return collect(self::cases())->map(
+            fn ($item) => ['value' => $item->value, 'label' => ucfirst($item->value)]
+        )->toArray();
+    }
 }

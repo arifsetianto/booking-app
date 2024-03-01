@@ -10,7 +10,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
+ * @property string $phone
+ * @property string $instagram
  * @property Gender $gender
+ * @property Religion $religion
+ * @property string $address
  *
  * @author  Arif Setianto <arifsetiantoo@gmail.com>
  */

@@ -36,11 +36,11 @@ Route::view('profile', 'profile')
     ->name('profile');
 
 Route::view('complete-profile', 'complete-profile')
-     ->middleware(['auth'])
+     ->middleware(['auth', 'verified'])
      ->name('profile.complete');
 
 Route::view('orders', 'app/orders/list')
-     ->middleware(['auth'])
+     ->middleware(['auth', 'verified'])
      ->name('order.list');
 
 require __DIR__.'/auth.php';
