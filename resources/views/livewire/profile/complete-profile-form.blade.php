@@ -135,7 +135,7 @@ new class extends Component {
         <div>
             <x-input-label for="email" :value="__('Email')"/>
             <x-text-input wire:model="email" id="email" name="email" type="email" class="mt-1 block w-full"
-                          autocomplete="username"/>
+                          autocomplete="username" readonly/>
             <x-input-error class="mt-2" :messages="$errors->get('email')"/>
 
             @if (auth()->user() instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! auth()->user()->hasVerifiedEmail())

@@ -19,15 +19,31 @@ Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
-Route::view('incoming-orders', 'app/orders/list-incoming')
+Route::view('batches', 'pages/batches/list')
+     ->middleware(['auth', 'verified'])
+     ->name('batch.list');
+
+Route::view('batches/create', 'pages/batches/create')
+     ->middleware(['auth', 'verified'])
+     ->name('batch.create');
+
+Route::view('batches/{batch}/edit', 'pages/batches/edit')
+     ->middleware(['auth', 'verified'])
+     ->name('batch.edit');
+
+Route::view('orders', 'pages/orders/list')
+     ->middleware(['auth', 'verified'])
+     ->name('order.list');
+
+Route::view('incoming-orders', 'pages/orders/list-incoming')
      ->middleware(['auth', 'verified'])
      ->name('order.list-incoming');
 
-Route::view('complete-orders', 'app/orders/list-complete')
+Route::view('complete-orders', 'pages/orders/list-complete')
      ->middleware(['auth', 'verified'])
      ->name('order.list-complete');
 
-Route::view('canceled-orders', 'app/orders/list-canceled')
+Route::view('canceled-orders', 'pages/orders/list-canceled')
      ->middleware(['auth', 'verified'])
      ->name('order.list-canceled');
 
@@ -38,9 +54,5 @@ Route::view('profile', 'profile')
 Route::view('complete-profile', 'complete-profile')
      ->middleware(['auth', 'verified'])
      ->name('profile.complete');
-
-Route::view('orders', 'app/orders/list')
-     ->middleware(['auth', 'verified'])
-     ->name('order.list');
 
 require __DIR__.'/auth.php';
