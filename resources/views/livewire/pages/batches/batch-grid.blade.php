@@ -19,6 +19,9 @@
                     Status
                 </th>
                 <th scope="col" class="px-6 py-3">
+                    Created At
+                </th>
+                <th scope="col" class="px-6 py-3">
                     Action
                 </th>
             </tr>
@@ -42,6 +45,9 @@
                         <span class="bg-{{ $batch->status->getColor() }}-50 text-{{ $batch->status->getColor() }}-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-{{ $batch->status->getColor() }}-900 dark:text-{{ $batch->status->getColor() }}-300">
                             {{ $batch->status }}
                         </span>
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ $batch->created_at->format('d-m-Y H:i:s') }}
                     </td>
                     <td class="px-6 py-4">
                         <a href="{{ route('batch.edit', ['batch' => $batch->id]) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline cursor-pointer">Edit</a>
