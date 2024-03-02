@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @author  Arif Setianto <arifsetiantoo@gmail.com>
  */
-class Role extends Model
+class Source extends Model
 {
     use HasUuids;
 

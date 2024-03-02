@@ -15,37 +15,32 @@ use Illuminate\Support\Facades\Route;
 
 //Route::view('/', 'welcome')->name('welcome');
 
-Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
+Route::middleware(['auth.admin'])->group(function () {
+    Route::view('dashboard', 'dashboard')
+         ->name('dashboard');
 
-Route::view('batches', 'pages/batches/list')
-     ->middleware(['auth', 'verified'])
-     ->name('batch.list');
+    Route::view('batches', 'pages/batches/list')
+         ->name('batch.list');
 
-Route::view('batches/create', 'pages/batches/create')
-     ->middleware(['auth', 'verified'])
-     ->name('batch.create');
+    Route::view('batches/create', 'pages/batches/create')
+         ->name('batch.create');
 
-Route::view('batches/{batch}/edit', 'pages/batches/edit')
-     ->middleware(['auth', 'verified'])
-     ->name('batch.edit');
+    Route::view('batches/{batch}/edit', 'pages/batches/edit')
+         ->name('batch.edit');
+
+    Route::view('incoming-orders', 'pages/orders/list-incoming')
+         ->name('order.list-incoming');
+
+    Route::view('complete-orders', 'pages/orders/list-completed')
+         ->name('order.list-complete');
+
+    Route::view('canceled-orders', 'pages/orders/list-canceled')
+         ->name('order.list-canceled');
+});
 
 Route::view('orders', 'pages/orders/list')
      ->middleware(['auth', 'verified'])
      ->name('order.list');
-
-Route::view('incoming-orders', 'pages/orders/list-incoming')
-     ->middleware(['auth', 'verified'])
-     ->name('order.list-incoming');
-
-Route::view('complete-orders', 'pages/orders/list-complete')
-     ->middleware(['auth', 'verified'])
-     ->name('order.list-complete');
-
-Route::view('canceled-orders', 'pages/orders/list-canceled')
-     ->middleware(['auth', 'verified'])
-     ->name('order.list-canceled');
 
 Route::view('profile', 'profile')
     ->middleware(['auth'])

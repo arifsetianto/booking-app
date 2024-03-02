@@ -13,4 +13,6 @@ use Illuminate\Database\Eloquent\Model;
 class Religion extends Model
 {
     use HasUuids;
+
+    public $timestamps = false;
 }

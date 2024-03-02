@@ -22,5 +22,8 @@ class DatabaseSeeder extends Seeder
         $this->call(ReligionTableSeeder::class);
         $this->call(RoleTableSeeder::class);
         $this->call(UserSeeder::class);
+        $this->call(AddressingTableSeeder::class);
+        $this->call(SourceTableSeeder::class);
+        $this->call(DesignationTableSeeder::class);
     }
 }
