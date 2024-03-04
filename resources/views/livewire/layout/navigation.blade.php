@@ -42,8 +42,8 @@ new class extends Component
                     <x-nav-link :href="route('order.list-complete')" :active="request()->routeIs('order.list-complete')" wire:navigate>
                         {{ __('Complete Orders') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('order.list-canceled')" :active="request()->routeIs('order.list-canceled')" wire:navigate>
-                        {{ __('Canceled Orders') }}
+                    <x-nav-link :href="route('order.list-archive')" :active="request()->routeIs('order.list-archive')" wire:navigate>
+                        {{ __('Archive Orders') }}
                     </x-nav-link>
                 </div>
             </div>

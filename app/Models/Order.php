@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property int $qty
  * @property int $amount
  * @property OrderStatus $status
+ * @property OrderItem $orderItem
  * @property Batch $batch
  * @property Source $source
  * @property string $code
@@ -28,6 +29,8 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property \DateTime $completed_at
  * @property \DateTime $rejected_at
  * @property \DateTime $canceled_at
+ * @property Shipping $shipping
+ * @property Payment $payment
  *
  * @author  Arif Setianto <arifsetiantoo@gmail.com>
  */
@@ -45,6 +48,11 @@ class Order extends Model
         'canceled_at'  => 'datetime',
         'status'       => OrderStatus::class,
     ];
+
+    public function orderItem(): HasOne
+    {
+        return $this->hasOne(OrderItem::class);
+    }
 
     public function batch(): BelongsTo
     {

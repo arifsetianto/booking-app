@@ -17,7 +17,7 @@ use Livewire\WithPagination;
 /**
  * @author  Arif Setianto <arifsetiantoo@gmail.com>
  */
-class CanceledOrderGrid extends Component
+class ArchiveOrderGrid extends Component
 {
     use WithPagination;
 
@@ -29,8 +29,8 @@ class CanceledOrderGrid extends Component
      */
     public function render(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
-        return view('livewire.pages.orders.incoming-order-grid')->with([
-            'orders' => Order::whereIn('status', [OrderStatus::CANCELED, OrderStatus::REJECTED])
+        return view('livewire.pages.orders.archive-order-grid')->with([
+            'orders' => Order::whereIn('status', [OrderStatus::CANCELED, OrderStatus::REJECTED, OrderStatus::COMPLETED])
                              ->when($this->searchKeyword !== '', function (Builder $query) {
                                  $query
                                      ->where(function ($qb) {

@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 //Route::view('/', 'welcome')->name('welcome');
 
-Route::middleware(['auth.admin'])->group(function () {
+Route::middleware(['auth.admin', 'roles.has:admin'])->group(function () {
     Route::view('dashboard', 'dashboard')
          ->name('dashboard');
 
@@ -34,8 +34,17 @@ Route::middleware(['auth.admin'])->group(function () {
     Route::view('complete-orders', 'pages/orders/list-completed')
          ->name('order.list-complete');
 
-    Route::view('canceled-orders', 'pages/orders/list-canceled')
-         ->name('order.list-canceled');
+    Route::view('archive-orders', 'pages/orders/list-archive')
+         ->name('order.list-archive');
+
+    Route::view('orders/{order}/verify', 'pages/orders/verify')
+         ->name('order.verify');
+
+    Route::view('orders/{order}/complete', 'pages/orders/complete')
+         ->name('order.complete');
+
+    Route::view('orders/{order}/archive', 'pages/orders/archive')
+         ->name('order.archive');
 });
 
 Route::view('orders', 'pages/orders/list')

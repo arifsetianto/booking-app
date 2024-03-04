@@ -39,7 +39,7 @@ class OrderItem extends Model
 
     public function religion(): BelongsTo
     {
-        return $this->belongsTo(Region::class);
+        return $this->belongsTo(Religion::class);
     }
 
     public function designation(): BelongsTo

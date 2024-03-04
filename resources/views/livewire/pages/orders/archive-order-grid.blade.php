@@ -20,10 +20,10 @@
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
                 <th scope="col" class="px-6 py-3">
-                    Order Code
+                    Order
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    Order Date
+                    Tracking Code
                 </th>
                 <th scope="col" class="px-6 py-3">
                     Batch
@@ -46,10 +46,10 @@
             @foreach($orders as $order)
                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {{ $order->code }}
+                        <a href="{{ route('order.archive', ['order' => $order->id]) }}" class="font-medium hover:underline cursor-pointer">#{{ $order->code }}</a>
                     </th>
                     <td class="px-6 py-4">
-                        {{ $order->created_at->format('d-m-Y H:i:s') }}
+                        <a href="#" target="_blank" class="hover:underline">{{ $order->shipping->tracking_code }}</a>
                     </td>
                     <td class="px-6 py-4">
                         {{ $order->batch->number }}
@@ -65,7 +65,7 @@
                         {{ $order->qty }}
                     </td>
                     <td class="px-6 py-4">
-                        <a href="{{ route('batch.edit', ['batch' => $order->id]) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline cursor-pointer">View</a>
+                        <a href="{{ route('order.archive', ['order' => $order->id]) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline cursor-pointer">View</a>
                     </td>
                 </tr>
             @endforeach
