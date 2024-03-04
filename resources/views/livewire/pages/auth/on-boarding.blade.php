@@ -32,7 +32,7 @@ new #[Layout('layouts.guest')] class extends Component {
                 <span class="text-xl font-semibold mb-2 text-gray-900 dark:text-gray-400">Available Stock</span>
                 <span class="text-5xl font-extrabold tracking-tight text-gray-900">{{ $batch->total_stock - $batch->purchased_stock }}</span>
             @else
-                <span class="text-xl font-semibold mb-2 text-gray-700 dark:text-gray-400">Stock Unavailable</span>
+                <span class="text-xl font-semibold mb-2 text-gray-500 dark:text-gray-400">Stock Unavailable</span>
             @endif
         </div>
         <ul role="list" class="space-y-5 my-7">
@@ -77,9 +77,16 @@ new #[Layout('layouts.guest')] class extends Component {
                 <span class="text-base font-normal leading-tight text-gray-500 dark:text-gray-400 ms-3">We understand if you are worried about missing the chance to get your FREE ThaiQuran, InsyaAllah there will be the next Order Batch for you to join! or you can always access ThaiQuran Online version for FREE!</span>
             </li>
         </ul>
-        <button type="button" wire:click="agree"
-                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-200 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-900 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex justify-center w-full text-center">
-            Yes, I Agree
-        </button>
+        @if($batch)
+            <button type="button" wire:click="agree"
+                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-200 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-900 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex justify-center w-full text-center">
+                Yes, I Agree
+            </button>
+        @else
+            <button type="button"
+                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-200 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-900 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex justify-center w-full text-center cursor-not-allowed" disabled>
+                Yes, I Agree
+            </button>
+        @endif
     </div>
 </div>
