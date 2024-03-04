@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 //Route::view('/', 'welcome')->name('welcome');
 
-Route::middleware(['auth.admin', 'roles.has:admin'])->group(function () {
+Route::middleware(['auth.admin', 'verified', 'roles.has:admin'])->group(function () {
     Route::view('dashboard', 'dashboard')
          ->name('dashboard');
 
@@ -47,16 +47,16 @@ Route::middleware(['auth.admin', 'roles.has:admin'])->group(function () {
          ->name('order.archive');
 });
 
-Route::view('orders', 'pages/orders/list')
-     ->middleware(['auth', 'verified'])
-     ->name('order.list');
+Route::middleware(['auth', 'verified', 'roles.has:customer'])->group(function () {
+    Route::view('orders', 'pages/orders/list-by-user')
+         ->name('order.list');
+
+    Route::view('complete-profile', 'complete-profile')
+         ->name('profile.complete');
+});
 
 Route::view('profile', 'profile')
-    ->middleware(['auth'])
+    ->middleware(['auth', 'roles.has:root,customer'])
     ->name('profile');
-
-Route::view('complete-profile', 'complete-profile')
-     ->middleware(['auth', 'verified'])
-     ->name('profile.complete');
 
 require __DIR__.'/auth.php';

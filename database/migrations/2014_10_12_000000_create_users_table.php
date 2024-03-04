@@ -13,11 +13,6 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('religions', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->string('name', 50)->index();
-        });
-
         Schema::create('profiles', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('phone', 30)->nullable();
@@ -26,6 +21,8 @@ return new class extends Migration
             $table->uuid('religion_id')->index()->nullable();
             $table->foreign('religion_id')->references('id')->on('religions');
             $table->text('address')->nullable();
+            $table->uuid('sub_district_id')->index()->nullable();
+            $table->foreign('sub_district_id')->references('id')->on('sub_districts');
             $table->timestamps();
         });
 
@@ -69,6 +66,6 @@ return new class extends Migration
         Schema::dropIfExists('role_user');
         Schema::dropIfExists('roles');
         Schema::dropIfExists('users');
-        Schema::dropIfExists('religions');
+        Schema::dropIfExists('profiles');
     }
 };

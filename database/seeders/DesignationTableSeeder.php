@@ -16,7 +16,7 @@ class DesignationTableSeeder extends Seeder
     const DATA = [
         [
             'id'   => 'c7507e4f-8230-4d7b-8993-bab6d96490a7',
-            'name' => 'Husband',
+            'name' => 'Parents',
         ],
     ];
 

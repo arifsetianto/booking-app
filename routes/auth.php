@@ -20,8 +20,8 @@ Route::middleware('guest')->group(function () {
         LoginEmailController::class,
     )->middleware('signed')->name('login.email.store');
 
-    Volt::route('register', 'pages.auth.register')
-        ->name('register');
+    //Volt::route('register', 'pages.auth.register')
+    //    ->name('register');
 
     Volt::route('login', 'pages.auth.login')
         ->name('login');

@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property Gender $gender
  * @property Religion $religion
  * @property string $address
+ * @property SubDistrict $subDistrict
  *
  * @author  Arif Setianto <arifsetiantoo@gmail.com>
  */
@@ -40,5 +41,13 @@ class Profile extends Model
     public function religion(): BelongsTo
     {
         return $this->belongsTo(Religion::class);
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function subDistrict(): BelongsTo
+    {
+        return $this->belongsTo(SubDistrict::class);
     }
 }

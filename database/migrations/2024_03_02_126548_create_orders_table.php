@@ -13,18 +13,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sources', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->string('name', 100)->index();
-        });
-
-        Schema::create('designations', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->string('name', 100)->index();
-        });
-
         Schema::create('orders', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->uuid('user_id')->index();
             $table->uuid('batch_id')->index();
             $table->string('code', 15)->unique()->index();
             $table->integer('qty');
@@ -37,8 +28,14 @@ return new class extends Migration
             $table->uuid('source_id')->index();
             $table->enum('status', OrderStatus::getValues())->index();
             $table->text('reason')->nullable();
+            $table->dateTime('confirmed_at')->nullable();
+            $table->dateTime('verified_at')->nullable();
+            $table->dateTime('completed_at')->nullable();
+            $table->dateTime('rejected_at')->nullable();
+            $table->dateTime('canceled_at')->nullable();
             $table->timestamps();
 
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('batch_id')->references('id')->on('batches')->onDelete('cascade');
             $table->foreign('source_id')->references('id')->on('sources');
         });
@@ -69,7 +66,5 @@ return new class extends Migration
     {
         Schema::dropIfExists('order_items');
         Schema::dropIfExists('orders');
-        Schema::dropIfExists('designations');
-        Schema::dropIfExists('sources');
     }
 };

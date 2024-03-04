@@ -30,8 +30,20 @@ new class extends Component
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('order.list')" :active="request()->routeIs('order.list')" wire:navigate>
-                        {{ __('Orders') }}
+                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
+                        {{ __('Dashboard') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('batch.list')" :active="request()->routeIs('batch.list')" wire:navigate>
+                        {{ __('Batch') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('order.list-incoming')" :active="request()->routeIs('order.list-incoming')" wire:navigate>
+                        {{ __('Incoming Orders') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('order.list-complete')" :active="request()->routeIs('order.list-complete')" wire:navigate>
+                        {{ __('Complete Orders') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('order.list-archive')" :active="request()->routeIs('order.list-archive')" wire:navigate>
+                        {{ __('Archive Orders') }}
                     </x-nav-link>
                 </div>
             </div>

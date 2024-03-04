@@ -18,7 +18,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
         event(new UserLoginRequested($this->form->email));
 
-        $this->redirectIntended(default: '/email-link-verification?email=' . $this->form->email, navigate: true);
+        $this->redirect(url: '/email-link-verification?email=' . $this->form->email, navigate: true);
     }
 };
 

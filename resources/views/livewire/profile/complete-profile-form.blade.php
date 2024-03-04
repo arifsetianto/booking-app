@@ -1,6 +1,10 @@
 <?php
 
+use App\Models\City;
+use App\Models\District;
+use App\Models\Region;
 use App\Models\Religion;
+use App\Models\SubDistrict;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use App\ValueObject\Gender;
@@ -20,9 +24,17 @@ new class extends Component {
     public ?string $address = '';
     public ?string $gender = '';
     public ?string $religion = '';
+    public ?string $region = '';
+    public ?string $city = '';
+    public ?string $district = '';
+    public ?string $subDistrict = '';
 
     public array $genders = [];
     public array $religions = [];
+    public array $regions = [];
+    public array $cities = [];
+    public array $districts = [];
+    public array $subDistricts = [];
 
     /**
      * Mount the component.
@@ -39,9 +51,26 @@ new class extends Component {
         $this->address = $user->profile->address;
         $this->gender = $user->profile->gender?->value;
         $this->religion = $user->profile->religion?->id;
+        $this->region = $user->profile->subDistrict?->district?->city?->region?->id;
+        $this->city = $user->profile->subDistrict?->district?->city?->id;
+        $this->district = $user->profile->subDistrict?->district?->id;
+        $this->subDistrict = $user->profile->subDistrict?->id;
 
         $this->genders = Gender::getOptions();
         $this->religions = Religion::get()->map(fn($item) => ['value' => $item->id, 'label' => $item->name])->toArray();
+        $this->regions = Region::get()->map(fn($item) => ['value' => $item->id, 'label' => $item->name])->toArray();
+
+        if ($user->profile->subDistrict?->district?->city) {
+            $this->getCitiesByRegion();
+        }
+
+        if ($user->profile->subDistrict?->district) {
+            $this->getDistrictsByCity();
+        }
+
+        if ($user->profile->subDistrict) {
+            $this->getSubDistrictsByDistrict();
+        }
     }
 
     /**
@@ -54,8 +83,8 @@ new class extends Component {
 
         $validated = $this->validate(
             [
-                'name'      => ['required', 'string', 'max:255'],
-                'email'     => [
+                'name'        => ['required', 'string', 'max:255'],
+                'email'       => [
                     'required',
                     'string',
                     'lowercase',
@@ -63,11 +92,12 @@ new class extends Component {
                     'max:255',
                     Rule::unique(User::class)->ignore($user->id)
                 ],
-                'phone'     => ['required', 'string', 'max:30'],
-                'instagram' => ['required', 'string', 'max:100'],
-                'address'   => ['required', 'string'],
-                'gender'    => ['required', Rule::in(Gender::getValues())],
-                'religion'  => ['required', 'uuid', 'exists:religions,id']
+                'phone'       => ['required', 'string', 'max:30'],
+                'instagram'   => ['required', 'string', 'max:100'],
+                'address'     => ['required', 'string'],
+                'gender'      => ['required', Rule::in(Gender::getValues())],
+                'religion'    => ['required', 'uuid', 'exists:religions,id'],
+                'subDistrict' => ['required', 'uuid', 'exists:sub_districts,id']
             ]
         );
 
@@ -79,6 +109,7 @@ new class extends Component {
         $user->profile->address = $this->address;
         $user->profile->gender = Gender::from($this->gender);
         $user->profile->religion()->associate(Religion::find($this->religion));
+        $user->profile->subDistrict()->associate(SubDistrict::find($this->subDistrict));
 
         if ($user->isDirty('email')) {
             $user->email_verified_at = null;
@@ -90,6 +121,28 @@ new class extends Component {
         //$this->dispatch('profile-updated', name: $user->name);
 
         $this->redirectIntended(default: '/orders', navigate: true);
+    }
+
+    public function getCitiesByRegion(): void
+    {
+        $this->cities = City::where('region_id', $this->region)->get()->map(
+            fn($item) => ['value' => $item->id, 'label' => sprintf('%s (%s)', $item->th_name, $item->en_name)]
+        )->toArray();
+    }
+
+    public function getDistrictsByCity(): void
+    {
+        $this->districts =
+            District::where('city_id', $this->city)->get()->map(
+                fn($item) => ['value' => $item->id, 'label' => sprintf('%s (%s)', $item->th_name, $item->en_name)]
+            )->toArray();
+    }
+
+    public function getSubDistrictsByDistrict(): void
+    {
+        $this->subDistricts = SubDistrict::where('district_id', $this->district)->get()->map(
+            fn($item) => ['value' => $item->id, 'label' => sprintf('%s (%s)', $item->th_name, $item->en_name)]
+        )->toArray();
     }
 
     /**
@@ -193,6 +246,38 @@ new class extends Component {
             <x-text-area wire:model="address" id="address" name="address" class="mt-1 block w-full"
                          autofocus autocomplete="address"/>
             <x-input-error class="mt-2" :messages="$errors->get('address')"/>
+        </div>
+
+        <div>
+            <x-input-label for="region" :value="__('Region')"/>
+            <x-select-input wire:model.live="region" wire:change="getCitiesByRegion" id="region" name="region" class="mt-1 block w-full"
+                            :options="$regions"
+                            autofocus/>
+            <x-input-error class="mt-2" :messages="$errors->get('region')"/>
+        </div>
+
+        <div>
+            <x-input-label for="city" :value="__('City')"/>
+            <x-select-input wire:model.live="city" wire:key="{{ $region }}" wire:change="getDistrictsByCity" id="city" name="city" class="mt-1 block w-full"
+                            :options="$cities"
+                            autofocus/>
+            <x-input-error class="mt-2" :messages="$errors->get('city')"/>
+        </div>
+
+        <div>
+            <x-input-label for="district" :value="__('District')"/>
+            <x-select-input wire:model.live="district" wire:key="{{ $city }}" wire:change="getSubDistrictsByDistrict" id="district" name="district" class="mt-1 block w-full"
+                            :options="$districts"
+                            autofocus/>
+            <x-input-error class="mt-2" :messages="$errors->get('district')"/>
+        </div>
+
+        <div>
+            <x-input-label for="subDistrict" :value="__('Sub District')"/>
+            <x-select-input wire:model="subDistrict" wire:key="{{ $district }}" id="subDistrict" name="subDistrict" class="mt-1 block w-full"
+                            :options="$subDistricts"
+                            autofocus/>
+            <x-input-error class="mt-2" :messages="$errors->get('subDistrict')"/>
         </div>
 
         <div class="flex items-center gap-4">

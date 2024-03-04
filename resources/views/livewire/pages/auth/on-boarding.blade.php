@@ -16,7 +16,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
     public function agree(): void
     {
-        $this->redirectIntended(default: '/login-email', navigate: true);
+        $this->redirect(url: '/login-email', navigate: true);
     }
 };
 

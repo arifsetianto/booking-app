@@ -25,6 +25,7 @@ class RedirectIfAuthenticated
             if (Auth::guard($guard)->check()) {
                 /** @var User $user */
                 $user = Auth::guard($guard)->user();
+
                 if ($user->status->is(UserStatus::NEW)) {
                     return redirect('/complete-profile');
                 }

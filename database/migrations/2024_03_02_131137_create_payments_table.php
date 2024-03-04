@@ -18,6 +18,8 @@ return new class extends Migration
             $table->dateTime('expired_at');
             $table->enum('status', PaymentStatus::getValues())->index();
             $table->string('receipt_file')->nullable();
+            $table->dateTime('paid_at')->nullable();
+            $table->dateTime('canceled_at')->nullable();
             $table->timestamps();
 
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
