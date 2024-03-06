@@ -48,8 +48,32 @@ Route::middleware(['auth.admin', 'verified', 'roles.has:admin'])->group(function
 });
 
 Route::middleware(['auth', 'verified', 'roles.has:customer'])->group(function () {
+    Route::view('home', 'pages/home')
+         ->name('home');
+
+    Route::view('book-order', 'pages/orders/book')
+         ->name('orders.book');
+
+    Route::view('orders/{order}/delivery', 'pages/orders/delivery')
+         ->name('orders.delivery');
+
+    Route::view('orders/{order}/edit', 'pages/orders/edit')
+         ->name('orders.edit');
+
+    Route::view('orders/{order}/payment', 'pages/orders/payment')
+         ->name('orders.payment');
+
+    Route::view('orders/{order}/payment-success', 'pages/orders/payment-success')
+         ->name('orders.payment.success');
+
+    Route::view('orders/{order}/tracking-status', 'pages/orders/tracking-status')
+         ->name('orders.tracking.status');
+
+    Route::view('orders/{order}/detail', 'pages/orders/detail')
+         ->name('orders.detail');
+
     Route::view('orders', 'pages/orders/list-by-user')
-         ->name('order.list');
+         ->name('orders.list');
 
     Route::view('complete-profile', 'complete-profile')
          ->name('profile.complete');

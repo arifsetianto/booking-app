@@ -40,7 +40,7 @@ class LoginEmailController extends Controller
         }
 
         return new RedirectResponse(
-            url: route('order.list'),
+            url: route('home'),
         );
     }
 }

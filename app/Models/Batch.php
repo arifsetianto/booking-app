@@ -37,4 +37,9 @@ class Batch extends Model
 
         return $batch;
     }
+
+    public function getAvailableStock(): int
+    {
+        return $this->total_stock - $this->purchased_stock;
+    }
 }

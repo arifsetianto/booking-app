@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property int $amount
  * @property OrderStatus $status
  * @property OrderItem $orderItem
+ * @property User $user
  * @property Batch $batch
  * @property Source $source
  * @property string $code
@@ -38,6 +39,15 @@ class Order extends Model
 {
     use HasUuids;
 
+    protected $fillable = [
+        'email',
+        'name',
+        'phone',
+        'instagram',
+        'reason',
+        'comment',
+    ];
+
     protected $casts = [
         'qty'          => 'integer',
         'amount'       => 'integer',
@@ -52,6 +62,11 @@ class Order extends Model
     public function orderItem(): HasOne
     {
         return $this->hasOne(OrderItem::class);
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 
     public function batch(): BelongsTo

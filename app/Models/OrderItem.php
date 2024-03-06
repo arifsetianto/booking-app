@@ -26,6 +26,14 @@ class OrderItem extends Model
 {
     use HasUuids;
 
+    protected $fillable = [
+        'receiver_en_name',
+        'receiver_th_name',
+        'qty',
+        'amount',
+        'gender'
+    ];
+
     protected $casts = [
         'qty'    => 'integer',
         'amount' => 'integer',
