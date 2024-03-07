@@ -27,4 +27,9 @@ class BatchGrid extends Component
             'batches' => Batch::orderBy('number')->paginate(10),
         ]);
     }
+
+    public function redirectToCreateBatchPage(): void
+    {
+        $this->redirectRoute(name: 'batch.create');
+    }
 }

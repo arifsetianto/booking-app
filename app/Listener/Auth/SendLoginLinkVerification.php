@@ -6,6 +6,7 @@ namespace App\Listener\Auth;
 
 use App\Event\Auth\UserLoginRequested;
 use App\Mail\Auth\LoginLink;
+use Illuminate\Contracts\Events\ShouldHandleEventsAfterCommit;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
@@ -13,8 +14,10 @@ use Illuminate\Support\Facades\URL;
 /**
  * @author  Arif Setianto <arifsetiantoo@gmail.com>
  */
-class SendLoginLinkVerification implements ShouldQueue
+class SendLoginLinkVerification implements ShouldQueue, ShouldHandleEventsAfterCommit
 {
+    public string $queue = 'user';
+
     public function handle(UserLoginRequested $event): void
     {
         Mail::to(

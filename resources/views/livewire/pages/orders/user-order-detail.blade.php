@@ -35,6 +35,12 @@ new class extends Component {
     </header>
 
     <div class="mt-10">
+        @if($order->reason)
+            <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                 role="alert">
+                <span class="font-medium">{{ $order->reason }}</span>
+            </div>
+        @endif
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">

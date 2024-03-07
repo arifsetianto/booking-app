@@ -14,23 +14,25 @@ new class extends Component {
     {
         $this->order = Order::findOrFail($request->route('order'));
 
-        if ($this->order->status->is(OrderStatus::CONFIRMED)) {
+        if ($this->order->status->is(OrderStatus::CONFIRMED) ||
+            $this->order->status->is(OrderStatus::VERIFIED) ||
+            $this->order->status->is(OrderStatus::COMPLETED)) {
             $this->status[] = [
-                'date' => $this->order->confirmed_at?->format('d F Y') ?? null,
+                'date'    => $this->order->confirmed_at?->format('d F Y H:i:s') ?? null,
                 'message' => 'Booking has been received - waiting for ID & payment verification',
             ];
         }
 
-        if ($this->order->status->is(OrderStatus::VERIFIED)) {
+        if ($this->order->status->is(OrderStatus::VERIFIED) || $this->order->status->is(OrderStatus::COMPLETED)) {
             $this->status[] = [
-                'date' => $this->order->verified_at?->format('d F Y') ?? null,
+                'date'    => $this->order->verified_at?->format('d F Y H:i:s') ?? null,
                 'message' => 'Booking has been verified - waiting for delivery',
             ];
         }
 
         if ($this->order->status->is(OrderStatus::COMPLETED)) {
             $this->status[] = [
-                'date' => $this->order->completed_at?->format('d F Y') ?? null,
+                'date'    => $this->order->completed_at?->format('d F Y H:i:s') ?? null,
                 'message' => 'Order has been delivered - Thai Post Track Code ' . $this->order->shipping->tracking_code,
             ];
         }
@@ -82,9 +84,10 @@ new class extends Component {
             </div>
         </div>
         @if($order->shipping->tracking_code)
-            <p class="mt-5 text-sm text-gray-500">Copy this parcel code to track parcel in ThaiPost website or click this
+            <p class="my-5 text-sm text-gray-500">Copy this parcel code to track parcel in ThaiPost website or click
+                this
                 link icon</p>
-            <a href="#" target="_blank" class="hover:underline text-blue-700">{{ $order->shipping->tracking_code }}</a>
+            <a href="#" target="_blank" class="hover:underline text-blue-700 font-semibold">{{ $order->shipping->tracking_code }}</a>
         @endif
         <div class="mt-5">
             <x-primary-button wire:click="redirectToOrderDetail">

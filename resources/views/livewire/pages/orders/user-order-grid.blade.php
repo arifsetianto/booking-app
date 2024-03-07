@@ -45,6 +45,9 @@
                     Amount
                 </th>
                 <th scope="col" class="px-6 py-3">
+                    Status
+                </th>
+                <th scope="col" class="px-6 py-3">
                     Action
                 </th>
             </tr>
@@ -53,8 +56,16 @@
             @foreach($orders as $order)
                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        <a href="{{ route('order.verify', ['order' => $order->id]) }}"
-                           class="font-medium hover:underline cursor-pointer">#{{ $order->code }}</a>
+                        @if($order->status->is(OrderStatus::DRAFT))
+                            <a href="{{ route('orders.delivery', ['order' => $order->id]) }}"
+                               class="font-medium hover:underline cursor-pointer">#{{ $order->code }}</a>
+                        @elseif($order->status->is(OrderStatus::PENDING))
+                            <a href="{{ route('orders.payment', ['order' => $order->id]) }}"
+                               class="font-medium hover:underline cursor-pointer">#{{ $order->code }}</a>
+                        @else
+                            <a href="{{ route('orders.detail', ['order' => $order->id]) }}"
+                               class="font-medium hover:underline cursor-pointer">#{{ $order->code }}</a>
+                        @endif
                     </th>
                     <td class="px-6 py-4">
                         {{ $order->created_at->format('d-m-Y H:i:s') }}
@@ -67,6 +78,10 @@
                     </td>
                     <td class="px-6 py-4">
                         {{ $order->amount }}
+                    </td>
+                    <td class="px-6 py-4">
+                        <span
+                            class="bg-{{ $order->status->getColor() }}-100 text-{{ $order->status->getColor() }}-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-{{ $order->status->getColor() }}-900 dark:text-{{ $order->status->getColor() }}-300">{{ $order->status }}</span>
                     </td>
                     <td class="px-6 py-4">
                         @if($order->status->is(OrderStatus::DRAFT))

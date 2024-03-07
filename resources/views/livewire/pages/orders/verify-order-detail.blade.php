@@ -86,9 +86,9 @@ new class extends Component {
                 </div>
             </div>
         @endif
-        <div class="flex justify-between items-start">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-                <div class="grid grid-cols-3 gap-8">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
                         <p class="text-sm text-gray-500">Full Name</p>
                         <p class="pt-1 text-sm">{{ $order->name }}</p>
@@ -110,7 +110,7 @@ new class extends Component {
                         <p class="pt-1 text-sm">{{ $order->source->name }}</p>
                     </div>
                 </div>
-                <div class="grid grid-cols-3 gap-8 mt-9">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-9">
                     <div>
                         <p class="text-sm text-gray-500">Receiver Name (in English)</p>
                         <p class="pt-1 text-sm">{{ $order->orderItem->receiver_en_name }}</p>
@@ -139,8 +139,8 @@ new class extends Component {
             </div>
             <div>
                 <figure class="max-w-lg">
-                    <img class="h-auto max-w-sm rounded-lg"
-                         src="https://flowbite.s3.amazonaws.com/docs/gallery/featured/image.jpg" alt="">
+                    <img class="h-auto max-w-sm mx-auto rounded-lg"
+                         src="{{ $order->orderItem->identity_file ? Storage::url($order->orderItem->identity_file) : asset('images/image-default.jpg') }}" alt="">
                     <figcaption class="mt-2 text-sm text-center text-gray-500 dark:text-gray-400">Receiver Thai ID
                     </figcaption>
                 </figure>
@@ -159,9 +159,9 @@ new class extends Component {
     </header>
 
     <div class="mt-10">
-        <div class="flex justify-between items-start">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-                <div class="grid grid-cols-3 gap-16">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
                         <p class="text-sm text-gray-500">Bank Name</p>
                         <p class="pt-1 text-sm">Krungthai Bank</p>
@@ -193,8 +193,8 @@ new class extends Component {
             </div>
             <div>
                 <figure class="max-w-lg">
-                    <img class="h-auto max-w-sm rounded-lg"
-                         src="https://flowbite.s3.amazonaws.com/docs/gallery/featured/image.jpg" alt="">
+                    <img class="h-auto max-w-sm mx-auto rounded-lg"
+                         src="{{ $order->payment->receipt_file ? Storage::url($order->payment->receipt_file) : asset('images/image-default.jpg') }}" alt="">
                     <figcaption class="mt-2 text-sm text-center text-gray-500 dark:text-gray-400">Payment Receipt File
                     </figcaption>
                 </figure>
@@ -213,9 +213,9 @@ new class extends Component {
     </header>
 
     <div class="mt-10">
-        <div class="flex justify-between items-start">
+        <div class="grid grid-cols-1 md:grid-cols-1 gap-4">
             <div>
-                <div class="grid grid-cols-3 gap-8">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
                         <p class="text-sm text-gray-500">Receiver Name</p>
                         <p class="pt-1 text-sm">{{ $order->shipping->name }}</p>
