@@ -23,7 +23,6 @@ new #[Layout('layouts.guest')] class extends Component {
 ?>
 
 <div>
-
     <div class="sm:p-2 md:p-4">
         <h5 class="mb-4 text-2xl font-extrabold text-center leading-none tracking-tight text-gray-900 md:text-3xl lg:text-4xl dark:text-gray-400">
             Order your FREE<br/><span class="text-blue-600 dark:text-blue-500">ThaiQuran</span> today!</h5>
@@ -35,9 +34,9 @@ new #[Layout('layouts.guest')] class extends Component {
                 <span class="text-xl font-semibold mb-2 text-gray-500 dark:text-gray-400">Stock Unavailable</span>
             @endif
         </div>
-        <ul role="list" class="space-y-5 my-7">
+        <ul role="list" class="space-y-3 mt-4 mb-7">
             <li class="flex items-start">
-                <svg class="flex-shrink-0 w-4 h-4 text-blue-700 dark:text-blue-500" aria-hidden="true"
+                <svg class="flex-shrink-0 w-4 h-4 mt-0.5 text-blue-700 dark:text-blue-500" aria-hidden="true"
                      xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                     <path
                         d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
@@ -45,7 +44,7 @@ new #[Layout('layouts.guest')] class extends Component {
                 <span class="text-base font-normal leading-tight text-gray-500 dark:text-gray-400 ms-3">We DO NOT ship outside Thailand</span>
             </li>
             <li class="flex items-start">
-                <svg class="flex-shrink-0 w-4 h-4 text-blue-700 dark:text-blue-500" aria-hidden="true"
+                <svg class="flex-shrink-0 w-4 h-4 mt-0.5 text-blue-700 dark:text-blue-500" aria-hidden="true"
                      xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                     <path
                         d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
@@ -53,7 +52,7 @@ new #[Layout('layouts.guest')] class extends Component {
                 <span class="text-base font-normal leading-tight text-gray-500 dark:text-gray-400 ms-3">This service strictly for Thai Nationality</span>
             </li>
             <li class="flex items-start">
-                <svg class="flex-shrink-0 w-4 h-4 text-blue-700 dark:text-blue-500" aria-hidden="true"
+                <svg class="flex-shrink-0 w-4 h-4 mt-0.5 text-blue-700 dark:text-blue-500" aria-hidden="true"
                      xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                     <path
                         d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
@@ -61,7 +60,7 @@ new #[Layout('layouts.guest')] class extends Component {
                 <span class="text-base font-normal leading-tight text-gray-500 dark:text-gray-400 ms-3">This service strictly for 1 ThaiQuran per 1 Thai ID, please note our policy to prioritize to serving those who have not yet received any ThaiQuran</span>
             </li>
             <li class="flex items-start">
-                <svg class="flex-shrink-0 w-4 h-4 text-blue-700 dark:text-blue-500" aria-hidden="true"
+                <svg class="flex-shrink-0 w-4 h-4 mt-0.5 text-blue-700 dark:text-blue-500" aria-hidden="true"
                      xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                     <path
                         d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
@@ -69,7 +68,7 @@ new #[Layout('layouts.guest')] class extends Component {
                 <span class="text-base font-normal leading-tight text-gray-500 dark:text-gray-400 ms-3">This step is required to collect your information so we can verify your Order History</span>
             </li>
             <li class="flex items-start">
-                <svg class="flex-shrink-0 w-4 h-4 text-blue-700 dark:text-blue-500" aria-hidden="true"
+                <svg class="flex-shrink-0 w-4 h-4 mt-0.5 text-blue-700 dark:text-blue-500" aria-hidden="true"
                      xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                     <path
                         d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
