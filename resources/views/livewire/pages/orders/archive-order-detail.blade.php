@@ -26,7 +26,7 @@ new class extends Component {
         </h2>
 
         <p class="mt-1 text-sm text-gray-600">
-            {{ __("The following are the details of the order, please check the correctness of the data before you select confirm order.") }}
+            {{ __("The following is your order data.") }}
         </p>
     </header>
 
@@ -123,7 +123,7 @@ new class extends Component {
         </h2>
 
         <p class="mt-1 text-sm text-gray-600">
-            {{ __("The following are the details of the payment, please check the correctness of the data before you select confirm order.") }}
+            {{ __("The following is your order payment data.") }}
         </p>
     </header>
 
@@ -177,7 +177,7 @@ new class extends Component {
         </h2>
 
         <p class="mt-1 text-sm text-gray-600">
-            {{ __("The following are the details of the shipment, please check the correctness of the data before you select confirm order.") }}
+            {{ __("The following is your order shipment data.") }}
         </p>
     </header>
 

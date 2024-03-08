@@ -45,6 +45,9 @@ Route::middleware(['auth.admin', 'verified', 'roles.has:admin'])->group(function
 
     Route::view('orders/{order}/archive', 'pages/orders/archive')
          ->name('order.archive');
+
+    Route::view('profile', 'profile')
+         ->name('profile');
 });
 
 Route::middleware(['auth', 'verified', 'roles.has:customer'])->group(function () {
@@ -78,9 +81,5 @@ Route::middleware(['auth', 'verified', 'roles.has:customer'])->group(function ()
     Route::view('complete-profile', 'complete-profile')
          ->name('profile.complete');
 });
-
-Route::view('profile', 'profile')
-    ->middleware(['auth', 'roles.has:root,customer'])
-    ->name('profile');
 
 require __DIR__.'/auth.php';

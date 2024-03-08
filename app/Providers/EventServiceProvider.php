@@ -4,11 +4,19 @@ namespace App\Providers;
 
 use App\Event\Auth\UserLoginRequested;
 use App\Event\Order\OrderCanceled;
+use App\Event\Order\OrderCompleted;
+use App\Event\Order\OrderConfirmed;
 use App\Event\Order\OrderPurchased;
 use App\Event\Order\OrderRejected;
+use App\Event\Order\OrderVerified;
 use App\Listener\Auth\SendLoginLinkVerification;
 use App\Listener\Batch\AddStock;
 use App\Listener\Batch\SubtractStock;
+use App\Listener\Order\SendOrderCompletedNotification;
+use App\Listener\Order\SendOrderConfirmedNotification;
+use App\Listener\Order\SendOrderPurchasedNotification;
+use App\Listener\Order\SendOrderRejectedNotification;
+use App\Listener\Order\SendOrderVerifiedNotification;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -29,13 +37,24 @@ class EventServiceProvider extends ServiceProvider
         ],
         OrderPurchased::class => [
             SubtractStock::class,
+            SendOrderPurchasedNotification::class,
         ],
         OrderCanceled::class => [
             AddStock::class,
         ],
         OrderRejected::class => [
             AddStock::class,
-        ]
+            SendOrderRejectedNotification::class,
+        ],
+        OrderConfirmed::class => [
+            SendOrderConfirmedNotification::class,
+        ],
+        OrderVerified::class => [
+            SendOrderVerifiedNotification::class,
+        ],
+        OrderCompleted::class => [
+            SendOrderCompletedNotification::class,
+        ],
     ];
 
     /**

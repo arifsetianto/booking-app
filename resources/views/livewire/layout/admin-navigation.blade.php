@@ -96,6 +96,18 @@ new class extends Component
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('batch.list')" :active="request()->routeIs('batch.list')" wire:navigate>
+                {{ __('Batch') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('order.list-incoming')" :active="request()->routeIs('order.list-incoming')" wire:navigate>
+                {{ __('Incoming Orders') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('order.list-complete')" :active="request()->routeIs('order.list-complete')" wire:navigate>
+                {{ __('Complete Orders') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('order.list-archive')" :active="request()->routeIs('order.list-archive')" wire:navigate>
+                {{ __('Archive Orders') }}
+            </x-responsive-nav-link>
         </div>
 
         <!-- Responsive Settings Options -->
