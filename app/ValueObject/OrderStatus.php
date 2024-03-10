@@ -24,7 +24,8 @@ enum OrderStatus: string
         return match ($this) {
             self::DRAFT => 'black',
             self::PENDING => 'gray',
-            self::CONFIRMED => 'blue',
+            self::CONFIRMED => 'yellow',
+            self::VERIFIED => 'blue',
             self::COMPLETED => 'green',
             self::REJECTED => 'red',
             self::CANCELED => 'brown',

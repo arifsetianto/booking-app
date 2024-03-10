@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace App\Listener\Order;
 
-use App\Event\Order\OrderCompleted;
 use App\Event\Order\OrderRejected;
-use App\Mail\Order\OrderCompletedMail;
 use App\Mail\Order\OrderRejectedMail;
 use Illuminate\Contracts\Events\ShouldHandleEventsAfterCommit;
 use Illuminate\Contracts\Queue\ShouldQueue;

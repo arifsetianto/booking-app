@@ -21,13 +21,18 @@ new class extends Component {
 
 <section>
     <header>
-        <h2 class="text-lg font-medium text-gray-900">
-            {{ __('Order #:code', ['code' => $order->code]) }}
-        </h2>
-
-        <p class="mt-1 text-sm text-gray-600">
-            {{ __("The following is your order data.") }}
-        </p>
+        <div class="flex justify-between items-center">
+            <div>
+                <h2 class="text-lg font-medium text-gray-900">
+                    {{ __('Order #:code', ['code' => $order->code]) }}
+                </h2>
+            </div>
+            <div>
+                <span class="bg-{{ $order->status->getColor() }}-100 text-{{ $order->status->getColor() }}-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-{{ $order->status->getColor() }}-900 dark:text-{{ $order->status->getColor() }}-300">
+                    {{ $order->status }}
+                </span>
+            </div>
+        </div>
     </header>
 
     <div class="mt-10">
@@ -121,10 +126,6 @@ new class extends Component {
         <h2 class="text-lg font-medium text-gray-900">
             {{ __('Payment') }}
         </h2>
-
-        <p class="mt-1 text-sm text-gray-600">
-            {{ __("The following is your order payment data.") }}
-        </p>
     </header>
 
     <div class="mt-10">
@@ -175,10 +176,6 @@ new class extends Component {
         <h2 class="text-lg font-medium text-gray-900">
             {{ __('Shipping') }}
         </h2>
-
-        <p class="mt-1 text-sm text-gray-600">
-            {{ __("The following is your order shipment data.") }}
-        </p>
     </header>
 
     <div class="mt-10">

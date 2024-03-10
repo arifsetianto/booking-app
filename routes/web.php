@@ -80,6 +80,9 @@ Route::middleware(['auth', 'verified', 'roles.has:customer'])->group(function ()
 
     Route::view('complete-profile', 'complete-profile')
          ->name('profile.complete');
+
+    Route::view('customer-profile', 'customer-profile')
+         ->name('profile.customer');
 });
 
 require __DIR__.'/auth.php';
