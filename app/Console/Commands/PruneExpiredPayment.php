@@ -29,6 +29,7 @@ class PruneExpiredPayment extends Command
             try {
                 /** @var Payment $payment */
                 foreach ($this->getQuery() as $payment) {
+                    $payment = Payment::findOrFail($payment->id);
                     $payment->status = PaymentStatus::EXPIRED;
                     $payment->save();
 

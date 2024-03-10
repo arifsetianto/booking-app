@@ -41,6 +41,11 @@ new class extends Component {
         return sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
     }
 
+    public function fetchData(): void
+    {
+        $this->order = Order::findOrFail($this->order->id);
+    }
+
     public function submit(): void
     {
         $this->form->validate();
@@ -60,7 +65,7 @@ new class extends Component {
 
         $payment->save();
 
-        Storage::delete('livewire-tmp');
+        Storage::deleteDirectory('livewire-tmp');
 
         event(new OrderConfirmed($order));
 
@@ -72,37 +77,38 @@ new class extends Component {
 
 <div>
     @if($order->payment->status->is(PaymentStatus::PENDING))
-        <div class="text-center">
-            <h1 class="mb-4 text-xl font-semibold leading-none tracking-tight text-gray-900 md:text-2xl lg:text-3xl dark:text-white">
-                Confirm your payment</h1>
-            <p class="font-semibold">Time remaining: <span id="countdown">{{ $this->formatTime($countdownTime) }}</span>
-                seconds</p>
-            <p class="mt-5 text-sm">Note: Please finish the payment before the time limit. You can find this page link
-                in
-                your email.</p>
-        </div>
-        <div class="mt-10 px-24 flex justify-start items-start">
-            <div class="w-full px-10">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div wire:poll.1000ms="fetchData">
+            <div class="text-center">
+                <h1 class="mb-4 text-xl font-semibold leading-none tracking-tight text-gray-900 md:text-2xl lg:text-3xl dark:text-white">
+                    Confirm your payment</h1>
+                <p class="font-semibold">Time remaining: <span id="countdown">{{ $this->formatTime($countdownTime) }}</span>
+                    seconds</p>
+                <p class="mt-5 text-sm">Note: Please finish the payment before the time limit. You can find this page link
+                    in
+                    your email.</p>
+            </div>
+            <div class="w-full mt-10">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div>
-                        <p class="text-sm text-gray-500">Bank Name</p>
-                        <p class="pt-1 text-sm">Krungthai Bank</p>
-                    </div>
-                    <div>
-                        <p class="text-sm text-gray-500">Account Name</p>
-                        <p class="pt-1 text-sm">ThaiQuran Foundation</p>
-                    </div>
-                    <div>
-                        <p class="text-sm text-gray-500">Account Number</p>
-                        <p class="pt-1 text-sm">819-0-47810-9</p>
-                    </div>
-                    <div>
-                        <p class="text-sm text-gray-500">Delivery Fee</p>
-                        <p class="pt-1 text-sm">THB 100</p>
-                    </div>
-                    <div class="col-span-2">
-                        <div class="mt-6 space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
+                                <p class="text-sm text-gray-500">Bank Name</p>
+                                <p class="pt-1 text-sm">Krungthai Bank</p>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500">Account Name</p>
+                                <p class="pt-1 text-sm">ThaiQuran Foundation</p>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500">Account Number</p>
+                                <p class="pt-1 text-sm">819-0-47810-9</p>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500">Delivery Fee</p>
+                                <p class="pt-1 text-sm">THB 100</p>
+                            </div>
+                            <div class="col-span-2">
+                                <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
                                 <x-input-label for="receipt_file" :value="__('Upload Payment Receipt')"/>
                                 <input wire:model="form.receiptFile"
                                        class="mt-1 block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
@@ -114,68 +120,71 @@ new class extends Component {
                                     2MB).</p>
                                 <x-input-error class="mt-2" :messages="$errors->get('form.receiptFile')"/>
                             </div>
-
-                            <div class="flex items-center gap-4">
-                                <x-primary-button x-data=""
-                                                  x-on:click.prevent="$dispatch('open-modal', 'confirm-order-payment')">{{ __('Submit') }}</x-primary-button>
-                            </div>
+                        </div>
+                        <div class="flex items-center gap-4 mt-6">
+                            <x-primary-button x-data=""
+                                              x-on:click.prevent="$dispatch('open-modal', 'confirm-order-payment')">{{ __('Submit') }}</x-primary-button>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div>
-                <figure class="max-w-lg">
-                    <img class="h-auto max-w-sm rounded-lg"
-                         src="{{ asset('images/image-default.jpg') }}" alt="">
-                    <figcaption class="mt-2 text-sm text-center text-gray-500 dark:text-gray-400">Payment Receipt File
-                    </figcaption>
-                </figure>
-            </div>
-        </div>
-
-        <x-modal name="confirm-order-payment" :show="$errors->isNotEmpty()" focusable>
-            <form wire:submit="submit" class="p-6">
-                <div class="relative bg-white rounded-lg dark:bg-gray-700">
-                    <button type="button"
-                            class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                            x-on:click="$dispatch('close')">
-                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                             viewBox="0 0 14 14">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-                        </svg>
-                        <span class="sr-only">Close modal</span>
-                    </button>
-                    <div class="p-4 md:p-5 text-center">
-                        <svg class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200" aria-hidden="true"
-                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-                        </svg>
-                        <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want to
-                            submit this payment receipt?</h3>
-                        <x-primary-button
-                            class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
-                            {{ __('Yes, confirm') }}
-                        </x-primary-button>
-                        <x-secondary-button x-on:click="$dispatch('close')"
-                                            class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
-                            {{ __('No, Cancel') }}
-                        </x-secondary-button>
+                    <div>
+                        <figure class="max-w-lg">
+                            <img class="h-auto max-w-sm mx-auto rounded-lg"
+                                 src="{{ asset('images/qr-payment.png') }}" alt="">
+                        </figure>
                     </div>
                 </div>
-            </form>
-        </x-modal>
+            </div>
+
+            <x-modal name="confirm-order-payment" :show="$errors->isNotEmpty()" focusable>
+                <form wire:submit="submit" class="p-6">
+                    <div class="relative bg-white rounded-lg dark:bg-gray-700">
+                        <button type="button"
+                                class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                x-on:click="$dispatch('close')">
+                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                 viewBox="0 0 14 14">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                            </svg>
+                            <span class="sr-only">Close modal</span>
+                        </button>
+                        <div class="p-4 md:p-5 text-center">
+                            <svg class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200" aria-hidden="true"
+                                 xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                            </svg>
+                            <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want to
+                                submit this payment receipt?</h3>
+                            <x-primary-button
+                                class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
+                                {{ __('Yes, confirm') }}
+                            </x-primary-button>
+                            <x-secondary-button x-on:click="$dispatch('close')"
+                                                class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                                {{ __('No, Cancel') }}
+                            </x-secondary-button>
+                        </div>
+                    </div>
+                </form>
+            </x-modal>
+        </div>
     @elseif($order->payment->status->is(PaymentStatus::PAID))
-
+        <div class="text-center">
+            <h1 class="mb-4 text-xl font-semibold leading-tight tracking-tight text-gray-900 md:text-2xl lg:text-3xl dark:text-white">
+                Payment #{{ $order->code }} already paid!</h1>
+        </div>
     @elseif($order->payment->status->is(PaymentStatus::EXPIRED))
-
+        <div class="text-center">
+            <h1 class="mb-4 text-xl font-semibold leading-tight tracking-tight text-gray-900 md:text-2xl lg:text-3xl dark:text-white">
+                Payment #{{ $order->code }}<br/>already expired!</h1>
+            <p class="mt-5 text-sm">Please book again so we can process your order, thank you.</p>
+        </div>
     @endif
 </div>
 
 <script>
     setInterval(function () {
-    @this.call('decrementCountdown')
-        ;
+    @this.call('decrementCountdown');
     }, 1000);
 </script>

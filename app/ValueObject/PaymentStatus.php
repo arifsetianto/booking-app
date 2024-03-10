@@ -22,7 +22,7 @@ enum PaymentStatus: string
             self::PENDING => 'blue',
             self::PAID => 'green',
             self::EXPIRED => 'red',
-            self::CANCELED => 'brown',
+            self::CANCELED => 'pink',
         };
     }
 }

@@ -10,10 +10,12 @@ use App\Models\Payment;
 use App\Models\Region;
 use App\Models\Shipping;
 use App\Models\SubDistrict;
+use App\Models\User;
 use App\ValueObject\OrderStatus;
 use App\ValueObject\PaymentStatus;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Livewire\Volt\Component;
 use function Livewire\Volt\{state};
@@ -29,9 +31,32 @@ new class extends Component {
 
     public function mount(Request $request): void
     {
+        /** @var User $user */
+        $user = Auth::user();
+
+        $this->form->name = $user->name;
+        $this->form->phone = $user->profile->phone;
+        $this->form->address = $user->profile->address;
+        $this->form->region = $user->profile->subDistrict?->district?->city?->region?->id;
+        $this->form->city = $user->profile->subDistrict?->district?->city?->id;
+        $this->form->district = $user->profile->subDistrict?->district?->id;
+        $this->form->subDistrict = $user->profile->subDistrict?->id;
+
         $this->order = Order::findOrFail($request->route('order'));
         $this->form->fee = 0;
         $this->regions = Region::get()->map(fn($item) => ['value' => $item->id, 'label' => $item->name])->toArray();
+
+        if ($user->profile->subDistrict?->district?->city) {
+            $this->getCitiesByRegion();
+        }
+
+        if ($user->profile->subDistrict?->district) {
+            $this->getDistrictsByCity();
+        }
+
+        if ($user->profile->subDistrict) {
+            $this->getSubDistrictsByDistrict();
+        }
     }
 
     public function getCitiesByRegion(): void
@@ -54,6 +79,7 @@ new class extends Component {
         $this->subDistricts = SubDistrict::where('district_id', $this->form->district)->get()->map(
             fn($item) => ['value' => $item->id, 'label' => sprintf('%s (%s)', $item->th_name, $item->en_name)]
         )->toArray();
+        $this->selectSubDistrict();
     }
 
     public function selectSubDistrict(): void
@@ -101,6 +127,20 @@ new class extends Component {
 
             $this->redirectRoute(name: 'orders.payment', parameters: ['order' => $order->id]);
         }
+    }
+
+    public function cancelOrder(): void
+    {
+        /** @var Order $order */
+        $order = Order::findOrFail($this->order->id);
+        $order->status = OrderStatus::CANCELED;
+        $order->canceled_at = Carbon::now();
+
+        $order->save();
+
+        Session::flash('message', sprintf('Order #%s has been successfully canceled.', $this->order->code));
+
+        $this->redirectRoute(name: 'orders.list', parameters: ['order' => $this->order->id]);
     }
 
     public function backToPrevious(): void
@@ -204,6 +244,8 @@ new class extends Component {
             <x-primary-button x-data=""
                               x-on:click.prevent="$dispatch('open-modal', 'confirm-order-payment')">{{ __('Pay Now!') }}</x-primary-button>
             <x-secondary-button wire:click="backToPrevious">{{ __('Edit Booking') }}</x-secondary-button>
+            <x-danger-button x-data=""
+                             x-on:click.prevent="$dispatch('open-modal', 'confirm-order-cancellation')">{{ __('Cancel Booking') }}</x-danger-button>
         </div>
     </div>
 
@@ -235,6 +277,40 @@ new class extends Component {
                     <x-secondary-button x-on:click="$dispatch('close')"
                                         class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
                         {{ __('No, Cancel') }}
+                    </x-secondary-button>
+                </div>
+            </div>
+        </form>
+    </x-modal>
+
+    <x-modal name="confirm-order-cancellation" :show="$errors->isNotEmpty()" focusable>
+        <form wire:submit="cancelOrder" class="p-6">
+            <div class="relative bg-white rounded-lg dark:bg-gray-700">
+                <button type="button"
+                        class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                        x-on:click="$dispatch('close')">
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                         viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                    </svg>
+                    <span class="sr-only">Close modal</span>
+                </button>
+                <div class="p-4 md:p-5 text-center">
+                    <svg class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200" aria-hidden="true"
+                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                    </svg>
+                    <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want to
+                        cancel this order?</h3>
+                    <x-primary-button
+                        class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
+                        {{ __('Yes, Cancel Now!') }}
+                    </x-primary-button>
+                    <x-secondary-button x-on:click="$dispatch('close')"
+                                        class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                        {{ __('Not Now') }}
                     </x-secondary-button>
                 </div>
             </div>

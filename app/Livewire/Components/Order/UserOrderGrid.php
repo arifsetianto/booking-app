@@ -24,6 +24,7 @@ class UserOrderGrid extends Component
 
     public string $searchKeyword = '';
     public string $searchBatch = '';
+    public string $searchStatus = '';
 
     /**
      * @return View|Application|Factory|\Illuminate\Contracts\Foundation\Application
@@ -45,10 +46,12 @@ class UserOrderGrid extends Component
                                      });
                              })
                              ->when($this->searchBatch !== '', fn(Builder $query) => $query->where('batch_id', $this->searchBatch))
+                             ->when($this->searchStatus !== '', fn(Builder $query) => $query->where('status', $this->searchStatus))
                              ->with(['batch', 'source', 'shipping', 'payment'])
                              ->orderBy('created_at')
                              ->paginate(10),
             'batches' => Batch::orderBy('number')->get(),
+            'statuses' => OrderStatus::getOptions(),
         ]);
     }
 }

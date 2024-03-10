@@ -22,13 +22,13 @@ enum OrderStatus: string
     public function getColor(): string
     {
         return match ($this) {
-            self::DRAFT => 'black',
-            self::PENDING => 'gray',
+            self::DRAFT => 'gray',
+            self::PENDING => 'amber',
             self::CONFIRMED => 'yellow',
             self::VERIFIED => 'blue',
             self::COMPLETED => 'green',
             self::REJECTED => 'red',
-            self::CANCELED => 'brown',
+            self::CANCELED => 'pink',
         };
     }
 }

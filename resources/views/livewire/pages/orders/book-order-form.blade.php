@@ -77,7 +77,7 @@ new class extends Component {
 
         $item->save();
 
-        Storage::delete('livewire-tmp');
+        Storage::deleteDirectory('livewire-tmp');
 
         event(new OrderCreated($order));
 
@@ -91,8 +91,11 @@ new class extends Component {
         $date = now()->format('ymd');
         $seq =
             sprintf(
-                "%'.06d",
-                Order::whereYear('created_at', date('y'))->whereMonth('created_at', date('m'))->count() + 1
+                "%'.04d",
+                Order::whereYear('created_at', date('Y'))
+                     ->whereMonth('created_at', date('n'))
+                     ->whereDay('created_at', date('d'))
+                     ->count() + 1
             );
 
         return $date . $seq;

@@ -62,7 +62,7 @@ new class extends Component {
                 <div>
                     <p class="text-xl font-bold text-gray-900 dark:text-white">Free</p>
                     @if($batch)
-                        <p class="text-sm font-semibold text-gray-900 dark:text-white">Available Stock {{ $batch->getAvailableStock() }}</p>
+                        <p class="text-sm font-normal text-gray-900 dark:text-white">Available Stock {{ $batch->getAvailableStock() }}</p>
                     @else
                         <p class="text-sm font-semibold text-red-700 dark:text-white">Out of stock</p>
                     @endif
