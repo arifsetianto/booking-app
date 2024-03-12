@@ -18,6 +18,7 @@ enum OrderStatus: string
     case COMPLETED = 'completed';
     case REJECTED = 'rejected';
     case CANCELED = 'canceled';
+    case REVISED = 'revised';
 
     public function getColor(): string
     {
@@ -29,6 +30,7 @@ enum OrderStatus: string
             self::COMPLETED => 'green',
             self::REJECTED => 'red',
             self::CANCELED => 'pink',
+            self::REVISED => 'fuchsia',
         };
     }
 }

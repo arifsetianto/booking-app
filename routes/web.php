@@ -75,6 +75,16 @@ Route::middleware(['auth', 'verified', 'roles.has:customer'])->group(function ()
     Route::view('orders/{order}/detail', 'pages/orders/detail')
          ->name('orders.detail');
 
+    Route::view('orders/{order}/request-update', 'pages/orders/request-update')
+         ->middleware('signed')
+         ->name('orders.request-update');
+
+    Route::view('orders/{order}/update-success', 'pages/orders/update-success')
+         ->name('orders.update.success');
+
+    Route::view('orders/{order}/update-error', 'pages/orders/update-error')
+         ->name('orders.update.error');
+
     Route::view('orders', 'pages/orders/list-by-user')
          ->name('orders.list');
 

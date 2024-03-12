@@ -1,7 +1,7 @@
 <x-mail::message>
 # Hi, {{ $user->name }}
 
-Your order is on its way to you.
+Thank you for booking ThaiQuran, the order is being sent to your address.
 
 <x-mail::button :url="$url">
 Check Order

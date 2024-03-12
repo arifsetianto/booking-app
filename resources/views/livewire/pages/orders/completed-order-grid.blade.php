@@ -1,5 +1,5 @@
 <div>
-    <a class="relative overflow-x-auto sm:rounded-lg">
+    <div class="relative overflow-x-auto sm:rounded-lg">
         <div class="flex flex-column sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-4">
             <div class="relative">
                 <div class="absolute inset-y-0 left-0 rtl:inset-r-0 rtl:right-0 flex items-center ps-3 pointer-events-none">
@@ -19,28 +19,28 @@
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
-                <th scope="col" class="px-6 py-3">
+                <th scope="col" class="px-6 py-3 text-center">
                     Order Code
                 </th>
-                <th scope="col" class="px-6 py-3">
+                <th scope="col" class="px-6 py-3 text-center">
                     Order Date
                 </th>
-                <th scope="col" class="px-6 py-3">
+                <th scope="col" class="px-6 py-3 text-center">
                     Payment Date
                 </th>
-                <th scope="col" class="px-6 py-3">
+                <th scope="col" class="px-6 py-3 text-center">
                     Batch
                 </th>
-                <th scope="col" class="px-6 py-3">
+                <th scope="col" class="px-6 py-3 text-center">
                     Name
                 </th>
-                <th scope="col" class="px-6 py-3">
-                    Contact
+                <th scope="col" class="px-6 py-3 text-center">
+                    Phone
                 </th>
-                <th scope="col" class="px-6 py-3">
-                    Qty
+                <th scope="col" class="px-6 py-3 text-center">
+                    Email
                 </th>
-                <th scope="col" class="px-6 py-3">
+                <th scope="col" class="px-6 py-3 text-center">
                     Action
                 </th>
             </tr>
@@ -48,30 +48,29 @@
             <tbody>
             @foreach($orders as $order)
                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    <th scope="row" class="px-6 py-4 font-medium text-center text-gray-900 whitespace-nowrap dark:text-white">
                         <a href="{{ route('order.complete', ['order' => $order->id]) }}" class="font-medium hover:underline cursor-pointer">#{{ $order->code }}</a>
                     </th>
-                    <td class="px-6 py-4">
+                    <td class="px-6 py-4 text-center">
                         {{ $order->created_at->format('d-m-Y H:i:s') }}
                     </td>
-                    <td class="px-6 py-4">
+                    <td class="px-6 py-4 text-center">
                         {{ $order->payment->paid_at->format('d-m-Y H:i:s') }}
                     </td>
-                    <td class="px-6 py-4">
+                    <td class="px-6 py-4 text-center">
                         {{ $order->batch->number }}
                     </td>
-                    <td class="px-6 py-4">
+                    <td class="px-6 py-4 text-center">
                         {{ $order->name }}
                     </td>
-                    <td class="px-6 py-4">
-                        <div>{{ $order->phone }}</div>
-                        <div>{{ $order->email }}</div>
+                    <td class="px-6 py-4 text-center">
+                        {{ $order->phone }}
                     </td>
-                    <td class="px-6 py-4">
-                        {{ $order->qty }}
+                    <td class="px-6 py-4 text-center">
+                        {{ $order->email }}
                     </td>
-                    <td class="px-6 py-4">
-                        <a href="{{ route('order.complete', ['order' => $order->id]) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline cursor-pointer">View</a>
+                    <td class="px-6 py-4 text-center">
+                        <a href="{{ route('order.complete', ['order' => $order->id]) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline cursor-pointer">View Detail</a>
                     </td>
                 </tr>
             @endforeach

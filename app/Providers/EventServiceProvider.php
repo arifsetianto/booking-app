@@ -8,6 +8,7 @@ use App\Event\Order\OrderCompleted;
 use App\Event\Order\OrderConfirmed;
 use App\Event\Order\OrderPurchased;
 use App\Event\Order\OrderRejected;
+use App\Event\Order\OrderRevised;
 use App\Event\Order\OrderVerified;
 use App\Listener\Auth\SendLoginLinkVerification;
 use App\Listener\Batch\AddStock;
@@ -16,6 +17,7 @@ use App\Listener\Order\SendOrderCompletedNotification;
 use App\Listener\Order\SendOrderConfirmedNotification;
 use App\Listener\Order\SendOrderPurchasedNotification;
 use App\Listener\Order\SendOrderRejectedNotification;
+use App\Listener\Order\SendOrderRevisedNotification;
 use App\Listener\Order\SendOrderVerifiedNotification;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -55,6 +57,9 @@ class EventServiceProvider extends ServiceProvider
         OrderCompleted::class => [
             SendOrderCompletedNotification::class,
         ],
+        OrderRevised::class => [
+            SendOrderRevisedNotification::class,
+        ]
     ];
 
     /**

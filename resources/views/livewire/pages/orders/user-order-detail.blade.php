@@ -29,7 +29,7 @@ new class extends Component {
             <h2 class="text-lg font-medium text-gray-900">
                 {{ __('Order #:code', ['code' => $order->code]) }}
             </h2>
-            @if($order->status->is(OrderStatus::CANCELED) || $order->status->is(OrderStatus::REJECTED))
+            @if($order->status->is(OrderStatus::CANCELED) || $order->status->is(OrderStatus::REJECTED) || $order->status->is(OrderStatus::REVISED))
                 <span
                     class="bg-{{ $order->status->getColor() }}-100 text-{{ $order->status->getColor() }}-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-{{ $order->status->getColor() }}-900 dark:text-{{ $order->status->getColor() }}-300">{{ $order->status }}</span>
             @else
@@ -42,10 +42,22 @@ new class extends Component {
 
     <div class="mt-10">
         @if($order->reason)
-            <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
-                 role="alert">
-                <span class="font-medium">{{ $order->reason }}</span>
-            </div>
+            @if($order->status->is(OrderStatus::REVISED))
+                <div class="flex items-center p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+                    <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+                    </svg>
+                    <span class="sr-only">Info</span>
+                    <div>
+                        <span class="font-medium">To revise your booking please check your email inbox and click the <span class="font-semibold">Edit My Booking</span> button to update your booking.</span>
+                    </div>
+                </div>
+            @else
+                <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                     role="alert">
+                    <span class="font-medium">{{ $order->reason }}</span>
+                </div>
+            @endif
         @endif
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>

@@ -30,6 +30,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property \DateTime $completed_at
  * @property \DateTime $rejected_at
  * @property \DateTime $canceled_at
+ * @property \DateTime $revised_at
  * @property Shipping $shipping
  * @property Payment $payment
  *
@@ -56,6 +57,7 @@ class Order extends Model
         'completed_at' => 'datetime',
         'rejected_at'  => 'datetime',
         'canceled_at'  => 'datetime',
+        'revised_at'  => 'datetime',
         'status'       => OrderStatus::class,
     ];
 

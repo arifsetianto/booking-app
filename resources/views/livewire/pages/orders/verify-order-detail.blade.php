@@ -1,8 +1,10 @@
 <?php
 
 use App\Event\Order\OrderRejected;
+use App\Event\Order\OrderRevised;
 use App\Event\Order\OrderVerified;
 use App\Livewire\Forms\Order\RejectOrderForm;
+use App\Livewire\Forms\Order\ReviseOrderForm;
 use App\Models\Order;
 use App\ValueObject\OrderStatus;
 use Carbon\Carbon;
@@ -14,6 +16,7 @@ use function Livewire\Volt\{state};
 new class extends Component {
     public Order|null $order = null;
     public RejectOrderForm $form;
+    public ReviseOrderForm $reviseOrderForm;
 
     public function mount(Request $request): void
     {
@@ -49,6 +52,23 @@ new class extends Component {
         event(new OrderVerified($this->order));
 
         Session::flash('message', sprintf('Order #%s has been verified.', $this->order->code));
+
+        $this->redirectRoute('order.list-incoming');
+    }
+
+    public function reviseOrder(): void
+    {
+        $this->reviseOrderForm->validate();
+
+        $this->order->status = OrderStatus::REVISED;
+        $this->order->revised_at = Carbon::now();
+        $this->order->reason = $this->reviseOrderForm->reason;
+
+        $this->order->save();
+
+        event(new OrderRevised($this->order));
+
+        Session::flash('message', sprintf('Request update order #%s has been sent.', $this->order->code));
 
         $this->redirectRoute('order.list-incoming');
     }
@@ -140,7 +160,8 @@ new class extends Component {
             <div>
                 <figure class="max-w-lg">
                     <img class="h-auto max-w-sm mx-auto rounded-lg"
-                         src="{{ $order->orderItem->identity_file ? Storage::url($order->orderItem->identity_file) : asset('images/image-default.jpg') }}" alt="">
+                         src="{{ $order->orderItem->identity_file ? Storage::url($order->orderItem->identity_file) : asset('images/image-default.jpg') }}"
+                         alt="">
                     <figcaption class="mt-2 text-sm text-center text-gray-500 dark:text-gray-400">Receiver Thai ID
                     </figcaption>
                 </figure>
@@ -194,7 +215,8 @@ new class extends Component {
             <div>
                 <figure class="max-w-lg">
                     <img class="h-auto max-w-sm mx-auto rounded-lg"
-                         src="{{ $order->payment->receipt_file ? Storage::url($order->payment->receipt_file) : asset('images/image-default.jpg') }}" alt="">
+                         src="{{ $order->payment->receipt_file ? Storage::url($order->payment->receipt_file) : asset('images/image-default.jpg') }}"
+                         alt="">
                     <figcaption class="mt-2 text-sm text-center text-gray-500 dark:text-gray-400">Payment Receipt File
                     </figcaption>
                 </figure>
@@ -268,7 +290,10 @@ new class extends Component {
                          x-on:click.prevent="$dispatch('open-modal', 'confirm-order-rejection')">
             {{ __('Reject Order') }}
         </x-danger-button>
-        <x-secondary-button>{{ __('Ask Customer to Edit') }}</x-secondary-button>
+        <x-secondary-button x-data=""
+                            x-on:click.prevent="$dispatch('open-modal', 'confirm-order-revision')">
+            {{ __('Ask Customer to Edit') }}
+        </x-secondary-button>
     </div>
 
     <x-modal name="confirm-order-verification" :show="$errors->isNotEmpty()" focusable>
@@ -337,6 +362,42 @@ new class extends Component {
                 <x-danger-button class="ms-3">
                     {{ __('Reject Order') }}
                 </x-danger-button>
+            </div>
+        </form>
+    </x-modal>
+
+    <x-modal name="confirm-order-revision" :show="$errors->isNotEmpty()" focusable>
+        <form wire:submit="reviseOrder" class="p-6">
+
+            <h2 class="text-lg font-medium text-gray-900">
+                {{ __('Are you sure you want to send request update this order to customer?') }}
+            </h2>
+
+            <p class="mt-1 text-sm text-gray-600">
+                {{ __('Please input the reason for update this order.') }}
+            </p>
+
+            <div class="mt-6">
+                <x-input-label for="reason" value="{{ __('Reason') }}" class="sr-only"/>
+
+                <x-text-area
+                    wire:model="reviseOrderForm.reason"
+                    id="reason"
+                    name="reason"
+                    class="mt-1 block w-full"
+                />
+
+                <x-input-error :messages="$errors->get('reviseOrderForm.reason')" class="mt-2"/>
+            </div>
+
+            <div class="mt-6 flex justify-end">
+                <x-secondary-button x-on:click="$dispatch('close')">
+                    {{ __('Cancel') }}
+                </x-secondary-button>
+
+                <x-primary-button class="ms-3">
+                    {{ __('Send Request Update') }}
+                </x-primary-button>
             </div>
         </form>
     </x-modal>

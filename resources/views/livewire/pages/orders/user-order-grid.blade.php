@@ -39,25 +39,25 @@
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
-                <th scope="col" class="px-6 py-3">
+                <th scope="col" class="px-6 py-3 text-center">
                     Code
                 </th>
-                <th scope="col" class="px-6 py-3">
-                    Created At
-                </th>
-                <th scope="col" class="px-6 py-3">
+                <th scope="col" class="px-6 py-3 text-center">
                     Batch
                 </th>
-                <th scope="col" class="px-6 py-3">
+                <th scope="col" class="px-6 py-3 text-center">
                     Qty
                 </th>
-                <th scope="col" class="px-6 py-3">
+                <th scope="col" class="px-6 py-3 text-center">
                     Amount
                 </th>
-                <th scope="col" class="px-6 py-3">
+                <th scope="col" class="px-6 py-3 text-center">
                     Status
                 </th>
-                <th scope="col" class="px-6 py-3">
+                <th scope="col" class="px-6 py-3 text-center">
+                    Created At
+                </th>
+                <th scope="col" class="px-6 py-3 text-center">
                     Action
                 </th>
             </tr>
@@ -65,7 +65,7 @@
             <tbody>
             @foreach($orders as $order)
                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    <th scope="row" class="px-6 py-4 font-medium text-center  text-gray-900 whitespace-nowrap dark:text-white">
                         @if($order->status->is(OrderStatus::DRAFT))
                             <a href="{{ route('orders.delivery', ['order' => $order->id]) }}"
                                class="font-medium hover:underline cursor-pointer">#{{ $order->code }}</a>
@@ -77,23 +77,23 @@
                                class="font-medium hover:underline cursor-pointer">#{{ $order->code }}</a>
                         @endif
                     </th>
-                    <td class="px-6 py-4">
-                        {{ $order->created_at->format('d-m-Y H:i:s') }}
-                    </td>
-                    <td class="px-6 py-4">
+                    <td class="px-6 py-4 text-center">
                         {{ $order->batch->number }}
                     </td>
-                    <td class="px-6 py-4">
+                    <td class="px-6 py-4 text-center">
                         {{ $order->qty }}
                     </td>
-                    <td class="px-6 py-4">
+                    <td class="px-6 py-4 text-center">
                         {{ $order->amount }}
                     </td>
-                    <td class="px-6 py-4">
+                    <td class="px-6 py-4 text-center">
                         <span
                             class="bg-{{ $order->status->getColor() }}-100 text-{{ $order->status->getColor() }}-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-{{ $order->status->getColor() }}-900 dark:text-{{ $order->status->getColor() }}-300">{{ $order->status }}</span>
                     </td>
-                    <td class="px-6 py-4">
+                    <td class="px-6 py-4 text-center">
+                        {{ $order->created_at->format('d-m-Y H:i:s') }}
+                    </td>
+                    <td class="px-6 py-4 text-center">
                         @if($order->status->is(OrderStatus::DRAFT))
                             <a href="{{ route('orders.delivery', ['order' => $order->id]) }}"
                                class="font-medium text-blue-600 dark:text-blue-500 hover:underline cursor-pointer">Complete Delivery</a>
