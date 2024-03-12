@@ -50,40 +50,49 @@ new class extends Component {
     {
         $this->form->validate();
 
-        $order =
-            new Order(
-                $this->form->except(['source', 'receiverEnName', 'receiverThName', 'designation', 'gender', 'religion'])
-            );
-        $order->user()->associate(Auth::user());
-        $order->batch()->associate(Batch::where('status', BatchStatus::PUBLISHED)->first());
-        $order->source()->associate(Source::find($this->form->source));
-        $order->status = OrderStatus::DRAFT;
-        $order->code = $this->createUniqueOrderCode();
-        $order->qty = 1;
-        $order->amount = 0;
+        /** @var Batch $batch */
+        $batch = Batch::where('status', BatchStatus::PUBLISHED)->first();
 
-        $order->save();
+        if (!$batch || $batch->getAvailableStock() <= 0) {
+            Session::flash('error', 'Unable to place orders due to out-of-stock.');
 
-        $item = new OrderItem();
-        $item->receiver_en_name = $this->form->receiverEnName;
-        $item->receiver_th_name = $this->form->receiverThName;
-        $item->qty = 1;
-        $item->amount = 0;
-        $item->gender = Gender::from($this->form->gender);
-        $item->religion()->associate(Religion::find($this->form->religion));
-        $item->designation()->associate(Designation::find($this->form->designation));
-        $item->order()->associate($order);
-        $item->identity_file = $this->form->identityFile->store('orders/identities');
+            $this->redirectRoute('orders.book');
+        } else {
+            $order =
+                new Order(
+                    $this->form->except(['source', 'receiverEnName', 'receiverThName', 'designation', 'gender', 'religion'])
+                );
+            $order->user()->associate(Auth::user());
+            $order->batch()->associate($batch);
+            $order->source()->associate(Source::find($this->form->source));
+            $order->status = OrderStatus::DRAFT;
+            $order->code = $this->createUniqueOrderCode();
+            $order->qty = 1;
+            $order->amount = 0;
 
-        $item->save();
+            $order->save();
 
-        Storage::deleteDirectory('livewire-tmp');
+            $item = new OrderItem();
+            $item->receiver_en_name = $this->form->receiverEnName;
+            $item->receiver_th_name = $this->form->receiverThName;
+            $item->qty = 1;
+            $item->amount = 0;
+            $item->gender = Gender::from($this->form->gender);
+            $item->religion()->associate(Religion::find($this->form->religion));
+            $item->designation()->associate(Designation::find($this->form->designation));
+            $item->order()->associate($order);
+            $item->identity_file = $this->form->identityFile->store('orders/identities');
 
-        event(new OrderCreated($order));
+            $item->save();
 
-        Session::flash('message', sprintf('Order %s has been successfully created.', $order->code));
+            Storage::deleteDirectory('livewire-tmp');
 
-        $this->redirectRoute(name: 'orders.delivery', parameters: ['order' => $order->id]);
+            event(new OrderCreated($order));
+
+            Session::flash('message', sprintf('Order %s has been successfully created.', $order->code));
+
+            $this->redirectRoute(name: 'orders.delivery', parameters: ['order' => $order->id]);
+        }
     }
 
     private function generateCode(): string

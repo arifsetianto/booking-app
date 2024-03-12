@@ -23,9 +23,6 @@
                     Order Code
                 </th>
                 <th scope="col" class="px-6 py-3 text-center">
-                    Order Date
-                </th>
-                <th scope="col" class="px-6 py-3 text-center">
                     Payment Date
                 </th>
                 <th scope="col" class="px-6 py-3 text-center">
@@ -51,9 +48,6 @@
                     <th scope="row" class="px-6 py-4 font-medium text-center text-gray-900 whitespace-nowrap dark:text-white">
                         <a href="{{ route('order.complete', ['order' => $order->id]) }}" class="font-medium hover:underline cursor-pointer">#{{ $order->code }}</a>
                     </th>
-                    <td class="px-6 py-4 text-center">
-                        {{ $order->created_at->format('d-m-Y H:i:s') }}
-                    </td>
                     <td class="px-6 py-4 text-center">
                         {{ $order->payment->paid_at->format('d-m-Y H:i:s') }}
                     </td>
