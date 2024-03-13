@@ -88,7 +88,7 @@
                     </td>
                     <td class="px-6 py-4 text-center">
                         <span
-                            class="bg-{{ $order->status->getColor() }}-100 text-{{ $order->status->getColor() }}-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-{{ $order->status->getColor() }}-900 dark:text-{{ $order->status->getColor() }}-300">{{ $order->status }}</span>
+                            class="{{ $order->status->is(OrderStatus::CANCELED) || $order->status->is(OrderStatus::REJECTED) ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300' : 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300' }} text-xs font-medium me-2 px-2.5 py-0.5 rounded-full">{{ $order->status }}</span>
                     </td>
                     <td class="px-6 py-4 text-center">
                         {{ $order->created_at->format('d-m-Y H:i:s') }}

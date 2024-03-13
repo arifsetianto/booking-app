@@ -7,6 +7,7 @@ use App\Livewire\Forms\Order\RejectOrderForm;
 use App\Livewire\Forms\Order\ReviseOrderForm;
 use App\Models\Order;
 use App\ValueObject\OrderStatus;
+use App\ValueObject\PaymentStatus;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -203,7 +204,7 @@ new class extends Component {
                         <p class="text-sm text-gray-500">Status</p>
                         <p class="pt-1 text-sm">
                             <span
-                                class="bg-{{ $order->payment->status->getColor() }}-100 text-{{ $order->payment->status->getColor() }}-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-{{ $order->payment->status->getColor() }}-900 dark:text-{{ $order->payment->status->getColor() }}-300">{{ $order->payment->status }}</span>
+                                class="{{ $order->payment->status->is(PaymentStatus::PAID) ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300' : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300' }} text-xs font-medium me-2 px-2.5 py-0.5 rounded-full">{{ $order->payment->status }}</span>
                         </p>
                     </div>
                     <div>

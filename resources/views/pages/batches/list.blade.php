@@ -15,12 +15,6 @@
                     @if (session()->has('error'))
                         <x-alert-error :message="session('error')"/>
                     @endif
-
-                    <div class="flex flex-column sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-4">
-                        <x-primary-button wire:click="redirectToCreateBatchPage">
-                            {{ __('Create Batch') }}
-                        </x-primary-button>
-                    </div>
                     <livewire:components.batch.batch-grid />
                 </div>
             </div>

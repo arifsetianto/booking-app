@@ -2,6 +2,7 @@
 
 use App\Models\Order;
 use App\ValueObject\OrderStatus;
+use App\ValueObject\PaymentStatus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Volt\Component;
@@ -31,7 +32,7 @@ new class extends Component {
             </h2>
             @if($order->status->is(OrderStatus::CANCELED) || $order->status->is(OrderStatus::REJECTED) || $order->status->is(OrderStatus::REVISED))
                 <span
-                    class="bg-{{ $order->status->getColor() }}-100 text-{{ $order->status->getColor() }}-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-{{ $order->status->getColor() }}-900 dark:text-{{ $order->status->getColor() }}-300">{{ $order->status }}</span>
+                    class="{{ $order->status->is(OrderStatus::CANCELED) || $order->status->is(OrderStatus::REJECTED) ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300' : 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300' }} text-xs font-medium me-2 px-2.5 py-0.5 rounded-full">{{ $order->status }}</span>
             @else
                 <x-primary-button wire:click="redirectToTrackingOrder">
                     {{ __('Check Status') }}
@@ -43,13 +44,19 @@ new class extends Component {
     <div class="mt-10">
         @if($order->reason)
             @if($order->status->is(OrderStatus::REVISED))
-                <div class="flex items-center p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
-                    <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+                <div
+                    class="flex items-center p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                    role="alert">
+                    <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                         fill="currentColor" viewBox="0 0 20 20">
+                        <path
+                            d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
                     </svg>
                     <span class="sr-only">Info</span>
                     <div>
-                        <span class="font-medium">To revise your booking please check your email inbox and click the <span class="font-semibold">Edit My Booking</span> button to update your booking.</span>
+                        <span
+                            class="font-medium">To revise your booking please check your email inbox and click the <span
+                                class="font-semibold">Edit My Booking</span> button to update your booking.</span>
                     </div>
                 </div>
             @else
@@ -160,7 +167,7 @@ new class extends Component {
                             <p class="text-sm text-gray-500">Status</p>
                             <p class="pt-1 text-sm">
                             <span
-                                class="bg-{{ $order->payment->status->getColor() }}-100 text-{{ $order->payment->status->getColor() }}-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-{{ $order->payment->status->getColor() }}-900 dark:text-{{ $order->payment->status->getColor() }}-300">{{ $order->payment->status }}</span>
+                                class="{{ $order->payment->status->is(PaymentStatus::PAID) ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300' : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300' }} text-xs font-medium me-2 px-2.5 py-0.5 rounded-full">{{ $order->payment->status }}</span>
                             </p>
                         </div>
                         <div>

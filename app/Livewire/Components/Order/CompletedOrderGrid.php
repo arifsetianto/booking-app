@@ -35,11 +35,11 @@ class CompletedOrderGrid extends Component
                                  $query
                                      ->where(function ($qb) {
                                          $qb
-                                             ->where('code', 'ilike', '%' . $this->searchKeyword . '%')
-                                             ->orWhere('email', 'ilike', '%' . $this->searchKeyword . '%')
-                                             ->orWhere('name', 'ilike', '%' . $this->searchKeyword . '%')
-                                             ->orWhere('phone', 'ilike', '%' . $this->searchKeyword . '%')
-                                             ->orWhere('instagram', 'ilike', '%' . $this->searchKeyword . '%')
+                                             ->where('code', 'LIKE', '%' . $this->searchKeyword . '%')
+                                             ->orWhere('email', 'LIKE', '%' . $this->searchKeyword . '%')
+                                             ->orWhere('name', 'LIKE', '%' . $this->searchKeyword . '%')
+                                             ->orWhere('phone', 'LIKE', '%' . $this->searchKeyword . '%')
+                                             ->orWhere('instagram', 'LIKE', '%' . $this->searchKeyword . '%')
                                          ;
                                      });
                              })
