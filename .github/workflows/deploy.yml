@@ -37,7 +37,7 @@ jobs:
         uses: shivammathur/setup-php@master
         with:
           php-version: '8.2'
-          extensions: ctype, curl, dom, fileinfo, filter, hash, mbstring, openssl, pcre, pdo, session, bcmath, tokenizer, xml
+          extensions: ctype, curl, dom, fileinfo, filter, hash, mbstring, openssl, pcre, pdo, session, bcmath, tokenizer, xml, redis
       - name: Composer install
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
       - name: Setup Deployer
