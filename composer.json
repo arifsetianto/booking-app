@@ -19,6 +19,7 @@
         "symfony/mailgun-mailer": "^7.0"
     },
     "require-dev": {
+        "deployer/deployer": "^7.3",
         "fakerphp/faker": "^1.9.1",
         "laravel/pint": "^1.0",
         "laravel/sail": "^1.18",

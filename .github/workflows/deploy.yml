@@ -1,0 +1,54 @@
+name: Deploy to Server
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-assets-production:
+    name: Build JavaScript/CSS for Production Server
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v1
+      - name: NPM Build
+        run: |
+          npm install
+          npm run build
+      - name: Put built assets in Artifacts
+        uses: actions/upload-artifact@v1
+        with:
+          name: assets
+          path: public
+  deploy-production:
+    name: Deploy Project to Production Server
+    runs-on: ubuntu-latest
+    needs: [ build-assets-production ]
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v1
+      - name: Fetch built assets from Artifacts
+        uses: actions/download-artifact@v1
+        with:
+          name: assets
+          path: public
+      - name: Setup PHP
+        uses: shivammathur/setup-php@master
+        with:
+          php-version: '8.2'
+          extensions: ctype, curl, dom, fileinfo, filter, hash, mbstring, openssl, pcre, pdo, session, bcmath, tokenizer, xml
+      - name: Composer install
+        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+      - name: Setup Deployer
+        uses: atymic/deployer-php-action@master
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          ssh-known-hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
+      - name: Deploy to Production
+        env:
+          HOST: ${{ secrets.SERVER_HOST_PRODUCTION }}
+          USERNAME: ${{ secrets.SERVER_USERNAME_PRODUCTION }}
+          PORT: ${{ secrets.SERVER_PORT_PRODUCTION }}
+          DOT_ENV: ${{ secrets.DOT_ENV_PRODUCTION }}
+        run: php vendor/bin/dep deploy production branch=main
