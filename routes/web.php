@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 //Route::view('/', 'welcome')->name('welcome');
 
-Route::middleware(['auth.admin', 'verified', 'roles.has:admin'])->group(function () {
+Route::domain('book.' . config('app.url'))->middleware(['auth.admin', 'verified', 'roles.has:admin'])->group(function () {
     Route::view('dashboard', 'dashboard')
          ->name('dashboard');
 
@@ -50,7 +50,7 @@ Route::middleware(['auth.admin', 'verified', 'roles.has:admin'])->group(function
          ->name('profile');
 });
 
-Route::middleware(['auth', 'verified', 'roles.has:customer'])->group(function () {
+Route::domain('sys.' . config('app.url'))->middleware(['auth', 'verified', 'roles.has:customer'])->group(function () {
     Route::view('home', 'pages/home')
          ->name('home');
 
