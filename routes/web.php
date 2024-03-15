@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 //Route::view('/', 'welcome')->name('welcome');
 
-Route::domain('https://sys.thaiquran.com')->middleware(['auth.admin', 'verified', 'roles.has:admin'])->group(function () {
+Route::middleware(['auth.admin', 'verified', 'roles.has:admin'])->group(function () {
     Route::view('dashboard', 'dashboard')
          ->name('dashboard');
 
@@ -50,7 +50,7 @@ Route::domain('https://sys.thaiquran.com')->middleware(['auth.admin', 'verified'
          ->name('profile');
 });
 
-Route::domain('https://book.thaiquran.com')->middleware(['auth', 'verified', 'roles.has:customer'])->group(function () {
+Route::middleware(['auth', 'verified', 'roles.has:customer'])->group(function () {
     Route::view('home', 'pages/home')
          ->name('home');
 

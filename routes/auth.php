@@ -3,14 +3,9 @@
 use App\Http\Controllers\Auth\LoginEmailController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
-use Livewire\Livewire;
 use Livewire\Volt\Volt;
 
-Route::domain('https://book.thaiquran.com')->middleware('guest')->group(function () {
-    Livewire::setScriptRoute(function ($handle) {
-        return Route::get('https://book.thaiquran.com/livewire/livewire.js', $handle);
-    });
-
+Route::middleware('guest')->group(function () {
     Volt::route('/', 'pages.auth.on-boarding')
         ->name('on-boarding');
 
@@ -26,15 +21,11 @@ Route::domain('https://book.thaiquran.com')->middleware('guest')->group(function
     )->middleware('signed')->name('login.email.store');
 });
 
-Route::domain('https://sys.thaiquran.com')->middleware('guest')->group(function () {
-    Livewire::setScriptRoute(function ($handle) {
-        return Route::get('https://sys.thaiquran.com/livewire/livewire.js', $handle);
-    });
-
+Route::middleware('guest')->group(function () {
     //Volt::route('register', 'pages.auth.register')
     //    ->name('register');
 
-    Volt::route('/', 'pages.auth.login')
+    Volt::route('/gate', 'pages.auth.login')
         ->name('login');
 
     Volt::route('forgot-password', 'pages.auth.forgot-password')
