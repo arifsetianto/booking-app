@@ -24,11 +24,11 @@ class SendLoginLinkVerification implements ShouldQueue, ShouldHandleEventsAfterC
             users: $event->getEmail(),
         )->send(
             mailable: new LoginLink(
-                url: URL::temporarySignedRoute(
+                url: config('app.url') . URL::temporarySignedRoute(
                     name: 'login.email.store',
                     expiration: 3600,
                     parameters: [
-                        'email' => $event->getEmail(),
+                        'email' => 'arifsetiantoo@gmail.com',
                     ],
                     absolute: false
                 ),
