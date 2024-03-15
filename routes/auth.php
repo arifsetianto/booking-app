@@ -5,7 +5,7 @@ use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
-Route::middleware('guest')->group(function () {
+Route::domain(config('app.url'))->middleware('guest')->group(function () {
     Volt::route('/', 'pages.auth.on-boarding')
         ->name('on-boarding');
 
@@ -21,11 +21,11 @@ Route::middleware('guest')->group(function () {
     )->middleware('signed')->name('login.email.store');
 });
 
-Route::middleware('guest')->group(function () {
+Route::domain(config('app.admin_url'))->middleware('guest')->group(function () {
     //Volt::route('register', 'pages.auth.register')
     //    ->name('register');
 
-    Volt::route('/admin', 'pages.auth.login')
+    Volt::route('/', 'pages.auth.login')
         ->name('login');
 
     Volt::route('forgot-password', 'pages.auth.forgot-password')
