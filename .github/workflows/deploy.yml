@@ -45,10 +45,17 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
           ssh-known-hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
-      - name: Deploy to Production
+      - name: Deploy to Production for Customer Application
         env:
           HOST: ${{ secrets.SERVER_HOST_PRODUCTION }}
           USERNAME: ${{ secrets.SERVER_USERNAME_PRODUCTION }}
           PORT: ${{ secrets.SERVER_PORT_PRODUCTION }}
-          DOT_ENV: ${{ secrets.DOT_ENV_PRODUCTION }}
-        run: php vendor/bin/dep deploy production branch=main
+          DOT_ENV: ${{ secrets.DOT_ENV_CUSTOMER_PRODUCTION }}
+        run: php vendor/bin/dep deploy customer-prod branch=main
+      - name: Deploy to Production for Admin Application
+        env:
+          HOST: ${{ secrets.SERVER_HOST_PRODUCTION }}
+          USERNAME: ${{ secrets.SERVER_USERNAME_PRODUCTION }}
+          PORT: ${{ secrets.SERVER_PORT_PRODUCTION }}
+          DOT_ENV: ${{ secrets.DOT_ENV_ADMIN_PRODUCTION }}
+        run: php vendor/bin/dep deploy admin-prod branch=main

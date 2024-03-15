@@ -10,7 +10,8 @@ set('bin/php', function () {
     return '/usr/bin/php';
 });
 
-set('application', 'thaiquran-booking-app');
+set('customer_application', 'book.thaiquran.com');
+set('admin_application', 'sys.thaiquran.com');
 set('http_user', 'www-data');
 set('repository', 'https://github.com/arifsetianto/booking-app.git');
 
@@ -42,12 +43,19 @@ set('composer_options', '--verbose --prefer-dist --no-progress --no-interaction 
 
 // Hosts
 
-host('production')
+host('customer-prod')
     ->setHostname(getenv('HOST'))
     ->set('remote_user', getenv('USERNAME'))
     ->set('port', getenv('PORT'))
     ->set('branch', 'main')
-    ->set('deploy_path', '/var/www/{{application}}');
+    ->set('deploy_path', '/var/www/{{customer_application}}');
+
+host('admin-prod')
+    ->setHostname(getenv('HOST'))
+    ->set('remote_user', getenv('USERNAME'))
+    ->set('port', getenv('PORT'))
+    ->set('branch', 'main')
+    ->set('deploy_path', '/var/www/{{admin_application}}');
 
 // Hooks
 
