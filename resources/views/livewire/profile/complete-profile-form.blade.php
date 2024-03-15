@@ -120,7 +120,7 @@ new class extends Component {
 
         //$this->dispatch('profile-updated', name: $user->name);
 
-        $this->redirectIntended(default: '/orders', navigate: true);
+        $this->redirectIntended(default: '/home', navigate: true);
     }
 
     public function getCitiesByRegion(): void
