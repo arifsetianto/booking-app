@@ -27,7 +27,7 @@ new class extends Component {
             <caption
                 class="p-5 text-lg font-semibold text-left rtl:text-right text-gray-900 bg-white dark:text-white dark:bg-gray-800">
                 Last 10 Transactions
-                <p class="mt-1 text-sm font-normal text-gray-500 dark:text-gray-400">Here is a list of the last 10 transactions.</p>
+                <p class="mt-1 text-sm font-normal text-gray-500 dark:text-gray-400">Here is a list of the last 10 transactions that must be verified.</p>
             </caption>
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
