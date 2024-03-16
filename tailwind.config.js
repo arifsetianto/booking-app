@@ -27,9 +27,9 @@ export default {
     },
 
     plugins: [
-        forms,
         require('flowbite/plugin')({
             charts: true,
         }),
+        forms,
     ],
 };
