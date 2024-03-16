@@ -27,7 +27,7 @@ class OrderCompletedMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: sprintf('Order has been completed #%s', $this->order->code),
+            subject: sprintf('Order #%s - Your ThaiQuran Order is on Its Way!', $this->order->code),
         );
     }
 
@@ -36,8 +36,9 @@ class OrderCompletedMail extends Mailable
         return new Content(
             markdown: 'emails.orders.order-completed',
             with: [
-                'url'  => $this->url,
-                'user' => $this->order->user
+                'url'   => $this->url,
+                'order' => $this->order,
+                'user'  => $this->order->user
             ],
         );
     }

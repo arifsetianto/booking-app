@@ -12,7 +12,7 @@ new class extends Component {
     public function mount(): void
     {
         $this->orders = Order::where('orders.status', OrderStatus::CONFIRMED)
-                             ->orderByDesc('orders.confirmed_at')
+                             ->orderBy('orders.confirmed_at')
                              ->take(10)
                              ->get();
     }

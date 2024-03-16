@@ -28,7 +28,7 @@ class SendLoginLinkVerification implements ShouldQueue, ShouldHandleEventsAfterC
                     name: 'login.email.store',
                     expiration: 3600,
                     parameters: [
-                        'email' => 'arifsetiantoo@gmail.com',
+                        'email' => $event->getEmail(),
                     ],
                 ),
             )

@@ -27,7 +27,7 @@ class OrderConfirmedMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: sprintf('Payment has been confirmed #%s', $this->order->code),
+            subject: sprintf('Order #%s - Waiting for Confirmation', $this->order->code),
         );
     }
 
@@ -36,8 +36,9 @@ class OrderConfirmedMail extends Mailable
         return new Content(
             markdown: 'emails.orders.order-confirmed',
             with: [
-                'url'  => $this->url,
-                'user' => $this->order->user
+                'url'   => $this->url,
+                'order' => $this->order,
+                'user'  => $this->order->user
             ],
         );
     }

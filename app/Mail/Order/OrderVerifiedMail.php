@@ -27,7 +27,7 @@ class OrderVerifiedMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: sprintf('Payment has been verified #%s', $this->order->code),
+            subject: sprintf('Order #%s - Your Order and Payment has been verified', $this->order->code),
         );
     }
 

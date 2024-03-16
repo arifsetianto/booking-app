@@ -1,13 +1,11 @@
 <x-mail::message>
-# Hi, {{ $user->name }}
+# Thank you for initiating your order #{{ $order->code }}
 
-Thank you for your payment confirmation.
-Please wait, your order is currently being verified by the ThaiQuran team.
-
-<x-mail::button :url="$url">
-Check Order
-</x-mail::button>
-
-Thanks,<br>
-{{ config('app.name') }}
+Your order will be processed as soon as we verify receiver's ID and the payment, usually within 1-5 working days.
+We will update your confirmation status in your login account.
+<br><br>
+Thank you for your cooperation.
+<br><br>
+Warm regards,<br>
+Admin ThaiQuran
 </x-mail::message>
