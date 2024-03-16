@@ -38,7 +38,12 @@ new class extends Component {
 
         Session::flash('message', sprintf('Order #%s has been completed.', $this->order->code));
 
-        $this->redirectRoute('order.list-complete');
+        $this->redirectRoute(name: 'order.list-complete');
+    }
+
+    public function generateLabel(): void
+    {
+        $this->redirectRoute(name: 'shipping.label.generate', parameters: ['order' => $this->order->id]);
     }
 };
 
@@ -254,6 +259,9 @@ new class extends Component {
                           x-on:click.prevent="$dispatch('open-modal', 'confirm-order-completion')">
             {{ __('Complete Order') }}
         </x-primary-button>
+        <x-secondary-button wire:click="generateLabel">
+            {{ __('Print Label') }}
+        </x-secondary-button>
     </div>
 
     <x-modal name="confirm-order-completion" :show="$errors->isNotEmpty()" focusable>
