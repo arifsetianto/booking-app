@@ -34,29 +34,30 @@ new class extends Component {
         /** @var User $user */
         $user = Auth::user();
 
-        $this->form->name = $user->name;
-        $this->form->phone = $user->profile->phone;
-        $this->form->address = $user->profile->address;
-        $this->form->region = $user->profile->subDistrict?->district?->city?->region?->id;
-        $this->form->city = $user->profile->subDistrict?->district?->city?->id;
-        $this->form->district = $user->profile->subDistrict?->district?->id;
-        $this->form->subDistrict = $user->profile->subDistrict?->id;
-
         $this->order = Order::findOrFail($request->route('order'));
+
+        $this->form->name = $this->order->orderItem->receiver_en_name;
+        //$this->form->phone = $user->profile->phone;
+        //$this->form->address = $user->profile->address;
+        //$this->form->region = $user->profile->subDistrict?->district?->city?->region?->id;
+        //$this->form->city = $user->profile->subDistrict?->district?->city?->id;
+        //$this->form->district = $user->profile->subDistrict?->district?->id;
+        //$this->form->subDistrict = $user->profile->subDistrict?->id;
+
         $this->form->fee = 0;
         $this->regions = Region::get()->map(fn($item) => ['value' => $item->id, 'label' => $item->name])->toArray();
 
-        if ($user->profile->subDistrict?->district?->city) {
-            $this->getCitiesByRegion();
-        }
+        //if ($user->profile->subDistrict?->district?->city) {
+        //    $this->getCitiesByRegion();
+        //}
 
-        if ($user->profile->subDistrict?->district) {
-            $this->getDistrictsByCity();
-        }
+        //if ($user->profile->subDistrict?->district) {
+        //    $this->getDistrictsByCity();
+        //}
 
-        if ($user->profile->subDistrict) {
-            $this->getSubDistrictsByDistrict();
-        }
+        //if ($user->profile->subDistrict) {
+        //    $this->getSubDistrictsByDistrict();
+        //}
     }
 
     public function getCitiesByRegion(): void
@@ -181,7 +182,7 @@ new class extends Component {
                 <x-input-error class="mt-2" :messages="$errors->get('form.phone')"/>
             </div>
             <div>
-                <x-input-label for="address" :value="__('Address')"/>
+                <x-input-label for="address" :value="__('Soi (Street Address)')"/>
                 <x-text-area wire:model="form.address" id="address" name="address" class="mt-1 block w-full"
                              autofocus autocomplete="address"/>
                 <x-input-error class="mt-2" :messages="$errors->get('form.address')"/>
@@ -206,7 +207,7 @@ new class extends Component {
                 <x-input-error class="mt-2" :messages="$errors->get('form.city')"/>
             </div>
             <div>
-                <x-input-label for="district" :value="__('District')"/>
+                <x-input-label for="district" :value="__('Amphoe (District)')"/>
                 <x-select-input wire:model.live="form.district" wire:key="{{ $form->city }}"
                                 wire:change="getSubDistrictsByDistrict" id="district" name="district"
                                 class="mt-1 block w-full"
@@ -215,7 +216,7 @@ new class extends Component {
                 <x-input-error class="mt-2" :messages="$errors->get('form.district')"/>
             </div>
             <div>
-                <x-input-label for="subDistrict" :value="__('Sub District')"/>
+                <x-input-label for="subDistrict" :value="__('Tambon (Sub-District)')"/>
                 <x-select-input wire:model="form.subDistrict" wire:key="{{ $form->district }}"
                                 wire:change="selectSubDistrict"
                                 id="subDistrict" name="subDistrict"
@@ -224,9 +225,15 @@ new class extends Component {
                                 autofocus/>
                 <x-input-error class="mt-2" :messages="$errors->get('form.subDistrict')"/>
             </div>
-
             <div>
-                <x-input-label for="delivery_fee" :value="__('Delivery Fee')"/>
+                <x-input-label for="qty" :value="__('Quantity')"/>
+                <x-text-input id="qty" name="qty" type="text"
+                              class="mt-1 block w-full"
+                              autofocus readonly autocomplete="qty"
+                              value="1 pcs ThaiQuran (750gr)"/>
+            </div>
+            <div>
+                <x-input-label for="delivery_fee" :value="__('Delivery & Service Fee')"/>
                 <div class="flex mt-1 w-full">
                   <span
                       class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border rounded-e-0 border-gray-300 rounded-s-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">

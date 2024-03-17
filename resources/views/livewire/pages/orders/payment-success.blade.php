@@ -25,13 +25,13 @@ new class extends Component {
     <div class="text-center">
         <h1 class="mb-4 text-xl font-semibold leading-none tracking-tight text-gray-900 md:text-2xl lg:text-3xl dark:text-white">
             #{{ $order->code }}</h1>
-        <p class="font-semibold text-lg">Thank You!</p>
-        <p class="px-32">Your order has been recorded. We will check the validity of your information.<br/><span class="font-semibold">ThaiQuran Team will need 7 Working Days to process the order.</span><br/>Please be patient and check your status via email link.</p>
+        <p class="font-semibold text-lg">Thank you for initiating your order</p>
+        <p class="px-32">Your order will be processed as soon as we verify receiver's ID and the payment, usually within 1-7 working days. We will update your confirmation status in your login account. We've sent you status/tracking link, please click the button below:</p>
         <div class="py-6">
             <x-primary-button wire:click="redirectToTrackingOrder">
                 {{ __('Check your order status here!') }}
             </x-primary-button>
         </div>
-        <p class="mt-5 text-sm text-gray-500">We sent the order and delivery status link via email too.</p>
+        <p class="mt-5 text-sm text-gray-500">Thank you for your cooperation.</p>
     </div>
 </div>

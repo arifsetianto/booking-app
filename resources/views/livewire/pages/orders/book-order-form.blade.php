@@ -41,7 +41,7 @@ new class extends Component {
         $this->form->instagram = $user->profile->instagram;
         $this->sources = Source::get()->map(fn($item) => ['value' => $item->id, 'label' => $item->name])->toArray();
         $this->designations =
-            Designation::get()->map(fn($item) => ['value' => $item->id, 'label' => $item->name])->toArray();
+            Designation::orderBy('number')->get()->map(fn($item) => ['value' => $item->id, 'label' => $item->name])->toArray();
         $this->genders = Gender::getOptions();
         $this->religions = Religion::get()->map(fn($item) => ['value' => $item->id, 'label' => $item->name])->toArray();
     }

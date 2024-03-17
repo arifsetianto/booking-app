@@ -103,12 +103,20 @@ new class extends Component {
                                 <p class="text-sm text-gray-500">Account Number</p>
                                 <p class="pt-1 text-sm">819-0-47810-9</p>
                             </div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
-                                <p class="text-sm text-gray-500">Delivery Fee</p>
+                                <p class="text-sm text-gray-500">Quantity</p>
+                                <p class="pt-1 text-sm">1 pcs ThaiQuran</p>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500">Delivery & Service Fee</p>
                                 <p class="pt-1 text-sm">THB 100</p>
                             </div>
+                        </div>
+                        <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div class="col-span-2">
-                                <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
                                 <x-input-label for="receipt_file" :value="__('Upload Payment Receipt')"/>
                                 <input wire:model="form.receiptFile"
                                        class="mt-1 block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
