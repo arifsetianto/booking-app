@@ -23,8 +23,8 @@ class CreateOrderForm extends Form
     #[Validate('nullable|string|max:30')]
     public ?string $phone;
 
-    #[Validate('required|string|max:100')]
-    public string $instagram;
+    #[Validate('nullable|string|max:100')]
+    public ?string $instagram;
 
     #[Validate('required|uuid|exists:sources,id')]
     public string $source;

@@ -127,11 +127,11 @@ new class extends Component {
 <section>
     <header>
         <h2 class="text-lg font-medium text-gray-900">
-            {{ __('Booking Information') }}
+            {{ __('User Information') }}
         </h2>
 
         <p class="mt-1 text-sm text-gray-600">
-            {{ __("To proceed with this booking process, please correctly complete the following details so that we can verify your order.") }}
+            {{ __("Please correctly complete the following details so that we can verify your order.") }}
         </p>
     </header>
 
@@ -178,6 +178,16 @@ new class extends Component {
         </div>
 
         <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
+
+        <header>
+            <h2 class="text-lg font-medium text-gray-900">
+                {{ __('Order Details (Receiver Information)') }}
+            </h2>
+
+            <p class="mt-1 text-sm text-gray-600">
+                {{ __("To proceed with this booking process, please correctly complete the following details so that we can verify your order.") }}
+            </p>
+        </header>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
