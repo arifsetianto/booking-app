@@ -13,24 +13,6 @@ use Livewire\Form;
  */
 class UpdateOrderForm extends Form
 {
-    #[Validate('required|string|email')]
-    public string $email;
-
-    #[Validate('required|string')]
-    public string $name;
-
-    #[Validate('nullable|string|max:30')]
-    public ?string $phone;
-
-    #[Validate('required|string|max:100')]
-    public string $instagram;
-
-    #[Validate('required|uuid|exists:sources,id')]
-    public string $source;
-
-    #[Validate('nullable|string')]
-    public ?string $comment;
-
     #[Validate('required|string')]
     public string $receiverEnName;
 
@@ -48,4 +30,7 @@ class UpdateOrderForm extends Form
 
     #[Validate('nullable|image|mimes:jpg,jpeg,png|max:2048')]
     public ?TemporaryUploadedFile $identityFile = null;
+
+    #[Validate('nullable|string')]
+    public ?string $comment;
 }

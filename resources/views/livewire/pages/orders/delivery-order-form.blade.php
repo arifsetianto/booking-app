@@ -45,7 +45,7 @@ new class extends Component {
         //$this->form->subDistrict = $user->profile->subDistrict?->id;
 
         $this->form->fee = 0;
-        $this->regions = Region::get()->map(fn($item) => ['value' => $item->id, 'label' => $item->name])->toArray();
+        $this->regions = Region::get()->map(fn($item) => ['value' => $item->id, 'label' => sprintf('%s (%s)', $item->th_name, $item->en_name)])->toArray();
 
         //if ($user->profile->subDistrict?->district?->city) {
         //    $this->getCitiesByRegion();
@@ -80,7 +80,6 @@ new class extends Component {
         $this->subDistricts = SubDistrict::where('district_id', $this->form->district)->get()->map(
             fn($item) => ['value' => $item->id, 'label' => sprintf('%s (%s)', $item->th_name, $item->en_name)]
         )->toArray();
-        $this->selectSubDistrict();
     }
 
     public function selectSubDistrict(): void
@@ -169,7 +168,7 @@ new class extends Component {
                 <x-input-label for="name" :value="__('Receiver Name same as ID')"/>
                 <x-text-input wire:model="form.name" id="name" name="name" type="text"
                               class="mt-1 block w-full"
-                              autofocus autocomplete="name"
+                              autofocus readonly autocomplete="name"
                               placeholder="Please enter receiver name same as ID"/>
                 <x-input-error class="mt-2" :messages="$errors->get('form.name')"/>
             </div>
@@ -198,7 +197,7 @@ new class extends Component {
                 <x-input-error class="mt-2" :messages="$errors->get('form.region')"/>
             </div>
             <div>
-                <x-input-label for="city" :value="__('City')"/>
+                <x-input-label for="city" :value="__('Province')"/>
                 <x-select-input wire:model.live="form.city" wire:key="{{ $form->region }}"
                                 wire:change="getDistrictsByCity"
                                 id="city" name="city" class="mt-1 block w-full"
@@ -226,13 +225,6 @@ new class extends Component {
                 <x-input-error class="mt-2" :messages="$errors->get('form.subDistrict')"/>
             </div>
             <div>
-                <x-input-label for="qty" :value="__('Quantity')"/>
-                <x-text-input id="qty" name="qty" type="text"
-                              class="mt-1 block w-full"
-                              autofocus readonly autocomplete="qty"
-                              value="1 pcs ThaiQuran (750gr)"/>
-            </div>
-            <div>
                 <x-input-label for="delivery_fee" :value="__('Delivery & Service Fee')"/>
                 <div class="flex mt-1 w-full">
                   <span
@@ -246,8 +238,19 @@ new class extends Component {
                 <x-input-error class="mt-2" :messages="$errors->get('form.fee')"/>
             </div>
         </div>
+        <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <x-input-label for="qty" :value="__('Quantity')"/>
+                <p class="text-sm mt-1 text-gray-500">1 pcs ThaiQuran (750gr)</p>
+            </div>
+            <div>
+                <x-input-label for="price" :value="__('Price')"/>
+                <span class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">FREE</span>
+            </div>
+        </div>
 
-        <div class="flex items-center gap-4">
+        <div class="flex items-center gap-4 pt-5">
             <x-primary-button x-data=""
                               x-on:click.prevent="$dispatch('open-modal', 'confirm-order-payment')">{{ __('Pay Now!') }}</x-primary-button>
             <x-secondary-button wire:click="backToPrevious">{{ __('Edit Booking') }}</x-secondary-button>

@@ -41,6 +41,9 @@ new class extends Component {
     {
         $this->form->validate();
 
+        /** @var User $user */
+        $user = Auth::user();
+
         /** @var Batch $batch */
         $batch = Batch::where('status', BatchStatus::PUBLISHED)->first();
 
@@ -51,11 +54,15 @@ new class extends Component {
         } else {
             $order =
                 new Order(
-                    $this->form->except(['source', 'receiverEnName', 'receiverThName', 'designation', 'gender', 'religion'])
+                    $this->form->except(['receiverEnName', 'receiverThName', 'designation', 'gender', 'religion', 'identityFile'])
                 );
-            $order->user()->associate(Auth::user());
+            $order->email = $user->email;
+            $order->phone = $user->profile->phone;
+            $order->name = $user->name;
+            $order->instagram = $user->profile->instagram;
+            $order->user()->associate($user);
             $order->batch()->associate($batch);
-            $order->source()->associate(Source::find($this->form->source));
+            $order->source()->associate($user->profile->source);
             $order->status = OrderStatus::DRAFT;
             $order->code = $this->createUniqueOrderCode();
             $order->qty = 1;

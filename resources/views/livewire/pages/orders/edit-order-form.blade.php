@@ -21,7 +21,6 @@ new class extends Component {
     use WithFileUploads;
 
     public Order $order;
-    public array $sources = [];
     public array $designations = [];
     public array $genders = [];
     public array $religions = [];
@@ -32,19 +31,12 @@ new class extends Component {
     public function mount(Request $request): void
     {
         $this->order = Order::where('id', $request->route('order'))->where('status', OrderStatus::DRAFT)->first();
-
-        $this->sources = Source::get()->map(fn($item) => ['value' => $item->id, 'label' => $item->name])->toArray();
         $this->designations =
             Designation::get()->map(fn($item) => ['value' => $item->id, 'label' => $item->name])->toArray();
         $this->genders = Gender::getOptions();
         $this->religions = Religion::get()->map(fn($item) => ['value' => $item->id, 'label' => $item->name])->toArray();
         $this->receiverIdentityFile = Storage::url($this->order->orderItem->identity_file);
 
-        $this->form->email = $this->order->email;
-        $this->form->name = $this->order->name;
-        $this->form->phone = $this->order->phone;
-        $this->form->instagram = $this->order->instagram;
-        $this->form->source = $this->order->source->id;
         $this->form->comment = $this->order->comment;
         $this->form->receiverEnName = $this->order->orderItem->receiver_en_name;
         $this->form->receiverThName = $this->order->orderItem->receiver_th_name;
@@ -58,11 +50,6 @@ new class extends Component {
         $this->form->validate();
 
         $order = Order::findOrFail($this->order->id);
-        $order->email = $this->form->email;
-        $order->name = $this->form->name;
-        $order->phone = $this->form->phone;
-        $order->instagram = $this->form->instagram;
-        $order->source()->associate(Source::find($this->form->source));
         $order->comment = $this->form->comment;
 
         $order->save();
@@ -109,49 +96,6 @@ new class extends Component {
     </header>
 
     <form wire:submit="update" class="mt-6 space-y-6">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-                <x-input-label for="email" :value="__('Email')"/>
-                <x-text-input wire:model="form.email" id="email" name="email" type="email" class="mt-1 block w-full"
-                              autofocus autocomplete="email" placeholder="Please enter your valid email address"/>
-                <x-input-error class="mt-2" :messages="$errors->get('form.email')"/>
-            </div>
-            <div>
-                <x-input-label for="name" :value="__('Full Name')"/>
-                <x-text-input wire:model="form.name" id="name" name="name" type="text" class="mt-1 block w-full"
-                              autofocus autocomplete="name" placeholder="Please enter your full name"/>
-                <x-input-error class="mt-2" :messages="$errors->get('form.name')"/>
-            </div>
-            <div>
-                <x-input-label for="phone" :value="__('Mobile No.')"/>
-                <x-text-input wire:model="form.phone" id="phone" name="phone" type="text" class="mt-1 block w-full"
-                              autofocus autocomplete="phone" placeholder="Please enter your mobile number"/>
-                <x-input-error class="mt-2" :messages="$errors->get('form.phone')"/>
-            </div>
-            <div>
-                <x-input-label for="instagram" :value="__('Instagram Account')"/>
-                <x-text-input wire:model="form.instagram" id="instagram" name="instagram" type="text"
-                              class="mt-1 block w-full"
-                              autofocus autocomplete="instagram" placeholder="Please enter your instagram account"/>
-                <x-input-error class="mt-2" :messages="$errors->get('form.instagram')"/>
-            </div>
-            <div>
-                <x-input-label for="source" :value="__('How do you know us')"/>
-                <x-select-input wire:model="form.source" id="source" name="source" class="mt-1 block w-full"
-                                :options="$sources"
-                                autofocus/>
-                <x-input-error class="mt-2" :messages="$errors->get('form.source')"/>
-            </div>
-            <div>
-                <x-input-label for="comment" :value="__('Comment')"/>
-                <x-text-area wire:model="form.comment" id="comment" name="comment" class="mt-1 block w-full"
-                             autofocus autocomplete="comment"/>
-                <x-input-error class="mt-2" :messages="$errors->get('form.comment')"/>
-            </div>
-        </div>
-
-        <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
-
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
                 <x-input-label for="receiver_en_name" :value="__('Receiver Name in English')"/>
@@ -207,6 +151,12 @@ new class extends Component {
                     <img class="h-auto max-w-sm rounded-lg"
                          src="{{ $receiverIdentityFile }}" alt="">
                 </figure>
+            </div>
+            <div>
+                <x-input-label for="comment" :value="__('Comment')"/>
+                <x-text-area wire:model="form.comment" id="comment" name="comment" class="mt-1 block w-full"
+                             autofocus autocomplete="comment"/>
+                <x-input-error class="mt-2" :messages="$errors->get('form.comment')"/>
             </div>
         </div>
 

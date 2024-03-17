@@ -104,7 +104,7 @@ new class extends Component {
                                 <p class="pt-1 text-sm">819-0-47810-9</p>
                             </div>
                         </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                                 <p class="text-sm text-gray-500">Quantity</p>
                                 <p class="pt-1 text-sm">1 pcs ThaiQuran</p>
