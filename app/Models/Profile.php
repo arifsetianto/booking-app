@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\ValueObject\Gender;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -12,10 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 /**
  * @property string $phone
  * @property string $instagram
- * @property Gender $gender
- * @property Religion $religion
- * @property string $address
- * @property SubDistrict $subDistrict
+ * @property Source $source
  *
  * @author  Arif Setianto <arifsetiantoo@gmail.com>
  */
@@ -26,28 +22,14 @@ class Profile extends Model
     protected $fillable = [
         'phone',
         'instagram',
-        'gender',
-        'religion_id',
-        'address',
-    ];
-
-    protected $casts = [
-        'gender' => Gender::class,
+        'source_id',
     ];
 
     /**
      * @return BelongsTo
      */
-    public function religion(): BelongsTo
+    public function source(): BelongsTo
     {
-        return $this->belongsTo(Religion::class);
-    }
-
-    /**
-     * @return BelongsTo
-     */
-    public function subDistrict(): BelongsTo
-    {
-        return $this->belongsTo(SubDistrict::class);
+        return $this->belongsTo(Source::class);
     }
 }

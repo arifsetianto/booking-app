@@ -43,13 +43,13 @@
                     Code
                 </th>
                 <th scope="col" class="px-6 py-3 text-center">
+                    Receiver Name
+                </th>
+                <th scope="col" class="px-6 py-3 text-center">
                     Batch
                 </th>
                 <th scope="col" class="px-6 py-3 text-center">
                     Qty
-                </th>
-                <th scope="col" class="px-6 py-3 text-center">
-                    Amount
                 </th>
                 <th scope="col" class="px-6 py-3 text-center">
                     Status
@@ -78,13 +78,13 @@
                         @endif
                     </th>
                     <td class="px-6 py-4 text-center">
+                        {{ $order->orderItem->receiver_en_name }}
+                    </td>
+                    <td class="px-6 py-4 text-center">
                         {{ $order->batch->number }}
                     </td>
                     <td class="px-6 py-4 text-center">
                         {{ $order->qty }}
-                    </td>
-                    <td class="px-6 py-4 text-center">
-                        {{ $order->amount }}
                     </td>
                     <td class="px-6 py-4 text-center">
                         <span

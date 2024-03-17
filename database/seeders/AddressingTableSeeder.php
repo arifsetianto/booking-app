@@ -34,8 +34,9 @@ class AddressingTableSeeder extends Seeder
             ->map(
                 function (array $item) {
                     return [
-                        'id'        => $item[0],
-                        'name'      => $item[1],
+                        'id'      => $item[0],
+                        'th_name' => $item[1],
+                        'en_name' => $item[2],
                     ];
                 }
             );
@@ -82,10 +83,10 @@ class AddressingTableSeeder extends Seeder
             ->map(
                 function (array $item) {
                     return [
-                        'id'        => $item[0],
-                        'city_id'   => $item[1],
-                        'en_name'   => $item[2],
-                        'th_name'   => $item[3],
+                        'id'      => $item[0],
+                        'city_id' => $item[1],
+                        'en_name' => $item[2],
+                        'th_name' => $item[3],
                     ];
                 }
             );

@@ -8,7 +8,6 @@ use function Livewire\Volt\{state};
 
 new #[Layout('layouts.guest')] class extends Component {
     public ?Batch $batch = null;
-    public bool $termsAndConsentChecked = false;
 
     public function mount(): void
     {
@@ -80,21 +79,15 @@ new #[Layout('layouts.guest')] class extends Component {
                 </span>
             </li>
         </ul>
-        <div class="flex items-start mb-6">
-            <div class="flex items-center h-5">
-                <input wire:model.live="termsAndConsentChecked" id="remember" type="checkbox" class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800" required />
-            </div>
-            <label for="remember" class="ms-2 text-sm font-medium text-gray-500 dark:text-gray-300">⁠ฉันได้อ่าน​ และยอมรับ​.</label>
-        </div>
-        @if($batch && $termsAndConsentChecked && $batch->getAvailableStock() >= 1)
+        @if($batch && $batch->getAvailableStock() >= 1)
             <button type="button" wire:click="agree"
                     class="text-white bg-blue-950 hover:bg-blue-900 focus:ring-4 focus:outline-none focus:ring-blue-200 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-900 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex justify-center w-full text-center">
-                Yes, I Agree
+                ฉันได้อ่าน​ และยอมรับ​
             </button>
         @else
             <button type="button"
                     class="text-white bg-blue-950 hover:bg-blue-900 focus:ring-4 focus:outline-none focus:ring-blue-200 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-900 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex justify-center w-full text-center opacity-50 cursor-not-allowed" disabled>
-                Yes, I Agree
+                ฉันได้อ่าน​ และยอมรับ​
             </button>
         @endif
     </div>

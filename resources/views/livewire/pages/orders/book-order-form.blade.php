@@ -23,7 +23,6 @@ use function Livewire\Volt\{state};
 new class extends Component {
     use WithFileUploads;
 
-    public array $sources = [];
     public array $designations = [];
     public array $genders = [];
     public array $religions = [];
@@ -32,14 +31,6 @@ new class extends Component {
 
     public function mount(): void
     {
-        /** @var User $user */
-        $user = Auth::user();
-
-        $this->form->email = $user->email;
-        $this->form->name = $user->name;
-        $this->form->phone = $user->profile->phone;
-        $this->form->instagram = $user->profile->instagram;
-        $this->sources = Source::get()->map(fn($item) => ['value' => $item->id, 'label' => $item->name])->toArray();
         $this->designations =
             Designation::orderBy('number')->get()->map(fn($item) => ['value' => $item->id, 'label' => $item->name])->toArray();
         $this->genders = Gender::getOptions();
@@ -127,71 +118,18 @@ new class extends Component {
 <section>
     <header>
         <h2 class="text-lg font-medium text-gray-900">
-            {{ __('User Information') }}
+            {{ __('Booking Information') }}
         </h2>
 
         <p class="mt-1 text-sm text-gray-600">
-            {{ __("Please correctly complete the following details so that we can verify your order.") }}
+            {{ __("To proceed with this booking process, please correctly complete the following details so that we can verify your order.") }}
         </p>
     </header>
 
     <form wire:submit="save" class="mt-6 space-y-6">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-                <x-input-label for="email" :value="__('Email')"/>
-                <x-text-input wire:model="form.email" id="email" name="email" type="email" class="mt-1 block w-full"
-                              autofocus autocomplete="email" placeholder="Please enter your valid email address"/>
-                <x-input-error class="mt-2" :messages="$errors->get('form.email')"/>
-            </div>
-            <div>
-                <x-input-label for="name" :value="__('Full Name')"/>
-                <x-text-input wire:model="form.name" id="name" name="name" type="text" class="mt-1 block w-full"
-                              autofocus autocomplete="name" placeholder="Please enter your full name"/>
-                <x-input-error class="mt-2" :messages="$errors->get('form.name')"/>
-            </div>
-            <div>
-                <x-input-label for="phone" :value="__('Mobile No.')"/>
-                <x-text-input wire:model="form.phone" id="phone" name="phone" type="text" class="mt-1 block w-full"
-                              autofocus autocomplete="phone" placeholder="Please enter your mobile number"/>
-                <x-input-error class="mt-2" :messages="$errors->get('form.phone')"/>
-            </div>
-            <div>
-                <x-input-label for="instagram" :value="__('Instagram Account')"/>
-                <x-text-input wire:model="form.instagram" id="instagram" name="instagram" type="text"
-                              class="mt-1 block w-full"
-                              autofocus autocomplete="instagram" placeholder="Please enter your instagram account"/>
-                <x-input-error class="mt-2" :messages="$errors->get('form.instagram')"/>
-            </div>
-            <div>
-                <x-input-label for="source" :value="__('How do you know us')"/>
-                <x-select-input wire:model="form.source" id="source" name="source" class="mt-1 block w-full"
-                                :options="$sources"
-                                autofocus/>
-                <x-input-error class="mt-2" :messages="$errors->get('form.source')"/>
-            </div>
-            <div>
-                <x-input-label for="comment" :value="__('Comment')"/>
-                <x-text-area wire:model="form.comment" id="comment" name="comment" class="mt-1 block w-full"
-                             autofocus autocomplete="comment"/>
-                <x-input-error class="mt-2" :messages="$errors->get('form.comment')"/>
-            </div>
-        </div>
-
-        <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
-
-        <header>
-            <h2 class="text-lg font-medium text-gray-900">
-                {{ __('Order Details (Receiver Information)') }}
-            </h2>
-
-            <p class="mt-1 text-sm text-gray-600">
-                {{ __("To proceed with this booking process, please correctly complete the following details so that we can verify your order.") }}
-            </p>
-        </header>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-                <x-input-label for="receiver_en_name" :value="__('Receiver Name in English')"/>
+                <x-input-label for="receiver_en_name" :value="__('Receiver Name in English')" class="required"/>
                 <x-text-input wire:model="form.receiverEnName" id="receiver_en_name" name="receiver_en_name" type="text"
                               class="mt-1 block w-full"
                               autofocus autocomplete="receiver_en_name"
@@ -199,7 +137,7 @@ new class extends Component {
                 <x-input-error class="mt-2" :messages="$errors->get('form.receiverEnName')"/>
             </div>
             <div>
-                <x-input-label for="receiver_th_name" :value="__('Receiver Name in Thai')"/>
+                <x-input-label for="receiver_th_name" :value="__('Receiver Name in Thai')" class="required"/>
                 <x-text-input wire:model="form.receiverThName" id="receiver_th_name" name="receiver_th_name" type="text"
                               class="mt-1 block w-full"
                               autofocus autocomplete="receiver_th_name"
@@ -207,7 +145,7 @@ new class extends Component {
                 <x-input-error class="mt-2" :messages="$errors->get('form.receiverThName')"/>
             </div>
             <div>
-                <x-input-label for="designation" :value="__('Order For')"/>
+                <x-input-label for="designation" :value="__('Order For')" class="required"/>
                 <x-select-input wire:model="form.designation" id="designation" name="designation"
                                 class="mt-1 block w-full"
                                 :options="$designations"
@@ -215,7 +153,7 @@ new class extends Component {
                 <x-input-error class="mt-2" :messages="$errors->get('form.designation')"/>
             </div>
             <div>
-                <x-input-label for="gender" :value="__('Gender')"/>
+                <x-input-label for="gender" :value="__('Gender')" class="required"/>
                 <x-select-input wire:model="form.gender" id="gender" name="gender"
                                 class="mt-1 block w-full"
                                 :options="$genders"
@@ -223,14 +161,14 @@ new class extends Component {
                 <x-input-error class="mt-2" :messages="$errors->get('form.gender')"/>
             </div>
             <div>
-                <x-input-label for="religion" :value="__('Religion')"/>
+                <x-input-label for="religion" :value="__('Religion')" class="required"/>
                 <x-select-input wire:model="form.religion" id="religion" name="religion" class="mt-1 block w-full"
                                 :options="$religions"
                                 autofocus/>
                 <x-input-error class="mt-2" :messages="$errors->get('form.religion')"/>
             </div>
             <div>
-                <x-input-label for="identity_file" :value="__('Receiver Thai ID')"/>
+                <x-input-label for="identity_file" :value="__('Receiver Thai ID')" class="required"/>
                 <input wire:model="form.identityFile"
                        class="mt-1 block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
                        aria-describedby="file_input_help" id="file_input" type="file"
@@ -238,6 +176,12 @@ new class extends Component {
                 <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">jpeg, jpg, or png (max.
                     2MB).</p>
                 <x-input-error class="mt-2" :messages="$errors->get('form.identityFile')"/>
+            </div>
+            <div>
+                <x-input-label for="comment" :value="__('Comment (Optional)')"/>
+                <x-text-area wire:model="form.comment" id="comment" name="comment" class="mt-1 block w-full"
+                             autofocus autocomplete="comment"/>
+                <x-input-error class="mt-2" :messages="$errors->get('form.comment')"/>
             </div>
         </div>
 

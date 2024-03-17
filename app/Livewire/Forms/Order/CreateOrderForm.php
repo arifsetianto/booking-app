@@ -14,24 +14,6 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  */
 class CreateOrderForm extends Form
 {
-    #[Validate('required|string|email')]
-    public string $email;
-
-    #[Validate('required|string')]
-    public string $name;
-
-    #[Validate('nullable|string|max:30')]
-    public ?string $phone;
-
-    #[Validate('nullable|string|max:100')]
-    public ?string $instagram;
-
-    #[Validate('required|uuid|exists:sources,id')]
-    public string $source;
-
-    #[Validate('nullable|string')]
-    public ?string $comment;
-
     #[Validate('required|string')]
     public string $receiverEnName;
 
@@ -49,4 +31,7 @@ class CreateOrderForm extends Form
 
     #[Validate('required|image|mimes:jpg,jpeg,png|max:2048')]
     public TemporaryUploadedFile $identityFile;
+
+    #[Validate('nullable|string')]
+    public ?string $comment;
 }
