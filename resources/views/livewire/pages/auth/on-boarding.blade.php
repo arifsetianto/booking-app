@@ -8,6 +8,7 @@ use function Livewire\Volt\{state};
 
 new #[Layout('layouts.guest')] class extends Component {
     public ?Batch $batch = null;
+    public bool $termsAndConsentChecked = false;
 
     public function mount(): void
     {
@@ -34,6 +35,9 @@ new #[Layout('layouts.guest')] class extends Component {
                 <span class="text-xl font-semibold mb-2 text-red-700 dark:text-gray-400">Stock Unavailable</span>
             @endif
         </div>
+        <div>
+            <p class="text-base font-normal leading-tight text-gray-500 dark:text-gray-400">ข้อตกลงและเงื่อนไขของการขอรับอัลกุรอานวากัฟ</p>
+        </div>
         <ul role="list" class="space-y-3 mt-4 mb-7">
             <li class="flex items-start">
                 <svg class="flex-shrink-0 w-4 h-4 mt-0.5 text-blue-950 dark:text-blue-500" aria-hidden="true"
@@ -41,7 +45,7 @@ new #[Layout('layouts.guest')] class extends Component {
                     <path
                         d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
                 </svg>
-                <span class="text-base font-normal leading-tight text-gray-500 dark:text-gray-400 ms-3">We DO NOT ship outside Thailand</span>
+                <span class="text-base font-normal leading-tight text-gray-500 dark:text-gray-400 ms-3">จัดส่งเฉพาะในประเทศไทยเท่านั้น</span>
             </li>
             <li class="flex items-start">
                 <svg class="flex-shrink-0 w-4 h-4 mt-0.5 text-blue-950 dark:text-blue-500" aria-hidden="true"
@@ -49,7 +53,7 @@ new #[Layout('layouts.guest')] class extends Component {
                     <path
                         d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
                 </svg>
-                <span class="text-base font-normal leading-tight text-gray-500 dark:text-gray-400 ms-3">This service strictly for Thai Nationality</span>
+                <span class="text-base font-normal leading-tight text-gray-500 dark:text-gray-400 ms-3">ขอสงวนสิทธิ์อัลกุรอานแปลไทยให้สำหรับคนไทยที่มีบัตรประจำตัวประชาชนเท่านั้น</span>
             </li>
             <li class="flex items-start">
                 <svg class="flex-shrink-0 w-4 h-4 mt-0.5 text-blue-950 dark:text-blue-500" aria-hidden="true"
@@ -57,7 +61,7 @@ new #[Layout('layouts.guest')] class extends Component {
                     <path
                         d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
                 </svg>
-                <span class="text-base font-normal leading-tight text-gray-500 dark:text-gray-400 ms-3">This service strictly for 1 ThaiQuran per 1 Thai ID, please note our policy to prioritize to serving those who have not yet received any ThaiQuran</span>
+                <span class="text-base font-normal leading-tight text-gray-500 dark:text-gray-400 ms-3">⁠เราจำเป็นต้องให้สิทธิ์แก่ผู้ที่ลงทะเบียนครบถ้วนและถูกต้องก่อน​  กรุณาลงทะเบียนตามวันเวลาที่กำหนดเท่านั้นและทำตามกฎอย่างเคร่งครัดเพื่อความรวดเร็วในการตรวจสอบข้อมูล</span>
             </li>
             <li class="flex items-start">
                 <svg class="flex-shrink-0 w-4 h-4 mt-0.5 text-blue-950 dark:text-blue-500" aria-hidden="true"
@@ -65,18 +69,24 @@ new #[Layout('layouts.guest')] class extends Component {
                     <path
                         d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
                 </svg>
-                <span class="text-base font-normal leading-tight text-gray-500 dark:text-gray-400 ms-3">This step is required to collect your information so we can verify your Order History</span>
-            </li>
-            <li class="flex items-start">
-                <svg class="flex-shrink-0 w-4 h-4 mt-0.5 text-blue-950 dark:text-blue-500" aria-hidden="true"
-                     xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                    <path
-                        d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
-                </svg>
-                <span class="text-base font-normal leading-tight text-gray-500 dark:text-gray-400 ms-3">We understand if you are worried about missing the chance to get your FREE ThaiQuran, InsyaAllah there will be the next Order Batch for you to join! or you can always access ThaiQuran Online version for FREE!</span>
+                <span class="text-base font-normal leading-tight text-gray-500 dark:text-gray-400 ms-3">
+                    ⁠มูลนิธิไทยกุรอาน​ได้กำหนดนโยบาย​การปกป้องข้อมูลส่วนบุคคล​ ​ และจัดทำระบบบริหารจัดการการปกป้องข้อมูลส่วนบุคคลขึ้นเพื่อให้แน่ใจว่าจะมีการบังคับใช้นโยบายอย่างเคร่งครัด เรามีการดำเนินการอย่างต่อเนื่องเพื่อปรับปรุงและดูแลรักษาระบบของเรา พร้อมการสื่อสารนโยบายการปกป้องข้อมูลส่วนบุคคลของเราไปยังบุคลากรทุกคนของมูลนิธิไทยกุรอาน​ เราจึงขอความยินยอมจากท่านเพื่อจัดเก็บ​ รวบรวม​ข้อมูลส่วนตัวเพื่อจุดประสงค์ดังต่อไปน
+                    <ol class="ps-7 mt-2 space-y-1 list-decimal list-inside">
+                        <li class="list-outside">เพื่อยืนยันตัวตน​และจัดส่งอัลกุรอานวากั</li>
+                        <li class="list-outside">เป็นหลักฐานว่าทีมได้ทำหน้าที่ตรงตามจุดประสงค์ของมูลนิธิไทยกุรอาน​</li>
+                        <li class="list-outside">เพื่อติดตาม​ ประเมินผลและทำสถิติผู้สนใจขอรับอัลกุรอาน​วากัฟ</li>
+                        <li class="list-outside">เพื่อส่งข่าวสาร​หรือโครงการอื่นๆเกี่ยวกับมูลนิธิไทยกุรอานให้ผู้สนใจทางอีเมล</li>
+                    </ol>
+                </span>
             </li>
         </ul>
-        @if($batch && $batch->getAvailableStock() >= 1)
+        <div class="flex items-start mb-6">
+            <div class="flex items-center h-5">
+                <input wire:model.live="termsAndConsentChecked" id="remember" type="checkbox" class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800" required />
+            </div>
+            <label for="remember" class="ms-2 text-sm font-medium text-gray-500 dark:text-gray-300">⁠ฉันได้อ่าน​ และยอมรับ​.</label>
+        </div>
+        @if($batch && $termsAndConsentChecked && $batch->getAvailableStock() >= 1)
             <button type="button" wire:click="agree"
                     class="text-white bg-blue-950 hover:bg-blue-900 focus:ring-4 focus:outline-none focus:ring-blue-200 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-900 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex justify-center w-full text-center">
                 Yes, I Agree
