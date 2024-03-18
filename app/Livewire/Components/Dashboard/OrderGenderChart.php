@@ -29,7 +29,7 @@ class OrderGenderChart extends Component
                        ->join('order_items', 'orders.id', '=', 'order_items.order_id')
                        ->whereIn(
                            'orders.status',
-                           [OrderStatus::CONFIRMED, OrderStatus::VERIFIED, OrderStatus::COMPLETED]
+                           [OrderStatus::VERIFIED, OrderStatus::COMPLETED]
                        )
                        ->groupBy('order_items.gender')
                        ->get();

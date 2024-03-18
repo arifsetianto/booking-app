@@ -34,7 +34,7 @@ class OrderSourceChart extends Component
         $prefix = \DB::getTablePrefix();
         $orders = Order::select('sources.name', \DB::raw(sprintf('count(%sorders.id) as total', $prefix)))
                        ->join('sources', 'orders.source_id', '=', 'sources.id')
-                       ->whereIn('orders.status', [OrderStatus::CONFIRMED, OrderStatus::VERIFIED, OrderStatus::COMPLETED])
+                       ->whereIn('orders.status', [OrderStatus::VERIFIED, OrderStatus::COMPLETED])
                        ->groupBy('orders.source_id')
                        ->get();
 

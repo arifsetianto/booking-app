@@ -24,6 +24,9 @@ class PdfController extends Controller
         $data = file_get_contents($path);
         $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
 
+        $order->printed = true;
+        $order->save();
+
         $data = ['order' => $order, 'image' => $base64];
         $pdf = PDF::loadView('pdf.shipping.print-label', $data)->setPaper('a4');
 

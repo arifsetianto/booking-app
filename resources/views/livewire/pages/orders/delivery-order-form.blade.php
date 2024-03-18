@@ -84,7 +84,15 @@ new class extends Component {
 
     public function selectSubDistrict(): void
     {
-        $this->form->fee = 100;
+        if ('' !== $this->form->subDistrict) {
+            $subDistrict = SubDistrict::findOrFail($this->form->subDistrict);
+
+            $this->form->fee = 100;
+            $this->form->zipCode = $subDistrict->zip_code;
+        } else {
+            $this->form->fee = 0;
+            $this->form->zipCode = '';
+        }
     }
 
     public function payOrder(): void
@@ -102,7 +110,7 @@ new class extends Component {
             /** @var Order $order */
             $order = Order::findOrFail($this->order->id);
             $order->status = OrderStatus::PENDING;
-            $order->amount = $order->amount + $this->form->fee;
+            $order->amount = $this->form->fee;
 
             $order->save();
 
@@ -165,7 +173,7 @@ new class extends Component {
     <div class="mt-6 space-y-6">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-                <x-input-label for="name" :value="__('Receiver Name same as ID')"/>
+                <x-input-label for="name" :value="__('Receiver Name same as ID')" class="required"/>
                 <x-text-input wire:model="form.name" id="name" name="name" type="text"
                               class="mt-1 block w-full"
                               autofocus readonly autocomplete="name"
@@ -173,7 +181,7 @@ new class extends Component {
                 <x-input-error class="mt-2" :messages="$errors->get('form.name')"/>
             </div>
             <div>
-                <x-input-label for="phone" :value="__('Receiver Phone')"/>
+                <x-input-label for="phone" :value="__('Receiver Phone')" class="required"/>
                 <x-text-input wire:model="form.phone" id="phone" name="phone" type="text"
                               class="mt-1 block w-full"
                               autofocus autocomplete="phone"
@@ -181,7 +189,7 @@ new class extends Component {
                 <x-input-error class="mt-2" :messages="$errors->get('form.phone')"/>
             </div>
             <div>
-                <x-input-label for="address" :value="__('Soi (Street Address)')"/>
+                <x-input-label for="address" :value="__('Soi (Street Address)')" class="required"/>
                 <x-text-area wire:model="form.address" id="address" name="address" class="mt-1 block w-full"
                              autofocus autocomplete="address"/>
                 <x-input-error class="mt-2" :messages="$errors->get('form.address')"/>
@@ -189,7 +197,7 @@ new class extends Component {
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-                <x-input-label for="region" :value="__('Region')"/>
+                <x-input-label for="region" :value="__('Region')" class="required"/>
                 <x-select-input wire:model.live="form.region" wire:change="getCitiesByRegion" id="region" name="region"
                                 class="mt-1 block w-full"
                                 :options="$regions"
@@ -197,7 +205,7 @@ new class extends Component {
                 <x-input-error class="mt-2" :messages="$errors->get('form.region')"/>
             </div>
             <div>
-                <x-input-label for="city" :value="__('Province')"/>
+                <x-input-label for="city" :value="__('Province')" class="required"/>
                 <x-select-input wire:model.live="form.city" wire:key="{{ $form->region }}"
                                 wire:change="getDistrictsByCity"
                                 id="city" name="city" class="mt-1 block w-full"
@@ -206,7 +214,7 @@ new class extends Component {
                 <x-input-error class="mt-2" :messages="$errors->get('form.city')"/>
             </div>
             <div>
-                <x-input-label for="district" :value="__('Amphoe (District)')"/>
+                <x-input-label for="district" :value="__('Amphoe (District)')" class="required"/>
                 <x-select-input wire:model.live="form.district" wire:key="{{ $form->city }}"
                                 wire:change="getSubDistrictsByDistrict" id="district" name="district"
                                 class="mt-1 block w-full"
@@ -215,7 +223,7 @@ new class extends Component {
                 <x-input-error class="mt-2" :messages="$errors->get('form.district')"/>
             </div>
             <div>
-                <x-input-label for="subDistrict" :value="__('Tambon (Sub-District)')"/>
+                <x-input-label for="subDistrict" :value="__('Tambon (Sub-District)')" class="required"/>
                 <x-select-input wire:model="form.subDistrict" wire:key="{{ $form->district }}"
                                 wire:change="selectSubDistrict"
                                 id="subDistrict" name="subDistrict"
@@ -225,7 +233,7 @@ new class extends Component {
                 <x-input-error class="mt-2" :messages="$errors->get('form.subDistrict')"/>
             </div>
             <div>
-                <x-input-label for="delivery_fee" :value="__('Delivery & Service Fee')"/>
+                <x-input-label for="delivery_fee" :value="__('Delivery & Service Fee')" class="required"/>
                 <div class="flex mt-1 w-full">
                   <span
                       class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border rounded-e-0 border-gray-300 rounded-s-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
@@ -236,6 +244,13 @@ new class extends Component {
                                   autofocus autocomplete="delivery_fee" readonly/>
                 </div>
                 <x-input-error class="mt-2" :messages="$errors->get('form.fee')"/>
+            </div>
+            <div>
+                <x-input-label for="zip_code" :value="__('Zip Code')" class="required"/>
+                <x-text-input wire:model="form.zipCode" id="zip_code" name="zip_code" type="text"
+                              class="mt-1 block w-full bg-gray-50 border text-gray-900 flex-1 min-w-0 text-sm border-gray-300 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+                              autofocus autocomplete="zip_code" readonly/>
+                <x-input-error class="mt-2" :messages="$errors->get('form.zipCode')"/>
             </div>
         </div>
         <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">

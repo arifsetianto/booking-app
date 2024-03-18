@@ -117,7 +117,7 @@ new class extends Component {
                         <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div class="col-span-2">
-                                <x-input-label for="receipt_file" :value="__('Upload Payment Receipt')"/>
+                                <x-input-label for="receipt_file" :value="__('Upload Payment Receipt')" class="required"/>
                                 <input wire:model="form.receiptFile"
                                        class="mt-1 block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
                                        aria-describedby="file_input_help" id="receipt_file" type="file"

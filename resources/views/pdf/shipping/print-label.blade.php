@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html"; charset="utf-8"/>
     <title>Order #{{ $order->code }}</title>
     <style>
         @font-face {
@@ -18,6 +18,14 @@
             font-style: normal;
             font-variant: normal;
             src: url({{ storage_path("fonts/Figtree-Bold.ttf") }}) format('truetype');
+        }
+
+        @font-face {
+            font-family: 'TH Sarabun';
+            font-weight: normal;
+            font-style: normal;
+            font-variant: normal;
+            src: url({{ storage_path("fonts/TH-Sarabun-Bold.ttf") }}) format('truetype');
         }
 
         @font-face {
@@ -99,8 +107,8 @@
                         <td style="vertical-align: top; text-align: left; padding-left: 15px;">{{ $order->shipping->phone }}</td>
                     </tr>
                     <tr>
-                        <td style="vertical-align: top; text-align: left;" class="text-bold">Address</td>
-                        <td style="vertical-align: top; text-align: left; padding-left: 15px;">{{ $order->shipping->address }},<br/>{{ $order->shipping->subDistrict->en_name }}, {{ $order->shipping->subDistrict->district->en_name }}, {{ $order->shipping->subDistrict->district->city->en_name }}, <span class="th-text">{{ $order->shipping->subDistrict->district->city->region->name }}</span><br/><span style="font-size: 13px;">{{ $order->shipping->subDistrict->zip_code }}</span></td>
+                        <td style="vertical-align: top; text-align: left; padding-top: 8px;" class="text-bold">Address</td>
+                        <td style="vertical-align: top; text-align: left; padding-left: 15px;"><span class="th-text">{{ $order->shipping->address }}</span>,<br/>Tambon {{ $order->shipping->subDistrict->en_name }}, Amphur {{ $order->shipping->subDistrict->district->en_name }}<br/>{{ $order->shipping->subDistrict->district->city->en_name }} Province<br/><span style="font-size: 13px;">{{ $order->shipping->subDistrict->zip_code }}</span></td>
                     </tr>
                 </table>
             </td>
@@ -123,7 +131,12 @@
                 </table>
             </td>
             <td width="50%" style="vertical-align: top; padding: 15px;">
-                &nbsp;
+                <table>
+                    <tr>
+                        <td style="text-align: left;" class="text-bold">Qty</td>
+                        <td style="text-align: left; padding-left: 15px;">1 pcs (750gr)</td>
+                    </tr>
+                </table>
             </td>
         </tr>
     </table>

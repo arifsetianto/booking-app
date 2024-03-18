@@ -31,7 +31,7 @@ class OrderReligionChart extends Component
                        ->join('religions', 'order_items.religion_id', '=', 'religions.id')
                        ->whereIn(
                            'orders.status',
-                           [OrderStatus::CONFIRMED, OrderStatus::VERIFIED, OrderStatus::COMPLETED]
+                           [OrderStatus::VERIFIED, OrderStatus::COMPLETED]
                        )
                        ->groupBy('order_items.religion_id')
                        ->get();

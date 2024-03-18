@@ -225,10 +225,11 @@ new class extends Component {
                     </div>
                     <div>
                         <p class="text-sm text-gray-500">Region</p>
-                        <p class="pt-1 text-sm">{{ $order->shipping->subDistrict->district->city->region->name }}</p>
+                        <p class="pt-1 text-sm">{{ $order->shipping->subDistrict->district->city->region->th_name }}
+                            ({{ $order->shipping->subDistrict->district->city->region->en_name }})</p>
                     </div>
                     <div>
-                        <p class="text-sm text-gray-500">City</p>
+                        <p class="text-sm text-gray-500">Province</p>
                         <p class="pt-1 text-sm">{{ $order->shipping->subDistrict->district->city->th_name }}
                             ({{ $order->shipping->subDistrict->district->city->en_name }})</p>
                     </div>

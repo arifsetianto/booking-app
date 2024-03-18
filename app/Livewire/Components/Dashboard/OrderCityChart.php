@@ -27,7 +27,7 @@ class OrderCityChart extends Component
                        ->join('cities', 'districts.city_id', '=', 'cities.id')
                        ->whereIn(
                            'orders.status',
-                           [OrderStatus::CONFIRMED, OrderStatus::VERIFIED, OrderStatus::COMPLETED]
+                           [OrderStatus::VERIFIED, OrderStatus::COMPLETED]
                        )
                        ->groupBy('cities.en_name')
                        ->get();

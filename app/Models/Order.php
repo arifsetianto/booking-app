@@ -33,6 +33,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property \DateTime $revised_at
  * @property Shipping $shipping
  * @property Payment $payment
+ * @property boolean $printed
  *
  * @author  Arif Setianto <arifsetiantoo@gmail.com>
  */
@@ -57,8 +58,9 @@ class Order extends Model
         'completed_at' => 'datetime',
         'rejected_at'  => 'datetime',
         'canceled_at'  => 'datetime',
-        'revised_at'  => 'datetime',
+        'revised_at'   => 'datetime',
         'status'       => OrderStatus::class,
+        'printed'      => 'boolean'
     ];
 
     public function orderItem(): HasOne

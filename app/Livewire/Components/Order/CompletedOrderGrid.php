@@ -4,13 +4,17 @@ declare(strict_types=1);
 
 namespace App\Livewire\Components\Order;
 
+use App\Event\Order\OrderCompleted;
+use App\Livewire\Forms\Order\CompleteOrderForm;
 use App\Models\Batch;
 use App\Models\Order;
 use App\ValueObject\OrderStatus;
+use Carbon\Carbon;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Session;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -23,6 +27,8 @@ class CompletedOrderGrid extends Component
 
     public string $searchKeyword = '';
     public string $searchBatch = '';
+    public ?Order $selectedOrder = null;
+    public CompleteOrderForm $form;
 
     /**
      * @return View|Application|Factory|\Illuminate\Contracts\Foundation\Application
@@ -49,5 +55,30 @@ class CompletedOrderGrid extends Component
                              ->paginate(10),
             'batches' => Batch::orderBy('number')->get(),
         ]);
+    }
+
+    public function selectOrder(string $orderId): void
+    {
+        $this->selectedOrder = Order::findOrFail($orderId);
+        $this->dispatch('open-modal', 'confirm-order-completion');
+    }
+
+    public function completeOrder(): void
+    {
+        $this->form->validate();
+
+        $this->selectedOrder->status = OrderStatus::COMPLETED;
+        $this->selectedOrder->completed_at = Carbon::now();
+
+        $this->selectedOrder->shipping->tracking_code = $this->form->trackingCode;
+
+        $this->selectedOrder->save();
+        $this->selectedOrder->shipping->save();
+
+        event(new OrderCompleted($this->selectedOrder));
+
+        Session::flash('message', sprintf('Order #%s has been completed.', $this->selectedOrder->code));
+
+        $this->redirectRoute(name: 'order.list-complete');
     }
 }

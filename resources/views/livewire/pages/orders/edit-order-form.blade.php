@@ -148,7 +148,7 @@ new class extends Component {
             </div>
             <div>
                 <figure class="max-w-lg">
-                    <img class="h-auto max-w-sm rounded-lg"
+                    <img class="h-auto max-w-sm mx-auto rounded-lg"
                          src="{{ $receiverIdentityFile }}" alt="">
                 </figure>
             </div>

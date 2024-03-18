@@ -6,8 +6,8 @@
             <div class="flex-col items-center">
                 <div class="flex items-center mb-1">
                     <div>
-                        <h5 class="text-lg font-semibold leading-none text-gray-900 dark:text-white me-1">Total Orders by City</h5>
-                        <p class="mt-2 text-sm font-normal text-gray-500 dark:text-gray-400">Here is a graph of the number of verified orders per city.</p>
+                        <h5 class="text-lg font-semibold leading-none text-gray-900 dark:text-white me-1">Total Orders by Province</h5>
+                        <p class="mt-2 text-sm font-normal text-gray-500 dark:text-gray-400">Here is a graph of the number of verified orders per province.</p>
                     </div>
                 </div>
             </div>
