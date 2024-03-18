@@ -31,7 +31,7 @@ new #[Layout('layouts.guest')] class extends Component {
                 <span class="text-xl font-semibold mb-2 text-blue-950 dark:text-gray-400">Available Stock</span>
                 <span class="text-5xl font-extrabold tracking-tight text-blue-950">{{ $batch->total_stock - $batch->purchased_stock }}</span>
             @else
-                <span class="text-xl font-semibold mb-2 text-red-700 dark:text-gray-400">Stock Unavailable</span>
+                <span class="text-xl font-semibold mb-2 text-red-700 dark:text-gray-400">Oops, we're out of stock. InsyaAllah you can order in the next batch. In meanwhile, please access our FREE Online <a href="https://thaiquran.com" target="_blank" class="underline">ThaiQuran</a></span>
             @endif
         </div>
         <div>
@@ -79,9 +79,16 @@ new #[Layout('layouts.guest')] class extends Component {
                 </span>
             </li>
         </ul>
-        <button type="button" wire:click="agree"
-                class="text-white bg-blue-950 hover:bg-blue-900 focus:ring-4 focus:outline-none focus:ring-blue-200 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-900 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex justify-center w-full text-center">
-            ฉันได้อ่าน​ และยอมรับ​
-        </button>
+        @if($batch && $batch->getAvailableStock() >= 1)
+            <button type="button" wire:click="agree"
+                    class="text-white bg-blue-950 hover:bg-blue-900 focus:ring-4 focus:outline-none focus:ring-blue-200 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-900 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex justify-center w-full text-center">
+                ฉันได้อ่าน​ และยอมรับ​
+            </button>
+        @else
+            <button type="button"
+                    class="text-white bg-blue-950 hover:bg-blue-900 focus:ring-4 focus:outline-none focus:ring-blue-200 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-900 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex justify-center w-full text-center opacity-50 cursor-not-allowed" disabled>
+                ฉันได้อ่าน​ และยอมรับ​
+            </button>
+        @endif
     </div>
 </div>
