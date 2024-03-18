@@ -3,7 +3,11 @@
 
 Your order will be processed as soon as we verify receiver's ID and the payment, usually within 1-7 working days.
 We will update your confirmation status in your login account.
-<br><br>
+
+<x-mail::button :url="$url">
+Check Order
+</x-mail::button>
+
 Thank you for your cooperation.
 <br><br>
 Warm regards,<br>
