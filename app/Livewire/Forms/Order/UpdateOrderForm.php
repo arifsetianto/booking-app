@@ -32,5 +32,5 @@ class UpdateOrderForm extends Form
     public ?TemporaryUploadedFile $identityFile = null;
 
     #[Validate('nullable|string')]
-    public ?string $comment;
+    public ?string $comment = null;
 }

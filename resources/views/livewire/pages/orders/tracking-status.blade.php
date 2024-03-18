@@ -52,7 +52,7 @@ new class extends Component {
             #{{ $order->code }}</h1>
         <p class="font-semibold text-lg">Thank You!</p>
         <p class="px-6"><span
-                class="font-semibold">ThaiQuran Team will need 7 Working Days to process the order.</span> Please be
+                class="font-semibold">ThaiQuran Team will need 7 Working Days to process the order.</span><br/>Please be
             patient! Here is your current status.</p>
         <div class="p-6">
             <div class="relative overflow-x-auto sm:rounded-lg">

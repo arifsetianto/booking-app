@@ -25,9 +25,10 @@ class SendOrderPurchasedNotification implements ShouldQueue, ShouldHandleEventsA
         )->send(
             mailable: new OrderPurchasedMail(
                 url: URL::route(
-                    name: 'orders.payment',
+                    name: 'orders.payment.force',
                     parameters: [
                         'order' => $event->getOrder()->id,
+                        'email' => $event->getOrder()->user->email,
                     ],
                 ),
                 order: $event->getOrder()

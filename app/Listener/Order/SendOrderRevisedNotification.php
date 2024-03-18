@@ -28,6 +28,7 @@ class SendOrderRevisedNotification implements ShouldQueue, ShouldHandleEventsAft
                     name: 'orders.request-update',
                     parameters: [
                         'order' => $event->getOrder()->id,
+                        'email' => $event->getOrder()->user->email,
                     ],
                 ),
                 order: $event->getOrder()

@@ -39,7 +39,7 @@ class EventServiceProvider extends ServiceProvider
         ],
         OrderPurchased::class => [
             SubtractStock::class,
-            //SendOrderPurchasedNotification::class,
+            SendOrderPurchasedNotification::class,
         ],
         OrderCanceled::class => [
             AddStock::class,

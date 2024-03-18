@@ -25,9 +25,10 @@ class SendOrderCompletedNotification implements ShouldQueue, ShouldHandleEventsA
         )->send(
             mailable: new OrderCompletedMail(
                 url: URL::route(
-                    name: 'orders.tracking.status',
+                    name: 'orders.tracking.status.force',
                     parameters: [
                         'order' => $event->getOrder()->id,
+                        'email' => $event->getOrder()->user->email,
                     ],
                 ),
                 order: $event->getOrder()

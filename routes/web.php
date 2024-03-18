@@ -56,6 +56,18 @@ Route::middleware(['auth.admin', 'verified', 'roles.has:admin'])->group(
     }
 );
 
+Route::view('orders/{order}/request-update', 'pages/orders/request-update')
+     ->middleware(['signed', 'force.auth'])
+     ->name('orders.request-update');
+
+Route::view('orders/{order}/payment/force', 'pages/orders/payment')
+     ->middleware(['force.auth'])
+     ->name('orders.payment.force');
+
+Route::view('orders/{order}/tracking-status/force', 'pages/orders/tracking-status')
+     ->middleware(['force.auth'])
+     ->name('orders.tracking.status.force');
+
 Route::middleware(['auth', 'verified', 'roles.has:customer'])->group(
     function () {
         Route::view('home', 'pages/home')
@@ -81,10 +93,6 @@ Route::middleware(['auth', 'verified', 'roles.has:customer'])->group(
 
         Route::view('orders/{order}/detail', 'pages/orders/detail')
              ->name('orders.detail');
-
-        Route::view('orders/{order}/request-update', 'pages/orders/request-update')
-             ->middleware('signed')
-             ->name('orders.request-update');
 
         Route::view('orders/{order}/update-success', 'pages/orders/update-success')
              ->name('orders.update.success');
