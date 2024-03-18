@@ -31,7 +31,7 @@ new #[Layout('layouts.guest')] class extends Component {
                 <span class="text-xl font-semibold mb-2 text-blue-950 dark:text-gray-400">Available Stock</span>
                 <span class="text-5xl font-extrabold tracking-tight text-blue-950">{{ $batch->total_stock - $batch->purchased_stock }}</span>
             @else
-                <span class="text-xl font-semibold mb-2 text-red-700 dark:text-gray-400">Oops, we're out of stock. InsyaAllah you can order in the next batch. In meanwhile, please access our FREE Online <a href="https://thaiquran.com" target="_blank" class="underline">ThaiQuran</a></span>
+                <span class="text-lg font-semibold mb-2 text-red-700 dark:text-gray-400">Oops, we're out of stock. InsyaAllah you can order in the next batch. In meanwhile, please access our FREE Online <a href="https://thaiquran.com" target="_blank" class="underline">ThaiQuran</a></span>
             @endif
         </div>
         <div>
