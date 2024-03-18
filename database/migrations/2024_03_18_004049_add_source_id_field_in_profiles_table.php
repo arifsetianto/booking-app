@@ -19,7 +19,6 @@ return new class extends Migration
 
             if (Schema::hasColumn('profiles', 'religion_id')) {
                 $table->dropConstrainedForeignId('religion_id');
-                $table->dropColumn('religion_id');
             }
 
             if (Schema::hasColumn('profiles', 'address')) {
@@ -28,7 +27,6 @@ return new class extends Migration
 
             if (Schema::hasColumn('profiles', 'sub_district_id')) {
                 $table->dropConstrainedForeignId('sub_district_id');
-                $table->dropColumn('sub_district_id');
             }
 
             $table->uuid('source_id')->index()->nullable();
