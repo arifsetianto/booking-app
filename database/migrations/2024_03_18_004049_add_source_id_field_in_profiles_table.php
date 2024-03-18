@@ -29,8 +29,10 @@ return new class extends Migration
                 $table->dropConstrainedForeignId('sub_district_id');
             }
 
-            $table->uuid('source_id')->index()->nullable();
-            $table->foreign('source_id')->references('id')->on('sources');
+            if (!Schema::hasColumn('profiles', 'source_id')) {
+                $table->uuid('source_id')->index()->nullable();
+                $table->foreign('source_id')->references('id')->on('sources');
+            }
         });
     }
 
