@@ -55,6 +55,10 @@ task('deploy:secrets', function () {
     upload('.env', get('deploy_path') . '/shared');
 });
 
+task('deploy:permission', function () {
+    run('chmod -R 777 {{release_path}}/storage');
+});
+
 desc('Build assets');
 task('deploy:build', function () {
     cd('{{release_path}}');
@@ -76,3 +80,4 @@ after('deploy:update_code', 'deploy:build');
 after('deploy:failed', 'deploy:unlock');
 before('deploy:symlink', 'artisan:migrate');
 after('artisan:migrate', 'artisan:horizon:terminate');
+after('deploy:publish', 'deploy:permission');
