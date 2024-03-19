@@ -181,11 +181,11 @@ new class extends Component {
                 <x-input-error class="mt-2" :messages="$errors->get('form.name')"/>
             </div>
             <div>
-                <x-input-label for="phone" :value="__('Receiver Phone')" class="required"/>
+                <x-input-label for="phone" :value="__('Receiver Mobile No.')" class="required"/>
                 <x-text-input wire:model="form.phone" id="phone" name="phone" type="text"
                               class="mt-1 block w-full"
                               autofocus autocomplete="phone"
-                              placeholder="Please enter receiver phone"/>
+                              placeholder="Please enter receiver mobile number"/>
                 <x-input-error class="mt-2" :messages="$errors->get('form.phone')"/>
             </div>
             <div>

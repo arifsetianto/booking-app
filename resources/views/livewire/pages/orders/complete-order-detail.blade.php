@@ -216,7 +216,7 @@ new class extends Component {
                         <p class="pt-1 text-sm">{{ $order->shipping->name }}</p>
                     </div>
                     <div>
-                        <p class="text-sm text-gray-500">Receiver Phone</p>
+                        <p class="text-sm text-gray-500">Receiver Mobile No.</p>
                         <p class="pt-1 text-sm">{{ $order->shipping->phone }}</p>
                     </div>
                     <div>

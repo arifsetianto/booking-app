@@ -98,7 +98,7 @@ new class extends Component {
     <form wire:submit="update" class="mt-6 space-y-6">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-                <x-input-label for="receiver_en_name" :value="__('Receiver Name in English')"/>
+                <x-input-label for="receiver_en_name" :value="__('Receiver Name in English')" class="required"/>
                 <x-text-input wire:model="form.receiverEnName" id="receiver_en_name" name="receiver_en_name" type="text"
                               class="mt-1 block w-full"
                               autofocus autocomplete="receiver_en_name"
@@ -106,7 +106,7 @@ new class extends Component {
                 <x-input-error class="mt-2" :messages="$errors->get('form.receiverEnName')"/>
             </div>
             <div>
-                <x-input-label for="receiver_th_name" :value="__('Receiver Name in Thai')"/>
+                <x-input-label for="receiver_th_name" :value="__('Receiver Name in Thai')" class="required"/>
                 <x-text-input wire:model="form.receiverThName" id="receiver_th_name" name="receiver_th_name" type="text"
                               class="mt-1 block w-full"
                               autofocus autocomplete="receiver_th_name"
@@ -114,7 +114,7 @@ new class extends Component {
                 <x-input-error class="mt-2" :messages="$errors->get('form.receiverThName')"/>
             </div>
             <div>
-                <x-input-label for="designation" :value="__('Order For')"/>
+                <x-input-label for="designation" :value="__('Order For')" class="required"/>
                 <x-select-input wire:model="form.designation" id="designation" name="designation"
                                 class="mt-1 block w-full"
                                 :options="$designations"
@@ -122,7 +122,7 @@ new class extends Component {
                 <x-input-error class="mt-2" :messages="$errors->get('form.designation')"/>
             </div>
             <div>
-                <x-input-label for="gender" :value="__('Gender')"/>
+                <x-input-label for="gender" :value="__('Gender')" class="required"/>
                 <x-select-input wire:model="form.gender" id="gender" name="gender"
                                 class="mt-1 block w-full"
                                 :options="$genders"
@@ -130,14 +130,14 @@ new class extends Component {
                 <x-input-error class="mt-2" :messages="$errors->get('form.gender')"/>
             </div>
             <div>
-                <x-input-label for="religion" :value="__('Religion')"/>
+                <x-input-label for="religion" :value="__('Religion')" class="required"/>
                 <x-select-input wire:model="form.religion" id="religion" name="religion" class="mt-1 block w-full"
                                 :options="$religions"
                                 autofocus/>
                 <x-input-error class="mt-2" :messages="$errors->get('form.religion')"/>
             </div>
             <div>
-                <x-input-label for="identity_file" :value="__('Receiver Thai ID')"/>
+                <x-input-label for="identity_file" :value="__('Receiver Thai ID')" class="required"/>
                 <input wire:model="form.identityFile"
                        class="mt-1 block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
                        aria-describedby="file_input_help" id="file_input" type="file"
@@ -153,7 +153,7 @@ new class extends Component {
                 </figure>
             </div>
             <div>
-                <x-input-label for="comment" :value="__('Comment')"/>
+                <x-input-label for="comment" :value="__('Comment (Optional)')"/>
                 <x-text-area wire:model="form.comment" id="comment" name="comment" class="mt-1 block w-full"
                              autofocus autocomplete="comment"/>
                 <x-input-error class="mt-2" :messages="$errors->get('form.comment')"/>

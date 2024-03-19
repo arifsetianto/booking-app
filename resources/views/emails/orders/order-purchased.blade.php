@@ -1,13 +1,16 @@
 <x-mail::message>
 # Hi, {{ $user->name }}
 
-Thank you for your purchase with ThaiQuran.
-Please upload your proof of transfer with click the button below, so we can process your order.
+We are thrilled to have you move forward with your ThaiQuran order.
+Please Transfer the requested amount and Upload the bank transfer receipt as proof of payment through the link below:
 
 <x-mail::button :url="$url">
-Confirm Payment
+Upload Receipt
 </x-mail::button>
 
-Thanks,<br>
+Your order will be processed as soon as we verify the payment.<br/>
+Thank you for your cooperation.
+
+Warm regards,<br>
 {{ config('app.name') }}
 </x-mail::message>

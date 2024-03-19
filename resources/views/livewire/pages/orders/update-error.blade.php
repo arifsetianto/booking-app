@@ -26,7 +26,7 @@ new class extends Component {
         <h1 class="mb-4 text-xl font-semibold leading-none tracking-tight text-gray-900 md:text-2xl lg:text-3xl dark:text-white">
             #{{ $order->code }}</h1>
         <p class="font-semibold text-lg">Sorry!</p>
-        <p class="px-32">This order is not eligible to be updated because there is no update request from the Admin.</p>
+        <p class="mt-1 text-gray-500">This order is not eligible to be updated because there is no update request from the Admin.</p>
         <div class="py-6">
             <x-primary-button wire:click="redirectToTrackingOrder">
                 {{ __('Check your order status here!') }}

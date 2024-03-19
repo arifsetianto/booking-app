@@ -111,14 +111,14 @@ new class extends Component {
 
     <form wire:submit="updateAddressInformation" class="mt-6 space-y-6">
         <div>
-            <x-input-label for="address" :value="__('Address')"/>
+            <x-input-label for="address" :value="__('Address')" class="required"/>
             <x-text-area wire:model="address" id="address" name="address" class="mt-1 block w-full"
                          autofocus autocomplete="address"/>
             <x-input-error class="mt-2" :messages="$errors->get('address')"/>
         </div>
 
         <div>
-            <x-input-label for="region" :value="__('Region')"/>
+            <x-input-label for="region" :value="__('Region')" class="required"/>
             <x-select-input wire:model.live="region" wire:change="getCitiesByRegion" id="region" name="region"
                             class="mt-1 block w-full"
                             :options="$regions"
@@ -127,7 +127,7 @@ new class extends Component {
         </div>
 
         <div>
-            <x-input-label for="city" :value="__('City')"/>
+            <x-input-label for="city" :value="__('Province')" class="required"/>
             <x-select-input wire:model.live="city" wire:key="{{ $region }}" wire:change="getDistrictsByCity" id="city"
                             name="city" class="mt-1 block w-full"
                             :options="$cities"
@@ -136,7 +136,7 @@ new class extends Component {
         </div>
 
         <div>
-            <x-input-label for="district" :value="__('District')"/>
+            <x-input-label for="district" :value="__('District')" class="required"/>
             <x-select-input wire:model.live="district" wire:key="{{ $city }}" wire:change="getSubDistrictsByDistrict"
                             id="district" name="district" class="mt-1 block w-full"
                             :options="$districts"
@@ -145,7 +145,7 @@ new class extends Component {
         </div>
 
         <div>
-            <x-input-label for="subDistrict" :value="__('Sub District')"/>
+            <x-input-label for="subDistrict" :value="__('Sub District')" class="required"/>
             <x-select-input wire:model="subDistrict" wire:key="{{ $district }}" id="subDistrict" name="subDistrict"
                             class="mt-1 block w-full"
                             :options="$subDistricts"

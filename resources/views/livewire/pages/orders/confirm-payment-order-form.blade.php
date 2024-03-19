@@ -186,7 +186,7 @@ new class extends Component {
         <div class="text-center">
             <h1 class="mb-4 text-xl font-semibold leading-tight tracking-tight text-gray-900 md:text-2xl lg:text-3xl dark:text-white">
                 Payment #{{ $order->code }}<br/>already expired!</h1>
-            <p class="mt-5 text-sm">Please book again so we can process your order, thank you.</p>
+            <p class="mt-5 text-sm text-gray-500">Please book again so we can process your order, thank you.</p>
         </div>
     @endif
 </div>

@@ -29,7 +29,11 @@ class CreateOrderForm extends Form
     #[Validate('required|uuid|exists:religions,id')]
     public string $religion;
 
-    #[Validate('required|image|mimes:jpg,jpeg,png|max:5120')]
+    #[Validate(
+        'required|image|mimes:jpg,jpeg,png|max:5120'
+    , message: [
+        'max' => 'Maximum upload file size is 5MB'
+    ])]
     public TemporaryUploadedFile $identityFile;
 
     #[Validate('nullable|string')]

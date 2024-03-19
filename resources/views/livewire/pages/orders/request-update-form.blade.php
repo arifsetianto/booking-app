@@ -194,7 +194,7 @@ new class extends Component {
     <form wire:submit="update" class="mt-6 space-y-6">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-                <x-input-label for="receiver_en_name" :value="__('Receiver Name in English')"/>
+                <x-input-label for="receiver_en_name" :value="__('Receiver Name in English')" class="required"/>
                 <x-text-input wire:model="form.receiverEnName" id="receiver_en_name" name="receiver_en_name" type="text"
                               class="mt-1 block w-full"
                               autofocus readonly autocomplete="receiver_en_name"
@@ -202,7 +202,7 @@ new class extends Component {
                 <x-input-error class="mt-2" :messages="$errors->get('form.receiverEnName')"/>
             </div>
             <div>
-                <x-input-label for="receiver_th_name" :value="__('Receiver Name in Thai')"/>
+                <x-input-label for="receiver_th_name" :value="__('Receiver Name in Thai')" class="required"/>
                 <x-text-input wire:model="form.receiverThName" id="receiver_th_name" name="receiver_th_name" type="text"
                               class="mt-1 block w-full"
                               autofocus autocomplete="receiver_th_name"
@@ -210,7 +210,7 @@ new class extends Component {
                 <x-input-error class="mt-2" :messages="$errors->get('form.receiverThName')"/>
             </div>
             <div>
-                <x-input-label for="designation" :value="__('Order For')"/>
+                <x-input-label for="designation" :value="__('Order For')" class="required"/>
                 <x-select-input wire:model="form.designation" id="designation" name="designation"
                                 class="mt-1 block w-full"
                                 :options="$designations"
@@ -218,7 +218,7 @@ new class extends Component {
                 <x-input-error class="mt-2" :messages="$errors->get('form.designation')"/>
             </div>
             <div>
-                <x-input-label for="gender" :value="__('Gender')"/>
+                <x-input-label for="gender" :value="__('Gender')" class="required"/>
                 <x-select-input wire:model="form.gender" id="gender" name="gender"
                                 class="mt-1 block w-full"
                                 :options="$genders"
@@ -226,14 +226,14 @@ new class extends Component {
                 <x-input-error class="mt-2" :messages="$errors->get('form.gender')"/>
             </div>
             <div>
-                <x-input-label for="religion" :value="__('Religion')"/>
+                <x-input-label for="religion" :value="__('Religion')" class="required"/>
                 <x-select-input wire:model="form.religion" id="religion" name="religion" class="mt-1 block w-full"
                                 :options="$religions"
                                 autofocus/>
                 <x-input-error class="mt-2" :messages="$errors->get('form.religion')"/>
             </div>
             <div>
-                <x-input-label for="identity_file" :value="__('Receiver Thai ID')"/>
+                <x-input-label for="identity_file" :value="__('Receiver Thai ID')" class="required"/>
                 <input wire:model="form.identityFile"
                        class="mt-1 block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
                        aria-describedby="identity_file_help" id="identity_file" type="file"
@@ -251,7 +251,7 @@ new class extends Component {
                 </figure>
             </div>
             <div>
-                <x-input-label for="comment" :value="__('Comment')"/>
+                <x-input-label for="comment" :value="__('Comment (Optional)')"/>
                 <x-text-area wire:model="form.comment" id="comment" name="comment" class="mt-1 block w-full"
                              autofocus autocomplete="comment"/>
                 <x-input-error class="mt-2" :messages="$errors->get('form.comment')"/>
@@ -272,7 +272,7 @@ new class extends Component {
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-                <x-input-label for="receiverName" :value="__('Receiver Name same as ID')"/>
+                <x-input-label for="receiverName" :value="__('Receiver Name same as ID')" class="required"/>
                 <x-text-input wire:model="form.receiverName" id="receiverName" name="receiverName" type="text"
                               class="mt-1 block w-full"
                               autofocus autocomplete="receiverName"
@@ -280,7 +280,7 @@ new class extends Component {
                 <x-input-error class="mt-2" :messages="$errors->get('form.receiverName')"/>
             </div>
             <div>
-                <x-input-label for="receiverPhone" :value="__('Receiver Phone')"/>
+                <x-input-label for="receiverPhone" :value="__('Receiver Mobile No.')" class="required"/>
                 <x-text-input wire:model="form.receiverPhone" id="receiverPhone" name="receiverPhone" type="text"
                               class="mt-1 block w-full"
                               autofocus autocomplete="receiverPhone"
@@ -288,7 +288,7 @@ new class extends Component {
                 <x-input-error class="mt-2" :messages="$errors->get('form.receiverPhone')"/>
             </div>
             <div>
-                <x-input-label for="address" :value="__('Address')"/>
+                <x-input-label for="address" :value="__('Address')" class="required"/>
                 <x-text-area wire:model="form.address" id="address" name="address" class="mt-1 block w-full"
                              autofocus autocomplete="address"/>
                 <x-input-error class="mt-2" :messages="$errors->get('form.address')"/>
@@ -296,7 +296,7 @@ new class extends Component {
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-                <x-input-label for="region" :value="__('Region')"/>
+                <x-input-label for="region" :value="__('Region')" class="required"/>
                 <x-select-input wire:model.live="form.region" wire:change="getCitiesByRegion" id="region" name="region"
                                 class="mt-1 block w-full"
                                 :options="$regions"
@@ -304,7 +304,7 @@ new class extends Component {
                 <x-input-error class="mt-2" :messages="$errors->get('form.region')"/>
             </div>
             <div>
-                <x-input-label for="city" :value="__('City')"/>
+                <x-input-label for="city" :value="__('Province')" class="required"/>
                 <x-select-input wire:model.live="form.city" wire:key="{{ $form->region }}"
                                 wire:change="getDistrictsByCity"
                                 id="city" name="city" class="mt-1 block w-full"
@@ -313,7 +313,7 @@ new class extends Component {
                 <x-input-error class="mt-2" :messages="$errors->get('form.city')"/>
             </div>
             <div>
-                <x-input-label for="district" :value="__('District')"/>
+                <x-input-label for="district" :value="__('District')" class="required"/>
                 <x-select-input wire:model.live="form.district" wire:key="{{ $form->city }}"
                                 wire:change="getSubDistrictsByDistrict" id="district" name="district"
                                 class="mt-1 block w-full"
@@ -322,7 +322,7 @@ new class extends Component {
                 <x-input-error class="mt-2" :messages="$errors->get('form.district')"/>
             </div>
             <div>
-                <x-input-label for="subDistrict" :value="__('Sub District')"/>
+                <x-input-label for="subDistrict" :value="__('Sub District')" class="required"/>
                 <x-select-input wire:model="form.subDistrict" wire:key="{{ $form->district }}"
                                 id="subDistrict" name="subDistrict"
                                 class="mt-1 block w-full"
@@ -332,7 +332,7 @@ new class extends Component {
             </div>
 
             <div>
-                <x-input-label for="delivery_fee" :value="__('Delivery Fee')"/>
+                <x-input-label for="delivery_fee" :value="__('Delivery Fee')" class="required"/>
                 <div class="flex mt-1 w-full">
                   <span
                       class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border rounded-e-0 border-gray-300 rounded-s-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
@@ -398,7 +398,7 @@ new class extends Component {
                 <p class="pt-1 text-sm">THB 100</p>
             </div>
             <div>
-                <x-input-label for="receipt_file" :value="__('Upload Payment Receipt')"/>
+                <x-input-label for="receipt_file" :value="__('Upload Payment Receipt')" class="required"/>
                 <input wire:model="form.receiptFile"
                        class="mt-1 block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
                        aria-describedby="receipt_file_help" id="receipt_file" type="file"
