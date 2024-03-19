@@ -13,6 +13,6 @@ use Livewire\Form;
  */
 class ConfirmPaymentForm extends Form
 {
-    #[Validate('required|image|mimes:jpg,jpeg,png|max:2048')]
+    #[Validate('required|image|mimes:jpg,jpeg,png|max:5120')]
     public TemporaryUploadedFile $receiptFile;
 }

@@ -239,7 +239,7 @@ new class extends Component {
                        aria-describedby="identity_file_help" id="identity_file" type="file"
                        accept="image/png, image/jpg, image/jpeg">
                 <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="identity_file_help">jpeg, jpg, or png (max.
-                    2MB).</p>
+                    5MB).</p>
                 <x-input-error class="mt-2" :messages="$errors->get('form.identityFile')"/>
             </div>
             <div>
@@ -406,7 +406,7 @@ new class extends Component {
                 <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="receipt_file_help">jpeg, jpg,
                     or png
                     (max.
-                    2MB).</p>
+                    5MB).</p>
                 <x-input-error class="mt-2" :messages="$errors->get('form.receiptFile')"/>
             </div>
             <div>

@@ -125,7 +125,7 @@ new class extends Component {
                                 <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">jpeg, jpg,
                                     or png
                                     (max.
-                                    2MB).</p>
+                                    5MB).</p>
                                 <x-input-error class="mt-2" :messages="$errors->get('form.receiptFile')"/>
                             </div>
                         </div>

@@ -37,6 +37,6 @@ class ForceUpdateOrderForm extends UpdateOrderForm
     #[Validate('required|numeric|min:0')]
     public int $fee;
 
-    #[Validate('nullable|image|mimes:jpg,jpeg,png|max:2048')]
+    #[Validate('nullable|image|mimes:jpg,jpeg,png|max:5120')]
     public ?TemporaryUploadedFile $receiptFile = null;
 }
