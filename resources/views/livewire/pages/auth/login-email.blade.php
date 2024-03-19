@@ -46,7 +46,7 @@ new #[Layout('layouts.guest')] class extends Component {
                 {{ __('Continue with Email') }}
             </x-primary-button>
             <div class="text-sm font-medium text-gray-500 dark:text-gray-300">
-                Protecting your privacy is our priority, by signing up you consent to our <a href="#"
+                Protecting your privacy is our priority, by signing up you consent to our <a href="{{ route('on-boarding') }}"
                                                                                              class="text-blue-700 hover:underline dark:text-blue-500">Privacy
                     Policy</a>
             </div>
