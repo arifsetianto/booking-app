@@ -20,7 +20,7 @@ set('git_ssh_command', 'ssh -o StrictHostKeyChecking=no');
 set('keep_releases', 5);
 
 set('writable_mode', 'chmod');
-set('writable_chmod_mode', '777');
+set('writable_chmod_mode', '775');
 
 add('shared_files', ['.env']);
 add('shared_dirs', ['storage']);
@@ -34,7 +34,6 @@ add('writable_dirs', [
     'storage/framework/cache/data',
     'storage/framework/sessions',
     'storage/framework/views',
-    'storage/logs',
     'storage/logs',
 ]);
 
