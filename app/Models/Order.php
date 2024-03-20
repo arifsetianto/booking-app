@@ -34,6 +34,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property Shipping $shipping
  * @property Payment $payment
  * @property boolean $printed
+ * @property ?string $error_message
  *
  * @author  Arif Setianto <arifsetiantoo@gmail.com>
  */

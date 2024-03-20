@@ -1,4 +1,21 @@
 <div>
+    <div class="flex flex-column sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-4">
+        <div>
+            <x-primary-button wire:click="exportData" class="text-center inline-flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 me-2">
+                    <path fill-rule="evenodd" d="M11.47 2.47a.75.75 0 0 1 1.06 0l4.5 4.5a.75.75 0 0 1-1.06 1.06l-3.22-3.22V16.5a.75.75 0 0 1-1.5 0V4.81L8.03 8.03a.75.75 0 0 1-1.06-1.06l4.5-4.5ZM3 15.75a.75.75 0 0 1 .75.75v2.25a1.5 1.5 0 0 0 1.5 1.5h13.5a1.5 1.5 0 0 0 1.5-1.5V16.5a.75.75 0 0 1 1.5 0v2.25a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V16.5a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd" />
+                </svg>
+                {{ __('Export Data') }}
+            </x-primary-button>
+            <x-danger-button class="ml-1 text-center inline-flex items-center" x-data=""
+                             x-on:click.prevent="$dispatch('open-modal', 'confirm-order-import')">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 me-2">
+                    <path fill-rule="evenodd" d="M12 2.25a.75.75 0 0 1 .75.75v11.69l3.22-3.22a.75.75 0 1 1 1.06 1.06l-4.5 4.5a.75.75 0 0 1-1.06 0l-4.5-4.5a.75.75 0 1 1 1.06-1.06l3.22 3.22V3a.75.75 0 0 1 .75-.75Zm-9 13.5a.75.75 0 0 1 .75.75v2.25a1.5 1.5 0 0 0 1.5 1.5h13.5a1.5 1.5 0 0 0 1.5-1.5V16.5a.75.75 0 0 1 1.5 0v2.25a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V16.5a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd" />
+                </svg>
+                {{ __('Import Data') }}
+            </x-danger-button>
+        </div>
+    </div>
     <div class="relative overflow-x-auto sm:rounded-lg">
         <div class="flex flex-column sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-4">
             <div class="relative">
@@ -137,6 +154,39 @@
 
                 <x-primary-button class="ms-3">
                     {{ __('Complete Order') }}
+                </x-primary-button>
+            </div>
+        </form>
+    </x-modal>
+
+    <x-modal name="confirm-order-import" :show="$errors->isNotEmpty()" focusable>
+        <form wire:submit="importData" class="p-6">
+
+            <h2 class="text-lg font-medium text-gray-900">
+                {{ __('Import Data') }}
+            </h2>
+
+            <p class="mt-1 text-sm text-gray-600">
+                {{ __('Please upload the excel file that has been filled with the tracking code data.') }}
+            </p>
+
+            <div class="mt-6">
+                <x-input-label for="import_file" :value="__('File')" class="required"/>
+                <input wire:model="importOrderForm.importFile"
+                       class="mt-1 block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                       aria-describedby="file_input_help" id="file_input" type="file"
+                       accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+                <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">Supported file format is .xlsx.</p>
+                <x-input-error class="mt-2" :messages="$errors->get('importOrderForm.importFile')"/>
+            </div>
+
+            <div class="mt-6 flex justify-end">
+                <x-secondary-button x-on:click="$dispatch('close')">
+                    {{ __('Cancel') }}
+                </x-secondary-button>
+
+                <x-primary-button class="ms-3">
+                    {{ __('Import Now!') }}
                 </x-primary-button>
             </div>
         </form>

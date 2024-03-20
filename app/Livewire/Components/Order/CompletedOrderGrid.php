@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Livewire\Components\Order;
 
 use App\Event\Order\OrderCompleted;
+use App\Imports\OrdersVerifiedImport;
 use App\Livewire\Forms\Order\CompleteOrderForm;
+use App\Livewire\Forms\Order\ImportOrderForm;
 use App\Models\Batch;
 use App\Models\Order;
 use App\ValueObject\OrderStatus;
@@ -16,19 +18,22 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Session;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 use Livewire\WithPagination;
+use Maatwebsite\Excel\Facades\Excel;
 
 /**
  * @author  Arif Setianto <arifsetiantoo@gmail.com>
  */
 class CompletedOrderGrid extends Component
 {
-    use WithPagination;
+    use WithPagination, WithFileUploads;
 
     public string $searchKeyword = '';
     public string $searchBatch = '';
     public ?Order $selectedOrder = null;
     public CompleteOrderForm $form;
+    public ImportOrderForm $importOrderForm;
 
     /**
      * @return View|Application|Factory|\Illuminate\Contracts\Foundation\Application
@@ -78,6 +83,22 @@ class CompletedOrderGrid extends Component
         event(new OrderCompleted($this->selectedOrder));
 
         Session::flash('message', sprintf('Order #%s has been completed.', $this->selectedOrder->code));
+
+        $this->redirectRoute(name: 'order.list-complete');
+    }
+
+    public function exportData(): void
+    {
+        $this->redirectRoute(name: 'orders.verified.export');
+    }
+
+    public function importData(): void
+    {
+        $this->importOrderForm->validate();
+
+        Excel::import(new OrdersVerifiedImport, $this->importOrderForm->importFile);
+
+        Session::flash('message', 'Orders data successfully imported.');
 
         $this->redirectRoute(name: 'order.list-complete');
     }

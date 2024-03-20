@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\TwoFactorController;
+use App\Http\Controllers\Order\OrderController;
 use App\Http\Controllers\Shipping\PdfController;
 use Illuminate\Support\Facades\Route;
 
@@ -57,6 +58,8 @@ Route::middleware(['auth.admin', 'two.factor', 'verified', 'roles.has:admin'])->
 
         Route::get('verify/resend', [TwoFactorController::class, 'resend'])->name('verify.resend');
         Route::resource('verify', TwoFactorController::class)->only(['index', 'store']);
+
+        Route::get('orders/verified/export', [OrderController::class, 'verifiedExport'])->name('orders.verified.export');
     }
 );
 

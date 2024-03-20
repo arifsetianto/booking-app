@@ -17,6 +17,7 @@
         "laravel/tinker": "^2.8",
         "livewire/livewire": "^3.4",
         "livewire/volt": "^1.0",
+        "maatwebsite/excel": "^3.1",
         "mailersend/laravel-driver": "^2.3",
         "symfony/http-client": "^7.0",
         "symfony/mailgun-mailer": "^7.0"

@@ -61,6 +61,11 @@ new class extends Component {
     </header>
 
     <div class="mt-10">
+        @if($order->error_message)
+            <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+                <span class="font-medium">Error: </span>{{ $order->error_message }}
+            </div>
+        @endif
         @if($order->comment)
             <div id="alert-additional-content-5"
                  class="p-4 mb-5 rounded-lg bg-gray-100 dark:border-gray-600 dark:bg-gray-800"

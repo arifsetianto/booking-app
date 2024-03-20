@@ -195,7 +195,7 @@ return [
         ],
         'supervisor-high' => [
             'connection' => 'redis',
-            'queue' => ['order'],
+            'queue' => ['order', 'import'],
             'balance' => 'auto',
             'autoScalingStrategy' => 'time',
             'maxProcesses' => 1,
