@@ -109,7 +109,7 @@ new class extends Component {
         } else {
             /** @var Order $order */
             $order = Order::findOrFail($this->order->id);
-            $order->comment = $this->form->comment;
+            $order->comment = $this->form->comment ?? null;
             $order->status = OrderStatus::CONFIRMED;
             $order->confirmed_at = Carbon::now();
             $order->reason = null;

@@ -50,7 +50,7 @@ new class extends Component {
         $this->form->validate();
 
         $order = Order::findOrFail($this->order->id);
-        $order->comment = $this->form->comment;
+        $order->comment = $this->form->comment ?? null;
 
         $order->save();
 

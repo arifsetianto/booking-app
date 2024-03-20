@@ -64,7 +64,7 @@ new class extends Component {
         $user->status = UserStatus::COMPLETED;
 
         $user->profile->phone = $this->phone;
-        $user->profile->instagram = $this->instagram;
+        $user->profile->instagram = $this->instagram ?? null;
         $user->profile->source()->associate(Source::findOrFail($this->source));
 
         $user->save();

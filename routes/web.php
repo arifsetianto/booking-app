@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\TwoFactorController;
 use App\Http\Controllers\Shipping\PdfController;
 use Illuminate\Support\Facades\Route;
 
@@ -16,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 
 //Route::view('/', 'welcome')->name('welcome');
 
-Route::middleware(['auth.admin', 'verified', 'roles.has:admin'])->group(
+Route::middleware(['auth.admin', 'two.factor', 'verified', 'roles.has:admin'])->group(
     function () {
         Route::view('dashboard', 'dashboard')
              ->name('dashboard');
@@ -53,6 +54,9 @@ Route::middleware(['auth.admin', 'verified', 'roles.has:admin'])->group(
 
         Route::get('orders/{order}/shipping-label/generate', [PdfController::class, 'generateLabel'])
              ->name('shipping.label.generate');
+
+        Route::get('verify/resend', [TwoFactorController::class, 'resend'])->name('verify.resend');
+        Route::resource('verify', TwoFactorController::class)->only(['index', 'store']);
     }
 );
 

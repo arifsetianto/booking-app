@@ -64,7 +64,7 @@ new class extends Component {
         $user->fill(Arr::only($validated, ['name', 'email']));
 
         $user->profile->phone = $this->phone;
-        $user->profile->instagram = $this->instagram;
+        $user->profile->instagram = $this->instagram ?? null;
         $user->profile->source()->associate(Source::findOrFail($this->source));
 
         $user->save();
