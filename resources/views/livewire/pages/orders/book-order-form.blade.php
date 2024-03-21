@@ -133,7 +133,7 @@ new class extends Component {
         </p>
     </header>
 
-    <form wire:submit="save" enctype="multipart/form-data" class="mt-6 space-y-6">
+    <form wire:submit="save" class="mt-6 space-y-6">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
                 <x-input-label for="receiver_en_name" :value="__('Receiver Name in English')" class="required"/>

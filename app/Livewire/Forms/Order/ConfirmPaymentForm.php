@@ -13,6 +13,6 @@ use Livewire\Form;
  */
 class ConfirmPaymentForm extends Form
 {
-    #[Validate('required|mimes:jpg,jpeg,png|max:5120', message: ['max' => 'Maximum upload file size is 5MB'])]
+    #[Validate('required|image|mimes:jpg,jpeg,png,bmp|max:5120', message: ['max' => 'Maximum upload file size is 5MB'])]
     public TemporaryUploadedFile $receiptFile;
 }
