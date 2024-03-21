@@ -28,50 +28,68 @@ new class extends Component {
 
     public function rejectOrder(): void
     {
-        $this->form->validate();
+        if ($this->order->status->is(OrderStatus::REJECTED)) {
+            Session::flash('error', sprintf('Order #%s already rejected.', $this->order->code));
 
-        $this->order->status = OrderStatus::REJECTED;
-        $this->order->rejected_at = Carbon::now();
-        $this->order->reason = $this->form->reason;
+            $this->redirectRoute('order.list-incoming');
+        } else {
+            $this->form->validate();
 
-        $this->order->save();
+            $this->order->status = OrderStatus::REJECTED;
+            $this->order->rejected_at = Carbon::now();
+            $this->order->reason = $this->form->reason;
 
-        event(new OrderRejected($this->order));
+            $this->order->save();
 
-        Session::flash('message', sprintf('Order #%s has been rejected.', $this->order->code));
+            event(new OrderRejected($this->order));
 
-        $this->redirectRoute('order.list-incoming');
+            Session::flash('message', sprintf('Order #%s has been rejected.', $this->order->code));
+
+            $this->redirectRoute('order.list-incoming');
+        }
     }
 
     public function verifyOrder(): void
     {
-        $this->order->status = OrderStatus::VERIFIED;
-        $this->order->verified_at = Carbon::now();
+        if ($this->order->status->is(OrderStatus::VERIFIED)) {
+            Session::flash('error', sprintf('Order #%s already verified.', $this->order->code));
 
-        $this->order->save();
+            $this->redirectRoute('order.list-incoming');
+        } else {
+            $this->order->status = OrderStatus::VERIFIED;
+            $this->order->verified_at = Carbon::now();
 
-        event(new OrderVerified($this->order));
+            $this->order->save();
 
-        Session::flash('message', sprintf('Order #%s has been verified.', $this->order->code));
+            event(new OrderVerified($this->order));
 
-        $this->redirectRoute('order.list-incoming');
+            Session::flash('message', sprintf('Order #%s has been verified.', $this->order->code));
+
+            $this->redirectRoute('order.list-incoming');
+        }
     }
 
     public function reviseOrder(): void
     {
-        $this->reviseOrderForm->validate();
+        if ($this->order->status->is(OrderStatus::REVISED)) {
+            Session::flash('error', sprintf('Update order #%s already requested.', $this->order->code));
 
-        $this->order->status = OrderStatus::REVISED;
-        $this->order->revised_at = Carbon::now();
-        $this->order->reason = $this->reviseOrderForm->reason;
+            $this->redirectRoute('order.list-incoming');
+        } else {
+            $this->reviseOrderForm->validate();
 
-        $this->order->save();
+            $this->order->status = OrderStatus::REVISED;
+            $this->order->revised_at = Carbon::now();
+            $this->order->reason = $this->reviseOrderForm->reason;
 
-        event(new OrderRevised($this->order));
+            $this->order->save();
 
-        Session::flash('message', sprintf('Request update order #%s has been sent.', $this->order->code));
+            event(new OrderRevised($this->order));
 
-        $this->redirectRoute('order.list-incoming');
+            Session::flash('message', sprintf('Request update order #%s has been sent.', $this->order->code));
+
+            $this->redirectRoute('order.list-incoming');
+        }
     }
 };
 
