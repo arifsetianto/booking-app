@@ -28,7 +28,7 @@ class UpdateOrderForm extends Form
     #[Validate('required|uuid|exists:religions,id')]
     public string $religion;
 
-    #[Validate('nullable|image|max:5120', message: ['max' => 'Maximum upload file size is 5MB'])]
+    #[Validate('nullable|mimes:jpg,jpeg,png|max:5120', message: ['max' => 'Maximum upload file size is 5MB'])]
     public ?TemporaryUploadedFile $identityFile = null;
 
     #[Validate('nullable|string')]
