@@ -24,8 +24,8 @@ new #[Layout('layouts.guest')] class extends Component {
 
         /** @var User $user */
         $user = auth()->user();
-        $user->generateTwoFactorCode();
-        $user->notify(new SendTwoFactorCode());
+        //$user->generateTwoFactorCode();
+        //$user->notify(new SendTwoFactorCode());
 
         $this->redirectIntended(default: RouteServiceProvider::DASHBOARD, navigate: true);
     }

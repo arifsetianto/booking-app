@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 
 //Route::view('/', 'welcome')->name('welcome');
 
-Route::middleware(['auth.admin', 'two.factor', 'verified', 'roles.has:admin'])->group(
+Route::middleware(['auth.admin', 'verified', 'roles.has:admin'])->group(
     function () {
         Route::view('dashboard', 'dashboard')
              ->name('dashboard');
