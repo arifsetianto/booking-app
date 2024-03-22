@@ -8,6 +8,7 @@ use App\Event\Auth\UserLoginRequested;
 use App\Mail\Auth\LoginLink;
 use Illuminate\Contracts\Events\ShouldHandleEventsAfterCommit;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\Middleware\RateLimited;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
 
@@ -33,5 +34,10 @@ class SendLoginLinkVerification implements ShouldQueue, ShouldHandleEventsAfterC
                 ),
             )
         );
+    }
+
+    public function middleware(): array
+    {
+        return [new RateLimited('emails')];
     }
 }

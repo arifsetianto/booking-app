@@ -8,6 +8,7 @@ use App\Event\Order\OrderPurchased;
 use App\Mail\Order\OrderPurchasedMail;
 use Illuminate\Contracts\Events\ShouldHandleEventsAfterCommit;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\Middleware\RateLimited;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
 
@@ -34,5 +35,10 @@ class SendOrderPurchasedNotification implements ShouldQueue, ShouldHandleEventsA
                 order: $event->getOrder()
             )
         );
+    }
+
+    public function middleware(): array
+    {
+        return [new RateLimited('emails')];
     }
 }

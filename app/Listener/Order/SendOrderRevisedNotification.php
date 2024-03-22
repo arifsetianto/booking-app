@@ -8,6 +8,7 @@ use App\Event\Order\OrderRevised;
 use App\Mail\Order\OrderRevisedMail;
 use Illuminate\Contracts\Events\ShouldHandleEventsAfterCommit;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\Middleware\RateLimited;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
 
@@ -34,5 +35,10 @@ class SendOrderRevisedNotification implements ShouldQueue, ShouldHandleEventsAft
                 order: $event->getOrder()
             )
         );
+    }
+
+    public function middleware(): array
+    {
+        return [new RateLimited('emails')];
     }
 }
