@@ -18,9 +18,9 @@ class Kernel extends ConsoleKernel
         //         ->runInBackground()
         //         ->everyMinute();
 
-        $schedule->command(RetryFailedJobs::class)
-                 ->runInBackground()
-                 ->everyMinute();
+        //$schedule->command(RetryFailedJobs::class)
+        //         ->runInBackground()
+        //         ->everyMinute();
     }
 
     /**
