@@ -224,10 +224,14 @@ return [
 
         'local' => [
             'supervisor-med' => [
-                'maxProcesses' => 3,
+                'maxProcesses' => 10,
+                'balanceMaxShift' => 1,
+                'balanceCooldown' => 3,
             ],
             'supervisor-high' => [
-                'maxProcesses' => 3,
+                'maxProcesses' => 40,
+                'balanceMaxShift' => 1,
+                'balanceCooldown' => 3,
             ],
         ],
     ],

@@ -9,7 +9,6 @@ use App\Mail\Auth\LoginLink;
 use Illuminate\Contracts\Events\ShouldHandleEventsAfterCommit;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\Middleware\RateLimited;
-use Illuminate\Queue\Middleware\WithoutOverlapping;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
 
@@ -41,9 +40,6 @@ class SendLoginLinkVerification implements ShouldQueue, ShouldHandleEventsAfterC
     {
         return [
             new RateLimited('emails'),
-            (new WithoutOverlapping(sprintf('user-%s', $event->getEmail())))
-                ->releaseAfter(5)
-                ->expireAfter(60 * 15)
         ];
     }
 
