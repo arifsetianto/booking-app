@@ -81,11 +81,11 @@ new class extends Component {
             <div class="text-center">
                 <h1 class="mb-4 text-xl font-semibold leading-none tracking-tight text-gray-900 md:text-2xl lg:text-3xl dark:text-white">
                     Confirm your payment</h1>
-                <p class="font-semibold">Time remaining: <span id="countdown">{{ $this->formatTime($countdownTime) }}</span>
-                    seconds</p>
-                <p class="mt-5 text-sm">Note: Please finish the payment before the time limit. You can find this page link
-                    in
-                    your email.</p>
+{{--                <p class="font-semibold">Time remaining: <span id="countdown">{{ $this->formatTime($countdownTime) }}</span>--}}
+{{--                    seconds</p>--}}
+{{--                <p class="mt-5 text-sm">Note: Please finish the payment before the time limit. You can find this page link--}}
+{{--                    in--}}
+{{--                    your email.</p>--}}
             </div>
             <div class="w-full mt-10">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
