@@ -18,7 +18,7 @@ class RetryFailedJobs extends Command
 
     public function handle(): void
     {
-        $maxRetries = 120;
+        $maxRetries = 70;
         $retries = 0;
 
         $failedJobs = DB::table('failed_jobs')->select()->get();
