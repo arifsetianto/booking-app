@@ -9,6 +9,7 @@ use App\Mail\Order\OrderCompletedMail;
 use Illuminate\Contracts\Events\ShouldHandleEventsAfterCommit;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\Middleware\RateLimited;
+use Illuminate\Queue\Middleware\WithoutOverlapping;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
 
@@ -37,8 +38,18 @@ class SendOrderCompletedNotification implements ShouldQueue, ShouldHandleEventsA
         );
     }
 
-    public function middleware(): array
+    public function middleware(OrderCompleted $event): array
     {
-        return [new RateLimited('emails')];
+        return [
+            new RateLimited('emails'),
+            (new WithoutOverlapping(sprintf('order-%s', $event->getOrder()->id)))
+                ->releaseAfter(5)
+                ->expireAfter(60 * 15)
+        ];
+    }
+
+    public function tags(): array
+    {
+        return ['listener:' . static::class, 'order-completed:send'];
     }
 }
