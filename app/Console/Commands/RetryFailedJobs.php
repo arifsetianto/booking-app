@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Queue;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
 
 /**
  * @author  Arif Setianto <arifsetiantoo@gmail.com>
@@ -20,14 +21,14 @@ class RetryFailedJobs extends Command
         $maxRetries = 120;
         $retries = 0;
 
-        $failedJobs = Queue::getFailedJobs();
+        $failedJobs = DB::table('failed_jobs')->select()->get();
 
         foreach ($failedJobs as $job) {
             if ($retries >= $maxRetries) {
                 break;
             }
 
-            $job->retry();
+            Artisan::call('queue:retry', ['id' => [$job->uuid]]);
             $retries++;
         }
 
