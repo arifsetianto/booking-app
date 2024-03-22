@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\Console\Commands\PruneExpiredPayment;
+use App\Console\Commands\RetryFailedJobs;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -16,6 +17,10 @@ class Kernel extends ConsoleKernel
         //$schedule->command(PruneExpiredPayment::class)
         //         ->runInBackground()
         //         ->everyMinute();
+
+        $schedule->command(RetryFailedJobs::class)
+                 ->runInBackground()
+                 ->everyMinute();
     }
 
     /**
