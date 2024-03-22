@@ -15,7 +15,7 @@ class CreateDeliveryOrderForm extends Form
     #[Validate('required|string')]
     public string $name;
 
-    #[Validate('required|string|max:30')]
+    #[Validate('required|numeric|max:30')]
     public string $phone;
 
     #[Validate('required|string')]
