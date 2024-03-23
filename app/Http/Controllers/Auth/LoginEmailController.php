@@ -11,6 +11,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class LoginEmailController extends Controller
@@ -21,7 +22,7 @@ class LoginEmailController extends Controller
             abort(ResponseAlias::HTTP_UNAUTHORIZED);
         }
 
-        if (null === $user = User::query()->where('email', $email)->first()) {
+        if (null === $user = User::query()->where(DB::raw('lower(email)'), strtolower($email))->first()) {
             /** @var User $user */
             event(new Registered($user = User::create(['email' => $email, 'status' => UserStatus::NEW])));
             $user->roles()->attach(Role::where('name', 'customer')->first());
