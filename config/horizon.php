@@ -182,7 +182,7 @@ return [
     'defaults' => [
         'supervisor-med' => [
             'connection' => 'redis',
-            'queue' => ['default', 'order', 'import'],
+            'queue' => ['default', 'import'],
             'balance' => 'auto',
             'autoScalingStrategy' => 'time',
             'maxProcesses' => 1,
@@ -195,7 +195,7 @@ return [
         ],
         'supervisor-high' => [
             'connection' => 'redis',
-            'queue' => ['user'],
+            'queue' => ['user', 'order'],
             'balance' => 'auto',
             'autoScalingStrategy' => 'time',
             'maxProcesses' => 1,
@@ -203,7 +203,7 @@ return [
             'maxJobs' => 0,
             'memory' => 128,
             'tries' => 5,
-            'timeout' => 60,
+            'timeout' => 60 * 60,
             'nice' => 0,
         ],
     ],
