@@ -35,6 +35,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property Payment $payment
  * @property boolean $printed
  * @property ?string $error_message
+ * @property ?integer $user_order_sequence
  *
  * @author  Arif Setianto <arifsetiantoo@gmail.com>
  */
@@ -52,16 +53,17 @@ class Order extends Model
     ];
 
     protected $casts = [
-        'qty'          => 'integer',
-        'amount'       => 'integer',
-        'confirmed_at' => 'datetime',
-        'verified_at'  => 'datetime',
-        'completed_at' => 'datetime',
-        'rejected_at'  => 'datetime',
-        'canceled_at'  => 'datetime',
-        'revised_at'   => 'datetime',
-        'status'       => OrderStatus::class,
-        'printed'      => 'boolean'
+        'qty'                 => 'integer',
+        'amount'              => 'integer',
+        'confirmed_at'        => 'datetime',
+        'verified_at'         => 'datetime',
+        'completed_at'        => 'datetime',
+        'rejected_at'         => 'datetime',
+        'canceled_at'         => 'datetime',
+        'revised_at'          => 'datetime',
+        'status'              => OrderStatus::class,
+        'printed'             => 'boolean',
+        'user_order_sequence' => 'integer',
     ];
 
     public function orderItem(): HasOne

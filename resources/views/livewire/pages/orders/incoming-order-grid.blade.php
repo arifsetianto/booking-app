@@ -41,6 +41,9 @@
                     Zip Code
                 </th>
                 <th scope="col" class="px-6 py-3 text-center">
+                    Order ke
+                </th>
+                <th scope="col" class="px-6 py-3 text-center">
                     Action
                 </th>
             </tr>
@@ -70,6 +73,9 @@
                     </td>
                     <td class="px-6 py-4 text-center">
                         {{ $order->shipping?->subDistrict?->zip_code }}
+                    </td>
+                    <td class="px-6 py-4 text-center">
+                        {{ $order->user_order_sequence }}
                     </td>
                     <td class="px-6 py-4 text-center">
                         <a href="{{ route('order.verify', ['order' => $order->id]) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline cursor-pointer">View Detail</a>

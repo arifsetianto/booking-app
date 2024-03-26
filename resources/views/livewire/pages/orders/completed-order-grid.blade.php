@@ -58,6 +58,9 @@
                     Zip Code
                 </th>
                 <th scope="col" class="px-6 py-3 text-center">
+                    Order ke
+                </th>
+                <th scope="col" class="px-6 py-3 text-center">
                     Printed
                 </th>
                 <th scope="col" class="px-6 py-3 text-center">
@@ -90,6 +93,9 @@
                     </td>
                     <td class="px-6 py-4 text-center">
                         {{ $order->shipping?->subDistrict?->zip_code }}
+                    </td>
+                    <td class="px-6 py-4 text-center">
+                        {{ $order->user_order_sequence }}
                     </td>
                     <td class="px-6 py-4 text-center">
                         <div class="flex justify-center items-center">
