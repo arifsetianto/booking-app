@@ -41,22 +41,30 @@ class CompletedOrderGrid extends Component
     public function render(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
         return view('livewire.pages.orders.completed-order-grid')->with([
-            'orders' => Order::where('status', OrderStatus::VERIFIED)
+            'orders' => Order::select('orders.*')
+                             ->join('order_items', 'orders.id', '=', 'order_items.order_id')
+                             ->join('shippings', 'orders.id', '=', 'shippings.order_id')
+                             ->join('sub_districts', 'shippings.sub_district_id', '=', 'sub_districts.id')
+                             ->where('orders.status', OrderStatus::VERIFIED)
                              ->when($this->searchKeyword !== '', function (Builder $query) {
                                  $query
                                      ->where(function ($qb) {
                                          $qb
-                                             ->where('code', 'LIKE', '%' . $this->searchKeyword . '%')
-                                             ->orWhere('email', 'LIKE', '%' . $this->searchKeyword . '%')
-                                             ->orWhere('name', 'LIKE', '%' . $this->searchKeyword . '%')
-                                             ->orWhere('phone', 'LIKE', '%' . $this->searchKeyword . '%')
-                                             ->orWhere('instagram', 'LIKE', '%' . $this->searchKeyword . '%')
+                                             ->where('orders.code', 'LIKE', '%' . $this->searchKeyword . '%')
+                                             ->orWhere('orders.email', 'LIKE', '%' . $this->searchKeyword . '%')
+                                             ->orWhere('orders.name', 'LIKE', '%' . $this->searchKeyword . '%')
+                                             ->orWhere('orders.phone', 'LIKE', '%' . $this->searchKeyword . '%')
+                                             ->orWhere('orders.instagram', 'LIKE', '%' . $this->searchKeyword . '%')
+                                             ->orWhere('order_items.receiver_th_name', 'LIKE', '%' . $this->searchKeyword . '%')
+                                             ->orWhere('order_items.receiver_en_name', 'LIKE', '%' . $this->searchKeyword . '%')
+                                             ->orWhere('shippings.phone', 'LIKE', '%' . $this->searchKeyword . '%')
+                                             ->orWhere('sub_districts.zip_code', 'LIKE', '%' . $this->searchKeyword . '%')
                                          ;
                                      });
                              })
-                             ->when($this->searchBatch !== '', fn(Builder $query) => $query->where('batch_id', $this->searchBatch))
+                             ->when($this->searchBatch !== '', fn(Builder $query) => $query->where('orders.batch_id', $this->searchBatch))
                              ->with(['batch', 'source', 'shipping', 'payment'])
-                             ->orderBy('created_at')
+                             ->orderBy('orders.created_at')
                              ->paginate(10),
             'batches' => Batch::orderBy('number')->get(),
         ]);

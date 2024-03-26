@@ -49,10 +49,13 @@
                     Name
                 </th>
                 <th scope="col" class="px-6 py-3 text-center">
-                    Phone
+                    Contact
                 </th>
                 <th scope="col" class="px-6 py-3 text-center">
-                    Email
+                    Receiver
+                </th>
+                <th scope="col" class="px-6 py-3 text-center">
+                    Zip Code
                 </th>
                 <th scope="col" class="px-6 py-3 text-center">
                     Printed
@@ -69,7 +72,7 @@
                         <a href="{{ route('order.complete', ['order' => $order->id]) }}" class="font-medium hover:underline cursor-pointer">#{{ $order->code }}</a>
                     </th>
                     <td class="px-6 py-4 text-center">
-                        {{ $order->payment->paid_at->format('d-m-Y H:i:s') }}
+                        {{ $order->payment?->paid_at?->format('d-m-Y H:i:s') }}
                     </td>
                     <td class="px-6 py-4 text-center">
                         {{ $order->batch->number }}
@@ -78,10 +81,15 @@
                         {{ $order->name }}
                     </td>
                     <td class="px-6 py-4 text-center">
-                        {{ $order->phone }}
+                        <p>{{ $order->phone }}</p>
+                        <p>{{ $order->email }}</p>
                     </td>
                     <td class="px-6 py-4 text-center">
-                        {{ $order->email }}
+                        <p>{{ $order->orderItem?->receiver_th_name }} ({{ $order->orderItem?->receiver_en_name }})</p>
+                        <p>{{ $order->shipping?->phone }}</p>
+                    </td>
+                    <td class="px-6 py-4 text-center">
+                        {{ $order->shipping?->subDistrict?->zip_code }}
                     </td>
                     <td class="px-6 py-4 text-center">
                         <div class="flex justify-center items-center">

@@ -109,29 +109,38 @@ new class extends Component {
         } else {
             /** @var Order $order */
             $order = Order::findOrFail($this->order->id);
-            $order->status = OrderStatus::PENDING;
-            $order->amount = $this->form->fee;
 
-            $order->save();
+            if ($order->status->is(OrderStatus::DRAFT)) {
+                if (!$order->shipping && !$order->payment) {
+                    $order->status = OrderStatus::PENDING;
+                    $order->amount = $this->form->fee;
 
-            $shipping = new Shipping();
-            $shipping->order()->associate($order);
-            $shipping->name = $this->form->name;
-            $shipping->phone = $this->form->phone;
-            $shipping->address = $this->form->address;
-            $shipping->subDistrict()->associate(SubDistrict::findOrFail($this->form->subDistrict));
-            $shipping->fee = $this->form->fee;
+                    $order->save();
+                }
 
-            $shipping->save();
+                if (!$order->shipping) {
+                    $shipping = new Shipping();
+                    $shipping->order()->associate($order);
+                    $shipping->name = $this->form->name;
+                    $shipping->phone = $this->form->phone;
+                    $shipping->address = $this->form->address;
+                    $shipping->subDistrict()->associate(SubDistrict::findOrFail($this->form->subDistrict));
+                    $shipping->fee = $this->form->fee;
 
-            $payment = new Payment();
-            $payment->order()->associate($order);
-            $payment->status = PaymentStatus::PENDING;
-            $payment->expired_at = Carbon::now()->addMinutes(30);
+                    $shipping->save();
+                }
 
-            $payment->save();
+                if (!$order->payment) {
+                    $payment = new Payment();
+                    $payment->order()->associate($order);
+                    $payment->status = PaymentStatus::PENDING;
+                    $payment->expired_at = Carbon::now()->addMinutes(30);
 
-            event(new OrderPurchased($order));
+                    $payment->save();
+
+                    event(new OrderPurchased($order));
+                }
+            }
 
             $this->redirectRoute(name: 'orders.payment', parameters: ['order' => $order->id]);
         }
@@ -141,14 +150,21 @@ new class extends Component {
     {
         /** @var Order $order */
         $order = Order::findOrFail($this->order->id);
-        $order->status = OrderStatus::CANCELED;
-        $order->canceled_at = Carbon::now();
 
-        $order->save();
+        if ($order->status->is(OrderStatus::DRAFT)) {
+            $order->status = OrderStatus::CANCELED;
+            $order->canceled_at = Carbon::now();
 
-        Session::flash('message', sprintf('Order #%s has been successfully canceled.', $this->order->code));
+            $order->save();
 
-        $this->redirectRoute(name: 'orders.list', parameters: ['order' => $this->order->id]);
+            Session::flash('message', sprintf('Order #%s has been successfully canceled.', $this->order->code));
+
+            $this->redirectRoute(name: 'orders.list', parameters: ['order' => $this->order->id]);
+        } else {
+            Session::flash('error', sprintf('Order #%s cannot be cancelled.', $this->order->code));
+
+            $this->redirectRoute(name: 'orders.list', parameters: ['order' => $this->order->id]);
+        }
     }
 
     public function backToPrevious(): void
