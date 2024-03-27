@@ -1,7 +1,9 @@
 <?php
 
+use App\Event\Order\OrderCanceled;
 use App\Event\Order\OrderCompleted;
 use App\Livewire\Forms\Order\CompleteOrderForm;
+use App\Livewire\Forms\Order\ForceCancelOrderForm;
 use App\Models\Order;
 use App\ValueObject\OrderStatus;
 use App\ValueObject\PaymentStatus;
@@ -14,6 +16,7 @@ use function Livewire\Volt\{state};
 new class extends Component {
     public Order|null $order = null;
     public CompleteOrderForm $form;
+    public ForceCancelOrderForm $forceCancelOrderForm;
 
     public function mount(Request $request): void
     {
@@ -39,6 +42,29 @@ new class extends Component {
         Session::flash('message', sprintf('Order #%s has been completed.', $this->order->code));
 
         $this->redirectRoute(name: 'order.list-complete');
+    }
+
+    public function forceCancelOrder(): void
+    {
+        if ($this->order->status->is(OrderStatus::CANCELED)) {
+            Session::flash('error', sprintf('Order #%s already canceled.', $this->order->code));
+
+            $this->redirectRoute('order.list-complete');
+        } else {
+            $this->forceCancelOrderForm->validate();
+
+            $this->order->status = OrderStatus::CANCELED;
+            $this->order->canceled_at = Carbon::now();
+            $this->order->reason = $this->forceCancelOrderForm->reason;
+
+            $this->order->save();
+
+            event(new OrderCanceled($this->order));
+
+            Session::flash('message', sprintf('Order #%s has been canceled.', $this->order->code));
+
+            $this->redirectRoute(name: 'order.list-complete');
+        }
     }
 
     public function generateLabel(): void
@@ -266,6 +292,10 @@ new class extends Component {
                           x-on:click.prevent="$dispatch('open-modal', 'confirm-order-completion')">
             {{ __('Complete Order') }}
         </x-primary-button>
+        <x-danger-button x-data=""
+                         x-on:click.prevent="$dispatch('open-modal', 'confirm-order-cancellation')">
+            {{ __('Cancel Order') }}
+        </x-danger-button>
         <x-secondary-button wire:click="generateLabel">
             {{ __('Print Label') }}
         </x-secondary-button>
@@ -303,6 +333,42 @@ new class extends Component {
                 <x-primary-button class="ms-3">
                     {{ __('Complete Order') }}
                 </x-primary-button>
+            </div>
+        </form>
+    </x-modal>
+
+    <x-modal name="confirm-order-cancellation" :show="$errors->isNotEmpty()" focusable>
+        <form wire:submit="forceCancelOrder" class="p-6">
+
+            <h2 class="text-lg font-medium text-gray-900">
+                {{ __('Are you sure you want to cancel this order?') }}
+            </h2>
+
+            <p class="mt-1 text-sm text-gray-600">
+                {{ __('Please input the reason for canceling this order.') }}
+            </p>
+
+            <div class="mt-6">
+                <x-input-label for="reason" value="{{ __('Reason') }}" class="sr-only"/>
+
+                <x-text-area
+                    wire:model="forceCancelOrderForm.reason"
+                    id="reason"
+                    name="reason"
+                    class="mt-1 block w-full"
+                />
+
+                <x-input-error :messages="$errors->get('forceCancelOrderForm.reason')" class="mt-2"/>
+            </div>
+
+            <div class="mt-6 flex justify-end">
+                <x-secondary-button x-on:click="$dispatch('close')">
+                    {{ __('Cancel') }}
+                </x-secondary-button>
+
+                <x-danger-button class="ms-3">
+                    {{ __('Cancel Order') }}
+                </x-danger-button>
             </div>
         </form>
     </x-modal>
