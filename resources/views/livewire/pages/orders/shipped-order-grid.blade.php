@@ -16,14 +16,6 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="ml-2">
-                    <select id="status" wire:model.live="searchStatus" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        <option selected>Choose a status</option>
-                        @foreach($statuses as $status)
-                            <option value="{{ $status['value'] }}">{{ $status['label'] }}</option>
-                        @endforeach
-                    </select>
-                </div>
             </div>
         </div>
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -86,7 +78,7 @@
                         <p>{{ $order->shipping?->phone }}</p>
                     </td>
                     <td class="px-6 py-4 text-center">
-                        {{ $order->shipping?->subDistrict?->zip_code ?? '-' }}
+                        {{ $order->shipping?->subDistrict?->zip_code }}
                     </td>
                     <td class="px-6 py-4 text-center">
                         {{ $order->user_order_sequence }}

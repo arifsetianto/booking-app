@@ -38,6 +38,9 @@ Route::middleware(['auth.admin', 'verified', 'roles.has:admin'])->group(
         Route::view('complete-orders', 'pages/orders/list-completed')
              ->name('order.list-complete');
 
+        Route::view('shipped-orders', 'pages/orders/list-shipped')
+             ->name('order.list-shipped');
+
         Route::view('archive-orders', 'pages/orders/list-archive')
              ->name('order.list-archive');
 

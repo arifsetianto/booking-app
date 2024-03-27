@@ -42,6 +42,9 @@ new class extends Component
                     <x-nav-link :href="route('order.list-complete')" :active="request()->routeIs('order.list-complete')" wire:navigate>
                         {{ __('Complete Orders') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('order.list-shipped')" :active="request()->routeIs('order.list-shipped')" wire:navigate>
+                        {{ __('Shipped Orders') }}
+                    </x-nav-link>
                     <x-nav-link :href="route('order.list-archive')" :active="request()->routeIs('order.list-archive')" wire:navigate>
                         {{ __('Archive Orders') }}
                     </x-nav-link>
@@ -104,6 +107,9 @@ new class extends Component
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('order.list-complete')" :active="request()->routeIs('order.list-complete')" wire:navigate>
                 {{ __('Complete Orders') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('order.list-shipped')" :active="request()->routeIs('order.list-shipped')" wire:navigate>
+                {{ __('Shipped Orders') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('order.list-archive')" :active="request()->routeIs('order.list-archive')" wire:navigate>
                 {{ __('Archive Orders') }}
