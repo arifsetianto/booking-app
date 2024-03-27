@@ -54,7 +54,7 @@
             @foreach($orders as $order)
                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                     <th scope="row" class="px-6 py-4 font-medium text-center text-gray-900 whitespace-nowrap dark:text-white">
-                        <a href="{{ route('order.archive', ['order' => $order->id]) }}" class="font-medium hover:underline cursor-pointer">#{{ $order->code }}</a>
+                        <a href="{{ route('order.shipped', ['order' => $order->id]) }}" class="font-medium hover:underline cursor-pointer">#{{ $order->code }}</a>
                     </th>
                     <td class="px-6 py-4 text-center">
                         @if($order->shipping?->tracking_code)
@@ -84,7 +84,7 @@
                         {{ $order->user_order_sequence }}
                     </td>
                     <td class="px-6 py-4 text-center">
-                        <a href="{{ route('order.archive', ['order' => $order->id]) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline cursor-pointer">View Detail</a>
+                        <a href="{{ route('order.shipped', ['order' => $order->id]) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline cursor-pointer">View Detail</a>
                     </td>
                 </tr>
             @endforeach

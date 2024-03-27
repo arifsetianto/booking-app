@@ -50,6 +50,9 @@ Route::middleware(['auth.admin', 'verified', 'roles.has:admin'])->group(
         Route::view('orders/{order}/complete', 'pages/orders/complete')
              ->name('order.complete');
 
+        Route::view('orders/{order}/shipped', 'pages/orders/shipped')
+             ->name('order.shipped');
+
         Route::view('orders/{order}/archive', 'pages/orders/archive')
              ->name('order.archive');
 
