@@ -62,7 +62,8 @@ new class extends Component {
 
     <div class="mt-10">
         @if($order->error_message)
-            <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+            <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                 role="alert">
                 <span class="font-medium">Error: </span>{{ $order->error_message }}
             </div>
         @endif
@@ -86,7 +87,7 @@ new class extends Component {
         @endif
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <p class="text-sm text-gray-500">Full Name</p>
                         <p class="pt-1 text-sm">{{ $order->name }}</p>
@@ -108,7 +109,7 @@ new class extends Component {
                         <p class="pt-1 text-sm">{{ $order->source->name }}</p>
                     </div>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-9">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-9">
                     <div>
                         <p class="text-sm text-gray-500">Receiver Name (in English)</p>
                         <p class="pt-1 text-sm">{{ $order->orderItem->receiver_en_name }}</p>
@@ -160,7 +161,7 @@ new class extends Component {
     <div class="mt-10">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <p class="text-sm text-gray-500">Bank Name</p>
                         <p class="pt-1 text-sm">Krungthai Bank</p>
