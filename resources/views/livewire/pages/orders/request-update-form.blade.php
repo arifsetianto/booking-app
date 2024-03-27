@@ -34,7 +34,7 @@ new class extends Component {
     public array $districts = [];
     public array $subDistricts = [];
     public string $receiverIdentityFile;
-    public string $receiptFile;
+    public ?string $receiptFile;
 
     public ForceUpdateOrderForm $form;
 
@@ -48,7 +48,7 @@ new class extends Component {
         $this->religions = Religion::get()->map(fn($item) => ['value' => $item->id, 'label' => $item->name])->toArray();
         $this->regions = Region::get()->map(fn($item) => ['value' => $item->id, 'label' => sprintf('%s (%s)', $item->th_name, $item->en_name)])->toArray();
         $this->receiverIdentityFile = Storage::url($this->order->orderItem->identity_file);
-        $this->receiptFile = Storage::url($this->order->payment->receipt_file);
+        $this->receiptFile = $this->order->payment->receipt_file ? Storage::url($this->order->payment->receipt_file) : null;
 
         $this->form->comment = $this->order->comment;
         $this->form->receiverEnName = $this->order->orderItem->receiver_en_name;
@@ -412,7 +412,7 @@ new class extends Component {
             <div>
                 <figure class="max-w-lg">
                     <img class="h-auto max-w-sm rounded-lg"
-                         src="{{ $receiptFile }}" alt="">
+                         src="{{ $receiptFile ?? asset('images/image-default.jpg') }}" alt="">
                     <figcaption class="mt-2 text-sm text-center text-gray-500 dark:text-gray-400">Payment Receipt File
                     </figcaption>
                 </figure>
