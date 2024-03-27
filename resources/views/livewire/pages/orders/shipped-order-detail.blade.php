@@ -236,7 +236,7 @@ new class extends Component {
                             <p class="text-sm text-gray-500">Tracking Code</p>
                             <p class="pt-1 text-sm">
                                 @if($order->shipping->tracking_code)
-                                    <a href="https://track.thailandpost.co.th/?trackNumber={{ $order->shipping->tracking_code }}"
+                                    <a href="https://track.thailandpost.com/?trackNumber={{ $order->shipping->tracking_code }}"
                                        target="_blank" class="hover:underline">
                                         {{ $order->shipping->tracking_code ?? '-' }}
                                     </a>

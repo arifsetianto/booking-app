@@ -58,7 +58,7 @@
                     </th>
                     <td class="px-6 py-4 text-center">
                         @if($order->shipping?->tracking_code)
-                            <a href="https://track.thailandpost.co.th/?trackNumber={{ $order->shipping->tracking_code }}" target="_blank" class="hover:underline">{{ $order->shipping?->tracking_code ?? '-' }}</a>
+                            <a href="https://track.thailandpost.com/?trackNumber={{ $order->shipping->tracking_code }}" target="_blank" class="hover:underline">{{ $order->shipping?->tracking_code ?? '-' }}</a>
                         @else
                             -
                         @endif
