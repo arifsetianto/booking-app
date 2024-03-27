@@ -33,4 +33,17 @@ enum OrderStatus: string
             self::REVISED => 'bg-fuchsia-100 text-fuchsia-800 dark:bg-fuchsia-900 dark:text-fuchsia-300',
         };
     }
+
+    public static function getArchiveOptions(): array
+    {
+        return array_filter(collect(self::cases())->map(
+            function ($item) {
+                if (!in_array($item, [OrderStatus::CONFIRMED, OrderStatus::VERIFIED, OrderStatus::COMPLETED])) {
+                    return ['value' => $item->value, 'label' => ucfirst($item->value)];
+                }
+
+                return null;
+            }
+        )->toArray());
+    }
 }

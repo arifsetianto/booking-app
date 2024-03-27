@@ -35,7 +35,7 @@ class ArchiveOrderGrid extends Component
                              ->join('order_items', 'orders.id', '=', 'order_items.order_id')
 //                             ->join('shippings', 'orders.id', '=', 'shippings.order_id')
 //                             ->join('sub_districts', 'shippings.sub_district_id', '=', 'sub_districts.id')
-                             ->whereIn('orders.status', [OrderStatus::DRAFT, OrderStatus::PENDING, OrderStatus::CANCELED, OrderStatus::REJECTED])
+                             ->whereIn('orders.status', [OrderStatus::DRAFT, OrderStatus::PENDING, OrderStatus::CANCELED, OrderStatus::REJECTED, OrderStatus::REVISED])
                              ->when($this->searchKeyword !== '', function (Builder $query) {
                                  $query
                                      ->where(function ($qb) {
@@ -65,7 +65,7 @@ class ArchiveOrderGrid extends Component
                              ->orderBy('orders.created_at')
                              ->paginate(10),
             'batches' => Batch::orderBy('number')->get(),
-            'statuses' => OrderStatus::getOptions(),
+            'statuses' => OrderStatus::getArchiveOptions(),
         ]);
     }
 }
