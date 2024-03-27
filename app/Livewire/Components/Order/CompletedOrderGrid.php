@@ -43,8 +43,8 @@ class CompletedOrderGrid extends Component
         return view('livewire.pages.orders.completed-order-grid')->with([
             'orders' => Order::select('orders.*')
                              ->join('order_items', 'orders.id', '=', 'order_items.order_id')
-                             ->join('shippings', 'orders.id', '=', 'shippings.order_id')
-                             ->join('sub_districts', 'shippings.sub_district_id', '=', 'sub_districts.id')
+//                             ->join('shippings', 'orders.id', '=', 'shippings.order_id')
+//                             ->join('sub_districts', 'shippings.sub_district_id', '=', 'sub_districts.id')
                              ->where('orders.status', OrderStatus::VERIFIED)
                              ->when($this->searchKeyword !== '', function (Builder $query) {
                                  $query
@@ -57,8 +57,15 @@ class CompletedOrderGrid extends Component
                                              ->orWhere('orders.instagram', 'LIKE', '%' . $this->searchKeyword . '%')
                                              ->orWhere('order_items.receiver_th_name', 'LIKE', '%' . $this->searchKeyword . '%')
                                              ->orWhere('order_items.receiver_en_name', 'LIKE', '%' . $this->searchKeyword . '%')
-                                             ->orWhere('shippings.phone', 'LIKE', '%' . $this->searchKeyword . '%')
-                                             ->orWhere('sub_districts.zip_code', 'LIKE', '%' . $this->searchKeyword . '%')
+                                             ->orWhereHas('shipping', function (Builder $query) {
+                                                 $query->where('shippings.phone', 'LIKE', '%' . $this->searchKeyword . '%');
+                                                 $query->orWhere('shippings.name', 'LIKE', '%' . $this->searchKeyword . '%');
+                                                 $query->orWhereHas('subDistrict', function (Builder $query) {
+                                                     $query->where('sub_districts.zip_code', 'LIKE', '%' . $this->searchKeyword . '%');
+                                                 });
+                                             })
+//                                             ->orWhere('shippings.phone', 'LIKE', '%' . $this->searchKeyword . '%')
+//                                             ->orWhere('sub_districts.zip_code', 'LIKE', '%' . $this->searchKeyword . '%')
                                          ;
                                      });
                              })
