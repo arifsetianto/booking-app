@@ -1,7 +1,7 @@
 <?php
 
-use App\Event\Order\OrderCanceled;
 use App\Event\Order\OrderCompleted;
+use App\Event\Order\OrderForceCanceled;
 use App\Livewire\Forms\Order\CompleteOrderForm;
 use App\Livewire\Forms\Order\ForceCancelOrderForm;
 use App\Models\Order;
@@ -59,7 +59,7 @@ new class extends Component {
 
             $this->order->save();
 
-            event(new OrderCanceled($this->order));
+            event(new OrderForceCanceled($this->order));
 
             Session::flash('message', sprintf('Order #%s has been canceled.', $this->order->code));
 

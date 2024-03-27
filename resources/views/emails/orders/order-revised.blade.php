@@ -7,6 +7,6 @@ Your booking data needs to be corrected as we are unable to verify your booking.
 Edit My Booking
 </x-mail::button>
 
-Thanks,<br>
-{{ config('app.name') }}
+Warm regards,<br>
+Admin ThaiQuran
 </x-mail::message>

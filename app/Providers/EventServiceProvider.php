@@ -6,6 +6,7 @@ use App\Event\Auth\UserLoginRequested;
 use App\Event\Order\OrderCanceled;
 use App\Event\Order\OrderCompleted;
 use App\Event\Order\OrderConfirmed;
+use App\Event\Order\OrderForceCanceled;
 use App\Event\Order\OrderPurchased;
 use App\Event\Order\OrderRejected;
 use App\Event\Order\OrderRevised;
@@ -15,6 +16,7 @@ use App\Listener\Batch\AddStock;
 use App\Listener\Batch\SubtractStock;
 use App\Listener\Order\SendOrderCompletedNotification;
 use App\Listener\Order\SendOrderConfirmedNotification;
+use App\Listener\Order\SendOrderForceCanceledNotification;
 use App\Listener\Order\SendOrderPurchasedNotification;
 use App\Listener\Order\SendOrderRejectedNotification;
 use App\Listener\Order\SendOrderRevisedNotification;
@@ -59,7 +61,11 @@ class EventServiceProvider extends ServiceProvider
         ],
         OrderRevised::class => [
             SendOrderRevisedNotification::class,
-        ]
+        ],
+        OrderForceCanceled::class => [
+            AddStock::class,
+            SendOrderForceCanceledNotification::class,
+        ],
     ];
 
     /**

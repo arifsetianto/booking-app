@@ -14,7 +14,7 @@ use Illuminate\Queue\SerializesModels;
 /**
  * @author  Arif Setianto <arifsetiantoo@gmail.com>
  */
-class OrderRejectedMail extends Mailable
+class OrderForceCanceledMail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -27,14 +27,14 @@ class OrderRejectedMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: sprintf('Order has been rejected #%s', $this->order->code),
+            subject: sprintf('Order has been canceled #%s', $this->order->code),
         );
     }
 
     public function content(): Content
     {
         return new Content(
-            markdown: 'emails.orders.order-rejected',
+            markdown: 'emails.orders.order-force-canceled',
             with: [
                 'url'   => $this->url,
                 'order' => $this->order,
