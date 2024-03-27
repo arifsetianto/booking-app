@@ -12,7 +12,7 @@ new class extends Component {
 
     public function mount(Request $request): void
     {
-        $this->order = Order::whereIn('status', [OrderStatus::CANCELED, OrderStatus::REJECTED, OrderStatus::COMPLETED])
+        $this->order = Order::whereIn('status', [OrderStatus::DRAFT, OrderStatus::PENDING, OrderStatus::CANCELED, OrderStatus::REJECTED, OrderStatus::REVISED])
                             ->where('id', $request->route('order'))
                             ->first();
     }
