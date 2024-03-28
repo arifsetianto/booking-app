@@ -52,6 +52,7 @@ new class extends Component {
 
             $this->redirectRoute('orders.book');
         } else {
+            $userOrderCount = Order::where('user_id', $user->id)->count();
             $order =
                 new Order(
                     $this->form->except(['receiverEnName', 'receiverThName', 'designation', 'gender', 'religion', 'identityFile'])
@@ -67,6 +68,7 @@ new class extends Component {
             $order->code = $this->createUniqueOrderCode();
             $order->qty = 1;
             $order->amount = 0;
+            $order->user_order_sequence = $userOrderCount + 1;
 
             $order->save();
 
