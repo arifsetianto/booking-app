@@ -56,6 +56,7 @@ new class extends Component {
             $order->amount = 0;
             $order->user_order_sequence = $userOrderCount + 1;
             $order->comment = $this->selectedOrder?->comment;
+            $order->reference()->associate($this->selectedOrder);
 
             if (null !== $user) {
                 $order->user()->associate($user);
@@ -103,7 +104,7 @@ new class extends Component {
                 $shipping->save();
             }
 
-            event(new OrderInvited($order));
+            event(new OrderInvited(order: $order, useReference: true));
 
             Session::flash('message', sprintf('New order %s has been successfully invited.', $order->code));
 

@@ -32,7 +32,8 @@ class SendOrderInvitedNotification implements ShouldQueue, ShouldHandleEventsAft
                         'email' => $event->getOrder()->user->email,
                     ],
                 ),
-                order: $event->getOrder()
+                order: $event->getOrder(),
+                useReference: $event->isUseReference()
             )
         );
     }

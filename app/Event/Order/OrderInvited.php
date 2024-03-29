@@ -14,12 +14,17 @@ class OrderInvited
 {
     use SerializesModels;
 
-    public function __construct(protected Order $order)
+    public function __construct(protected Order $order, protected bool $useReference = false)
     {
     }
 
     public function getOrder(): Order
     {
         return $this->order;
+    }
+
+    public function isUseReference(): bool
+    {
+        return $this->useReference;
     }
 }

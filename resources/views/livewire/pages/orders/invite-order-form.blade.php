@@ -73,7 +73,7 @@ new class extends Component {
 
             $order->save();
 
-            event(new OrderInvited($order));
+            event(new OrderInvited(order: $order));
 
             Session::flash('message', sprintf('New order %s has been successfully invited.', $order->code));
 

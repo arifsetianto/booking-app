@@ -21,23 +21,26 @@ class OrderInvitedMail extends Mailable
     public function __construct(
         public readonly string $url,
         public readonly Order  $order,
+        public readonly bool   $useReference
     ) {
     }
 
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'New invitation to book ThaiQuran!',
+            subject: $this->useReference ? sprintf('Special Re-Invitation Order #%s', $this->order->code) :
+                'Limited Invitation: Book Your Thai Quran Today!',
         );
     }
 
     public function content(): Content
     {
         return new Content(
-            markdown: 'emails.orders.order-invited',
+            markdown: $this->useReference ? 'emails.orders.order-existing-invited' : 'emails.orders.order-new-invited',
             with: [
-                'url'  => $this->url,
-                'user' => $this->order->user
+                'url'   => $this->url,
+                'user'  => $this->order->user,
+                'order' => $this->order,
             ],
         );
     }

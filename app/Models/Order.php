@@ -36,6 +36,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property boolean $printed
  * @property ?string $error_message
  * @property ?integer $user_order_sequence
+ * @property ?Order $reference
  *
  * @author  Arif Setianto <arifsetiantoo@gmail.com>
  */
@@ -94,5 +95,10 @@ class Order extends Model
     public function payment(): HasOne
     {
         return $this->hasOne(Payment::class);
+    }
+
+    public function reference(): BelongsTo
+    {
+        return $this->belongsTo(Order::class, 'reference_id');
     }
 }
