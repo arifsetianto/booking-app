@@ -12,6 +12,6 @@ use Livewire\Form;
  */
 class CompleteOrderForm extends Form
 {
-    #[Validate('required|string')]
+    #[Validate('required|string|unique:shippings,tracking_code')]
     public string $trackingCode = '';
 }
