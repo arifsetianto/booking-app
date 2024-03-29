@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Listener\Batch;
 
+use App\Event\Order\OrderInvitationConfirmed;
 use App\Event\Order\OrderPurchased;
 use App\Models\Batch;
 use App\Models\Order;
@@ -20,7 +21,7 @@ class SubtractStock implements ShouldQueue, ShouldHandleEventsAfterCommit
 {
     public string $queue = 'order';
 
-    public function handle(OrderPurchased $event): void
+    public function handle(OrderPurchased|OrderInvitationConfirmed $event): void
     {
         /** @var Batch $batch */
         $batch = Batch::findOrFail($event->getOrder()->batch->id);
@@ -40,7 +41,7 @@ class SubtractStock implements ShouldQueue, ShouldHandleEventsAfterCommit
         $batch->save();
     }
 
-    public function middleware(OrderPurchased $event): array
+    public function middleware(OrderPurchased|OrderInvitationConfirmed $event): array
     {
         return [
             (new WithoutOverlapping(sprintf('batch-%s', $event->getOrder()->batch->id)))

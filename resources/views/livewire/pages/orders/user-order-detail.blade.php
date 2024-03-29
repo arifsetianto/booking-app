@@ -83,7 +83,7 @@ new class extends Component {
                     </div>
                     <div>
                         <p class="text-sm text-gray-500">Instagram</p>
-                        <p class="pt-1 text-sm">{{ $order->instagram }}</p>
+                        <p class="pt-1 text-sm">{{ $order->instagram ?? '-' }}</p>
                     </div>
                     <div>
                         <p class="text-sm text-gray-500">How do you know us</p>

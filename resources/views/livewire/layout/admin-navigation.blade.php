@@ -48,6 +48,9 @@ new class extends Component
                     <x-nav-link :href="route('order.list-archive')" :active="request()->routeIs('order.list-archive')" wire:navigate>
                         {{ __('Archive Orders') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('order.list-invited')" :active="request()->routeIs('order.list-invited')" wire:navigate>
+                        {{ __('Invited Orders') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -113,6 +116,9 @@ new class extends Component
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('order.list-archive')" :active="request()->routeIs('order.list-archive')" wire:navigate>
                 {{ __('Archive Orders') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('order.list-invited')" :active="request()->routeIs('order.list-invited')" wire:navigate>
+                {{ __('Invited Orders') }}
             </x-responsive-nav-link>
         </div>
 

@@ -17,7 +17,7 @@ class ForceAuthenticate
     public function handle(Request $request, \Closure $next)
     {
         /** @var User $user */
-        if (null !== $user = User::where('email', $request->query->get('email'))->whereNotNull('email_verified_at')->first()) {
+        if (null !== $user = User::where('email', $request->query->get('email'))->first()) {
             Auth::login($user);
 
             return $next($request);

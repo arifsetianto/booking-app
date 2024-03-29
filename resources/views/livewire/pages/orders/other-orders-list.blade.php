@@ -30,6 +30,8 @@ new class extends Component {
             $this->redirectRoute(name: 'order.complete', parameters: ['order' => $order->id]);
         } elseif ($order->status->is(OrderStatus::COMPLETED)) {
             $this->redirectRoute(name: 'order.shipped', parameters: ['order' => $order->id]);
+        } elseif ($order->status->is(OrderStatus::INVITED)) {
+            $this->redirectRoute(name: 'order.invited', parameters: ['order' => $order->id]);
         } else {
             $this->redirectRoute(name: 'order.archive', parameters: ['order' => $order->id]);
         }
@@ -61,9 +63,11 @@ new class extends Component {
                                     <div class="text-base font-normal">
                                         <span class="font-bold text-emerald-600 dark:text-white">{{ $order->user_order_sequence }}. #{{ $order->code }}</span>
                                     </div>
-                                    <div class="text-sm font-normal">{{ $order->orderItem?->receiver_th_name }}
-                                        ({{ $order->orderItem?->receiver_en_name }})
-                                    </div>
+                                    @if($order->orderItem)
+                                        <div class="text-sm font-normal">{{ $order->orderItem?->receiver_th_name }}
+                                            ({{ $order->orderItem?->receiver_en_name }})
+                                        </div>
+                                    @endif
                                     <span class="inline-flex items-center text-xs font-normal text-gray-500 dark:text-gray-400">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                              class="w-2.5 h-2.5 me-1">
@@ -91,9 +95,11 @@ new class extends Component {
                                 <div class="text-gray-600 dark:text-gray-400 items-center">
                                     <div class="text-base font-normal"><span class="font-medium text-gray-900 dark:text-white">{{ $order->user_order_sequence }}. #{{ $order->code }}</span>
                                     </div>
-                                    <div class="text-sm font-normal">{{ $order->orderItem?->receiver_th_name }}
-                                        ({{ $order->orderItem?->receiver_en_name }})
-                                    </div>
+                                    @if($order->orderItem)
+                                        <div class="text-sm font-normal">{{ $order->orderItem?->receiver_th_name }}
+                                            ({{ $order->orderItem?->receiver_en_name }})
+                                        </div>
+                                    @endif
                                     <span class="inline-flex items-center text-xs font-normal text-gray-500 dark:text-gray-400">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                              class="w-2.5 h-2.5 me-1">

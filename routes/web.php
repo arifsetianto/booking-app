@@ -44,6 +44,9 @@ Route::middleware(['auth.admin', 'verified', 'roles.has:admin'])->group(
         Route::view('archive-orders', 'pages/orders/list-archive')
              ->name('order.list-archive');
 
+        Route::view('invited-orders', 'pages/orders/list-invited')
+             ->name('order.list-invited');
+
         Route::view('orders/{order}/verify', 'pages/orders/verify')
              ->name('order.verify');
 
@@ -55,6 +58,15 @@ Route::middleware(['auth.admin', 'verified', 'roles.has:admin'])->group(
 
         Route::view('orders/{order}/archive', 'pages/orders/archive')
              ->name('order.archive');
+
+        Route::view('orders/invite', 'pages/orders/invite')
+             ->name('order.invite.create');
+
+        Route::view('orders/invite-existing', 'pages/orders/invite-existing')
+             ->name('order.invite-existing.create');
+
+        Route::view('orders/{order}/invited', 'pages/orders/invited')
+             ->name('order.invited');
 
         Route::view('profile', 'profile')
              ->name('profile');
@@ -80,6 +92,10 @@ Route::view('orders/{order}/payment/force', 'pages/orders/payment')
 Route::view('orders/{order}/tracking-status/force', 'pages/orders/tracking-status')
      ->middleware(['force.auth'])
      ->name('orders.tracking.status.force');
+
+Route::view('orders/{order}/confirm-invitation', 'pages/orders/confirm-invitation')
+     ->middleware(['signed', 'force.auth'])
+     ->name('orders.confirm-invitation');
 
 Route::middleware(['auth', 'verified', 'roles.has:customer'])->group(
     function () {

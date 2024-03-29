@@ -187,120 +187,127 @@ new class extends Component {
             </div>
         </div>
     </div>
-    <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
-    <header>
-        <h2 class="text-lg font-medium text-gray-900">
-            {{ __('Payment') }}
-        </h2>
 
-        <p class="mt-1 text-sm text-gray-600">
-            {{ __("The following are the details of the payment, please check the correctness of the data before you select confirm order.") }}
-        </p>
-    </header>
+    @if($order->payment)
+        <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
+        <header>
+            <h2 class="text-lg font-medium text-gray-900">
+                {{ __('Payment') }}
+            </h2>
 
-    <div class="mt-10">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <p class="text-sm text-gray-500">Bank Name</p>
-                        <p class="pt-1 text-sm">Krungthai Bank</p>
-                    </div>
-                    <div>
-                        <p class="text-sm text-gray-500">Account Name</p>
-                        <p class="pt-1 text-sm">Thaiquran Foundation</p>
-                    </div>
-                    <div>
-                        <p class="text-sm text-gray-500">Account Number</p>
-                        <p class="pt-1 text-sm">819-0-47810-9</p>
-                    </div>
-                    <div>
-                        <p class="text-sm text-gray-500">Delivery Fee</p>
-                        <p class="pt-1 text-sm">THB {{ $order->shipping->fee }}</p>
-                    </div>
-                    <div>
-                        <p class="text-sm text-gray-500">Status</p>
-                        <p class="pt-1 text-sm">
+            <p class="mt-1 text-sm text-gray-600">
+                {{ __("The following are the details of the payment, please check the correctness of the data before you select confirm order.") }}
+            </p>
+        </header>
+
+        <div class="mt-10">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <p class="text-sm text-gray-500">Bank Name</p>
+                            <p class="pt-1 text-sm">Krungthai Bank</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500">Account Name</p>
+                            <p class="pt-1 text-sm">Thaiquran Foundation</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500">Account Number</p>
+                            <p class="pt-1 text-sm">819-0-47810-9</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500">Delivery Fee</p>
+                            <p class="pt-1 text-sm">THB {{ $order->shipping->fee }}</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500">Status</p>
+                            <p class="pt-1 text-sm">
                             <span
-                                class="{{ $order->payment->status->is(PaymentStatus::PAID) ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300' : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300' }} text-xs font-medium me-2 px-2.5 py-0.5 rounded-full">{{ $order->payment->status }}</span>
-                        </p>
-                    </div>
-                    <div>
-                        <p class="text-sm text-gray-500">Paid At</p>
-                        <p class="pt-1 text-sm">{{ $order->payment->paid_at?->format('d-m-Y H:i:s') ?? '-' }}</p>
+                                class="{{ $order->payment?->status->is(PaymentStatus::PAID) ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300' : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300' }} text-xs font-medium me-2 px-2.5 py-0.5 rounded-full">{{ $order->payment->status }}</span>
+                            </p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500">Paid At</p>
+                            <p class="pt-1 text-sm">{{ $order->payment?->paid_at?->format('d-m-Y H:i:s') ?? '-' }}</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div>
-                <figure class="max-w-lg">
-                    <img class="h-auto max-w-sm mx-auto rounded-lg"
-                         src="{{ $order->payment->receipt_file ? Storage::url($order->payment->receipt_file) : asset('images/image-default.jpg') }}"
-                         alt="">
-                    <figcaption class="mt-2 text-sm text-center text-gray-500 dark:text-gray-400">Payment Receipt File
-                    </figcaption>
-                </figure>
-            </div>
-        </div>
-    </div>
-    <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
-    <header>
-        <h2 class="text-lg font-medium text-gray-900">
-            {{ __('Shipping') }}
-        </h2>
-
-        <p class="mt-1 text-sm text-gray-600">
-            {{ __("The following are the details of the shipment, please check the correctness of the data before you select confirm order.") }}
-        </p>
-    </header>
-
-    <div class="mt-10">
-        <div class="grid grid-cols-1 md:grid-cols-1 gap-4">
-            <div>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div>
-                        <p class="text-sm text-gray-500">Receiver Name</p>
-                        <p class="pt-1 text-sm">{{ $order->shipping->name }}</p>
-                    </div>
-                    <div>
-                        <p class="text-sm text-gray-500">Receiver Mobile No.</p>
-                        <p class="pt-1 text-sm">{{ $order->shipping->phone }}</p>
-                    </div>
-                    <div>
-                        <p class="text-sm text-gray-500">Address</p>
-                        <p class="pt-1 text-sm">{{ $order->shipping->address }}</p>
-                    </div>
-                    <div>
-                        <p class="text-sm text-gray-500">Region</p>
-                        <p class="pt-1 text-sm">{{ $order->shipping->subDistrict->district->city->region->th_name }}
-                            ({{ $order->shipping->subDistrict->district->city->region->en_name }})</p>
-                    </div>
-                    <div>
-                        <p class="text-sm text-gray-500">Province</p>
-                        <p class="pt-1 text-sm">{{ $order->shipping->subDistrict->district->city->th_name }}
-                            ({{ $order->shipping->subDistrict->district->city->en_name }})</p>
-                    </div>
-                    <div>
-                        <p class="text-sm text-gray-500">District</p>
-                        <p class="pt-1 text-sm">{{ $order->shipping->subDistrict->district->th_name }}
-                            ({{ $order->shipping->subDistrict->district->en_name }})</p>
-                    </div>
-                    <div>
-                        <p class="text-sm text-gray-500">Sub District</p>
-                        <p class="pt-1 text-sm">{{ $order->shipping->subDistrict->th_name }}
-                            ({{ $order->shipping->subDistrict->en_name }})</p>
-                    </div>
-                    <div>
-                        <p class="text-sm text-gray-500">Zip Code</p>
-                        <p class="pt-1 text-sm">{{ $order->shipping->subDistrict->zip_code }}</p>
-                    </div>
-                    <div>
-                        <p class="text-sm text-gray-500">Tracking Code</p>
-                        <p class="pt-1 text-sm">{{ $order->shipping->tracking_code ?? '-' }}</p>
-                    </div>
+                <div>
+                    <figure class="max-w-lg">
+                        <img class="h-auto max-w-sm mx-auto rounded-lg"
+                             src="{{ $order->payment?->receipt_file ? Storage::url($order->payment->receipt_file) : asset('images/image-default.jpg') }}"
+                             alt="">
+                        <figcaption class="mt-2 text-sm text-center text-gray-500 dark:text-gray-400">Payment Receipt File
+                        </figcaption>
+                    </figure>
                 </div>
             </div>
         </div>
-    </div>
+    @endif
+
+    @if($order->shipping)
+        <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
+        <header>
+            <h2 class="text-lg font-medium text-gray-900">
+                {{ __('Shipping') }}
+            </h2>
+
+            <p class="mt-1 text-sm text-gray-600">
+                {{ __("The following are the details of the shipment, please check the correctness of the data before you select confirm order.") }}
+            </p>
+        </header>
+
+        <div class="mt-10">
+            <div class="grid grid-cols-1 md:grid-cols-1 gap-4">
+                <div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <p class="text-sm text-gray-500">Receiver Name</p>
+                            <p class="pt-1 text-sm">{{ $order->shipping->name }}</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500">Receiver Mobile No.</p>
+                            <p class="pt-1 text-sm">{{ $order->shipping->phone }}</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500">Address</p>
+                            <p class="pt-1 text-sm">{{ $order->shipping->address }}</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500">Region</p>
+                            <p class="pt-1 text-sm">{{ $order->shipping->subDistrict->district->city->region->th_name }}
+                                ({{ $order->shipping->subDistrict->district->city->region->en_name }})</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500">Province</p>
+                            <p class="pt-1 text-sm">{{ $order->shipping->subDistrict->district->city->th_name }}
+                                ({{ $order->shipping->subDistrict->district->city->en_name }})</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500">District</p>
+                            <p class="pt-1 text-sm">{{ $order->shipping->subDistrict->district->th_name }}
+                                ({{ $order->shipping->subDistrict->district->en_name }})</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500">Sub District</p>
+                            <p class="pt-1 text-sm">{{ $order->shipping->subDistrict->th_name }}
+                                ({{ $order->shipping->subDistrict->en_name }})</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500">Zip Code</p>
+                            <p class="pt-1 text-sm">{{ $order->shipping->subDistrict->zip_code }}</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500">Tracking Code</p>
+                            <p class="pt-1 text-sm">{{ $order->shipping->tracking_code ?? '-' }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+
     <div class="flex items-center gap-4 mt-14">
         <x-primary-button x-data=""
                           x-on:click.prevent="$dispatch('open-modal', 'confirm-order-verification')">

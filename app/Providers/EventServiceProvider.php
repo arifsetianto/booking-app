@@ -7,6 +7,8 @@ use App\Event\Order\OrderCanceled;
 use App\Event\Order\OrderCompleted;
 use App\Event\Order\OrderConfirmed;
 use App\Event\Order\OrderForceCanceled;
+use App\Event\Order\OrderInvitationConfirmed;
+use App\Event\Order\OrderInvited;
 use App\Event\Order\OrderPurchased;
 use App\Event\Order\OrderRejected;
 use App\Event\Order\OrderRevised;
@@ -17,6 +19,8 @@ use App\Listener\Batch\SubtractStock;
 use App\Listener\Order\SendOrderCompletedNotification;
 use App\Listener\Order\SendOrderConfirmedNotification;
 use App\Listener\Order\SendOrderForceCanceledNotification;
+use App\Listener\Order\SendOrderInvitationConfirmedNotification;
+use App\Listener\Order\SendOrderInvitedNotification;
 use App\Listener\Order\SendOrderPurchasedNotification;
 use App\Listener\Order\SendOrderRejectedNotification;
 use App\Listener\Order\SendOrderRevisedNotification;
@@ -65,6 +69,13 @@ class EventServiceProvider extends ServiceProvider
         OrderForceCanceled::class => [
             AddStock::class,
             SendOrderForceCanceledNotification::class,
+        ],
+        OrderInvited::class => [
+            SendOrderInvitedNotification::class,
+        ],
+        OrderInvitationConfirmed::class => [
+            SubtractStock::class,
+            SendOrderInvitationConfirmedNotification::class,
         ],
     ];
 

@@ -78,7 +78,7 @@
                         @endif
                     </th>
                     <td class="px-6 py-4 text-center">
-                        {{ $order->orderItem->receiver_en_name }}
+                        {{ $order->orderItem?->receiver_en_name ?? '-' }}
                     </td>
                     <td class="px-6 py-4 text-center">
                         {{ $order->batch->number }}
