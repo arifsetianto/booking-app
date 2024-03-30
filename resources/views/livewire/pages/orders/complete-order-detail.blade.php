@@ -163,8 +163,8 @@ new class extends Component {
                 </div>
             </div>
             <div>
-                <figure class="max-w-lg">
-                    <img class="h-auto max-w-sm mx-auto rounded-lg"
+                <figure class="max-w-lg overflow-hidden">
+                    <img class="h-auto max-w-sm mx-auto rounded-lg hover:scale-150 ease-in duration-150"
                          src="{{ $order->orderItem->identity_file ? Storage::url($order->orderItem->identity_file) : asset('images/image-default.jpg') }}"
                          alt="">
                     <figcaption class="mt-2 text-sm text-center text-gray-500 dark:text-gray-400">Receiver Thai ID
@@ -218,8 +218,8 @@ new class extends Component {
                 </div>
             </div>
             <div>
-                <figure class="max-w-lg">
-                    <img class="h-auto max-w-sm mx-auto rounded-lg"
+                <figure class="max-w-lg overflow-hidden">
+                    <img class="h-auto max-w-sm mx-auto rounded-lg hover:scale-150 ease-in duration-150"
                          src="{{ $order->payment->receipt_file ? Storage::url($order->payment->receipt_file) : asset('images/image-default.jpg') }}"
                          alt="">
                     <figcaption class="mt-2 text-sm text-center text-gray-500 dark:text-gray-400">Payment Receipt File
