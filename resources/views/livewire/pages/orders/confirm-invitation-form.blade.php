@@ -22,6 +22,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Livewire\Volt\Component;
 use Livewire\WithFileUploads;
 use function Livewire\Volt\{state};
@@ -55,6 +56,7 @@ new class extends Component {
         $this->form->designation = $this->order->orderItem?->designation?->id;
         $this->form->religion = $this->order->orderItem?->religion?->id;
         $this->form->gender = $this->order->orderItem?->gender?->value;
+        //$this->form->identityFile = $this->order->orderItem?->identity_file ? TemporaryUploadedFile::createFromLivewire($this->order->orderItem?->identity_file) : null;
         $this->form->receiverPhone = $this->order->shipping?->phone;
         $this->form->address = $this->order->shipping?->address;
         $this->form->region = $this->order->shipping?->subDistrict?->district?->city?->region?->id;
@@ -177,10 +179,7 @@ new class extends Component {
                 $item->religion()->associate(Religion::find($this->form->religion));
                 $item->designation()->associate(Designation::find($this->form->designation));
                 $item->order()->associate($order);
-
-                if ($this->form->identityFile) {
-                    $item->identity_file = $this->form->identityFile->store('orders/identities');
-                }
+                $item->identity_file = $this->form->identityFile->store('orders/identities');
 
                 $item->save();
 
@@ -354,15 +353,6 @@ new class extends Component {
                     <x-text-area wire:model="form.comment" id="comment" name="comment" class="mt-1 block w-full"
                                  autofocus autocomplete="comment"/>
                     <x-input-error class="mt-2" :messages="$errors->get('form.comment')"/>
-                </div>
-                <div>
-                    <figure class="max-w-lg">
-                        <img class="h-auto max-w-sm mx-auto rounded-lg"
-                             src="{{ $order->orderItem?->identity_file ? Storage::url($order->orderItem->identity_file) : asset('images/image-default.jpg') }}"
-                             alt="">
-                        <figcaption class="mt-2 text-sm text-center text-gray-500 dark:text-gray-400">Receiver Thai ID
-                        </figcaption>
-                    </figure>
                 </div>
             </div>
         </div>

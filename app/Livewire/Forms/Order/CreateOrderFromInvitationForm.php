@@ -41,7 +41,7 @@ class CreateOrderFromInvitationForm extends Form
     public ?string $religion;
 
     #[Validate(
-        'nullable|image|mimes:jpg,jpeg,png|max:5120'
+        'required|image|mimes:jpg,jpeg,png|max:5120'
         , message: [
         'max' => 'Maximum upload file size is 5MB'
     ])]
