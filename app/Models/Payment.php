@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Observers\PaymentObserver;
 use App\ValueObject\PaymentStatus;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -19,6 +21,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @author  Arif Setianto <arifsetiantoo@gmail.com>
  */
+#[ObservedBy([PaymentObserver::class])]
 class Payment extends Model
 {
     use HasUuids;

@@ -7,6 +7,7 @@ namespace App\Listener\Batch;
 use App\Event\Order\OrderCanceled;
 use App\Event\Order\OrderForceCanceled;
 use App\Event\Order\OrderRejected;
+use App\Event\Payment\PaymentDeleted;
 use App\Models\Batch;
 use Illuminate\Contracts\Events\ShouldHandleEventsAfterCommit;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -19,7 +20,7 @@ class AddStock implements ShouldQueue, ShouldHandleEventsAfterCommit
 {
     public string $queue = 'order';
 
-    public function handle(OrderCanceled|OrderRejected|OrderForceCanceled $event): void
+    public function handle(OrderCanceled|OrderRejected|OrderForceCanceled|PaymentDeleted $event): void
     {
         /** @var Batch $batch */
         $batch = Batch::findOrFail($event->getOrder()->batch->id);
@@ -31,7 +32,7 @@ class AddStock implements ShouldQueue, ShouldHandleEventsAfterCommit
         $batch->save();
     }
 
-    public function middleware(OrderCanceled|OrderRejected|OrderForceCanceled $event): array
+    public function middleware(OrderCanceled|OrderRejected|OrderForceCanceled|PaymentDeleted $event): array
     {
         return [
             (new WithoutOverlapping(sprintf('batch-%s', $event->getOrder()->batch->id)))

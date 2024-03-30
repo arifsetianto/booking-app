@@ -13,6 +13,7 @@ use App\Event\Order\OrderPurchased;
 use App\Event\Order\OrderRejected;
 use App\Event\Order\OrderRevised;
 use App\Event\Order\OrderVerified;
+use App\Event\Payment\PaymentDeleted;
 use App\Listener\Auth\SendLoginLinkVerification;
 use App\Listener\Batch\AddStock;
 use App\Listener\Batch\SubtractStock;
@@ -76,6 +77,9 @@ class EventServiceProvider extends ServiceProvider
         OrderInvitationConfirmed::class => [
             SubtractStock::class,
             SendOrderInvitationConfirmedNotification::class,
+        ],
+        PaymentDeleted::class => [
+            AddStock::class,
         ],
     ];
 
