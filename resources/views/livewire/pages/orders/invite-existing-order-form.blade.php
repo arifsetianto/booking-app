@@ -143,7 +143,15 @@ new class extends Component {
         $user = User::where('email', $this->form->email)->first();
 
         if (null !== $user) {
-            $this->orders = Order::where('user_id', $user->id)->get();
+            $this->orders = Order::where('user_id', $user->id)
+                                 ->whereNotIn(
+                                     'id',
+                                     Order::select('reference_id')
+                                          ->where('user_id', $user->id)
+                                          ->whereNotNull('reference_id')
+                                          ->get()
+                                 )
+                                 ->get();
             $this->isShowUserOrdersTable = true;
         } else {
             $this->isShowUserOrdersTable = false;
