@@ -13,13 +13,13 @@ use Livewire\Form;
  */
 class ForceUpdateOrderForm extends UpdateOrderForm
 {
-    #[Validate('required|string')]
+    #[Validate('required|string|no_hyphen')]
     public string $receiverName;
 
-    #[Validate('required|string|max:30')]
+    #[Validate('required|string|no_hyphen|max:30')]
     public string $receiverPhone;
 
-    #[Validate('required|string')]
+    #[Validate('required|string|no_hyphen')]
     public string $address;
 
     #[Validate('required|uuid|exists:regions,id')]

@@ -13,10 +13,10 @@ use Livewire\Form;
  */
 class UpdateOrderForm extends Form
 {
-    #[Validate('required|string')]
+    #[Validate('required|string|no_hyphen')]
     public string $receiverEnName;
 
-    #[Validate('required|string')]
+    #[Validate('required|string|no_hyphen')]
     public string $receiverThName;
 
     #[Validate('required|uuid|exists:designations,id')]

@@ -12,6 +12,6 @@ use Livewire\Form;
  */
 class ReviseOrderForm extends Form
 {
-    #[Validate('required|string')]
+    #[Validate('required|string|no_hyphen')]
     public string $reason = '';
 }

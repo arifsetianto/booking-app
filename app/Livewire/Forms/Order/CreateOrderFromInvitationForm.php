@@ -13,10 +13,10 @@ use Livewire\Form;
  */
 class CreateOrderFromInvitationForm extends Form
 {
-    #[Validate('required|string|max:255')]
+    #[Validate('required|string|no_hyphen|max:255')]
     public ?string $name;
 
-    #[Validate('required|string|max:30')]
+    #[Validate('required|string|no_hyphen|max:30')]
     public ?string $phone;
 
     #[Validate('nullable|string|max:100')]
@@ -25,10 +25,10 @@ class CreateOrderFromInvitationForm extends Form
     #[Validate('required|uuid|exists:sources,id')]
     public ?string $source;
 
-    #[Validate('required|string')]
+    #[Validate('required|string|no_hyphen')]
     public ?string $receiverEnName;
 
-    #[Validate('required|string')]
+    #[Validate('required|string|no_hyphen')]
     public ?string $receiverThName;
 
     #[Validate('required|uuid|exists:designations,id')]
@@ -53,7 +53,7 @@ class CreateOrderFromInvitationForm extends Form
     #[Validate('required|numeric|max_digits:30')]
     public ?string $receiverPhone;
 
-    #[Validate('required|string')]
+    #[Validate('required|string|no_hyphen')]
     public ?string $address;
 
     #[Validate('required|uuid|exists:regions,id')]

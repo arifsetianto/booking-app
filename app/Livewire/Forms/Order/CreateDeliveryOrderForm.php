@@ -12,13 +12,13 @@ use Livewire\Form;
  */
 class CreateDeliveryOrderForm extends Form
 {
-    #[Validate('required|string')]
+    #[Validate('required|string|no_hyphen')]
     public string $name;
 
     #[Validate('required|numeric|max_digits:30')]
     public string $phone;
 
-    #[Validate('required|string')]
+    #[Validate('required|string|no_hyphen')]
     public string $address;
 
     #[Validate('required|uuid|exists:regions,id')]
