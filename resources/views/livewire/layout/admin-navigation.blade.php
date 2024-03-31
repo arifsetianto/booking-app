@@ -40,7 +40,7 @@ new class extends Component
                         {{ __('Incoming Orders') }}
                     </x-nav-link>
                     <x-nav-link :href="route('order.list-complete')" :active="request()->routeIs('order.list-complete')" wire:navigate>
-                        {{ __('Complete Orders') }}
+                        {{ __('Verified Orders') }}
                     </x-nav-link>
                     <x-nav-link :href="route('order.list-shipped')" :active="request()->routeIs('order.list-shipped')" wire:navigate>
                         {{ __('Shipped Orders') }}
@@ -109,7 +109,7 @@ new class extends Component
                 {{ __('Incoming Orders') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('order.list-complete')" :active="request()->routeIs('order.list-complete')" wire:navigate>
-                {{ __('Complete Orders') }}
+                {{ __('Verified Orders') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('order.list-shipped')" :active="request()->routeIs('order.list-shipped')" wire:navigate>
                 {{ __('Shipped Orders') }}

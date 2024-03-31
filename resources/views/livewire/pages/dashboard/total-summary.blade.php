@@ -101,7 +101,7 @@ new class extends Component {
             <div class="flex justify-center items-center">
                 <div class="text-center">
                     <h5 class="leading-none text-3xl font-bold text-gray-900 dark:text-white pb-2">{{ number_format($totalCompletedOrders) }}</h5>
-                    <p class="text-base font-normal text-gray-500 dark:text-gray-400">Total Completed Orders</p>
+                    <p class="text-base font-normal text-gray-500 dark:text-gray-400">Total Shipped Orders</p>
                 </div>
             </div>
         </div>
