@@ -9,6 +9,7 @@ use function Livewire\Volt\{state};
 new class extends Component {
     public int $totalRegisteredUsers = 0;
     public int $totalUsersOrdered = 0;
+    public int $totalOrders = 0;
     public int $totalIncome = 0;
     public int $totalPendingOrders = 0;
     public int $totalIncomingOrders = 0;
@@ -33,6 +34,7 @@ new class extends Component {
                     ]
                 )->get()
             )->count();
+        $this->totalOrders = Order::whereIn('status', [OrderStatus::CONFIRMED, OrderStatus::VERIFIED, OrderStatus::COMPLETED])->count();
         $this->totalIncome = Order::whereIn('status', [OrderStatus::VERIFIED, OrderStatus::COMPLETED])->sum('amount');
         $this->totalPendingOrders = Order::where('status', OrderStatus::PENDING)->count();
         $this->totalIncomingOrders = Order::where('status', OrderStatus::CONFIRMED)->count();
@@ -57,8 +59,8 @@ new class extends Component {
         <div class="max-w-xl w-full bg-white shadow rounded-lg dark:bg-gray-800 p-4 md:p-6">
             <div class="flex justify-center items-center">
                 <div class="text-center">
-                    <h5 class="leading-none text-3xl font-bold text-gray-900 dark:text-white pb-2">{{ number_format($totalUsersOrdered) }}</h5>
-                    <p class="text-base font-normal text-gray-500 dark:text-gray-400">Total Users Ordered</p>
+                    <h5 class="leading-none text-3xl font-bold text-gray-900 dark:text-white pb-2">{{ number_format($totalOrders) }}</h5>
+                    <p class="text-base font-normal text-gray-500 dark:text-gray-400">Total Orders</p>
                 </div>
             </div>
         </div>
