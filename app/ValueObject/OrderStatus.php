@@ -21,6 +21,21 @@ enum OrderStatus: string
     case REVISED = 'revised';
     case INVITED = 'invited';
 
+    public function getLabel(): string
+    {
+        return match ($this) {
+            self::DRAFT => 'draft',
+            self::PENDING => 'pending',
+            self::CONFIRMED => 'incoming',
+            self::VERIFIED => 'verified',
+            self::COMPLETED => 'shipped',
+            self::REJECTED => 'rejected',
+            self::CANCELED => 'canceled',
+            self::REVISED => 'revised',
+            self::INVITED => 'invited',
+        };
+    }
+
     public function getColor(): string
     {
         return match ($this) {

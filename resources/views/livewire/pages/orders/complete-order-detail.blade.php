@@ -290,14 +290,14 @@ new class extends Component {
     <div class="flex items-center gap-4 mt-14">
         <x-primary-button x-data=""
                           x-on:click.prevent="$dispatch('open-modal', 'confirm-order-completion')">
-            {{ __('Complete Order') }}
+            {{ __('Shipped Code') }}
         </x-primary-button>
         <x-danger-button x-data=""
                          x-on:click.prevent="$dispatch('open-modal', 'confirm-order-cancellation')">
             {{ __('Cancel Order') }}
         </x-danger-button>
         <x-secondary-button wire:click="generateLabel">
-            {{ __('Print Label') }}
+            {{ __('Print') }}
         </x-secondary-button>
     </div>
 
