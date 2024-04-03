@@ -59,7 +59,7 @@ class ShippedOrderGrid extends Component
                              ->when($this->searchBatch !== '', fn(Builder $query) => $query->where('orders.batch_id', $this->searchBatch))
                              ->when($this->searchStatus !== '', fn(Builder $query) => $query->where('orders.status', $this->searchStatus))
                              ->with(['batch', 'source', 'shipping', 'payment'])
-                             ->orderBy('orders.created_at')
+                             ->orderByDesc('orders.completed_at')
                              ->paginate(10),
             'batches' => Batch::orderBy('number')->get(),
             'statuses' => OrderStatus::getOptions(),

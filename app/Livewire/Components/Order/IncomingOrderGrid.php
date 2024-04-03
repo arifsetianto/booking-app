@@ -60,7 +60,7 @@ class IncomingOrderGrid extends Component
                              })
                              ->when($this->searchBatch !== '', fn(Builder $query) => $query->where('orders.batch_id', $this->searchBatch))
                              ->with(['batch', 'source', 'shipping', 'payment'])
-                             ->orderBy('orders.created_at')
+                             ->orderBy('orders.confirmed_at')
                              ->paginate(10),
             'batches' => Batch::orderBy('number')->get(),
         ]);
