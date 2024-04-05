@@ -57,6 +57,7 @@ task('deploy:secrets', function () {
 });
 
 task('deploy:permission', function () {
+    run('chmod -R 777 {{release_path}}/resources/fonts');
     run('chmod -R 777 {{release_path}}/storage');
 });
 
