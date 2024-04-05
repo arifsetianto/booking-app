@@ -77,7 +77,9 @@ Route::middleware(['auth.admin', 'verified', 'roles.has:admin'])->group(
         Route::get('verify/resend', [TwoFactorController::class, 'resend'])->name('verify.resend');
         Route::resource('verify', TwoFactorController::class)->only(['index', 'store']);
 
-        Route::get('orders/verified/export', [OrderController::class, 'verifiedExport'])->name('orders.verified.export');
+        Route::get('orders/verified/export', [OrderController::class, 'verifiedExport'])->name(
+            'orders.verified.export'
+        );
     }
 );
 
@@ -103,6 +105,7 @@ Route::middleware(['auth', 'verified', 'roles.has:customer'])->group(
              ->name('home');
 
         Route::view('book-order', 'pages/orders/book')
+             ->middleware(['stock.check'])
              ->name('orders.book');
 
         Route::view('orders/{order}/delivery', 'pages/orders/delivery')
@@ -137,6 +140,9 @@ Route::middleware(['auth', 'verified', 'roles.has:customer'])->group(
 
         Route::view('customer-profile', 'customer-profile')
              ->name('profile.customer');
+
+        Route::view('stock-unavailable', 'pages/batches/stock-unavailable')
+             ->name('stock.unavailable');
     }
 );
 

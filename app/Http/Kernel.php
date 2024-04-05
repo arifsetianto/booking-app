@@ -68,5 +68,6 @@ class Kernel extends HttpKernel
         'roles.has' => \App\Http\Middleware\HasRole::class,
         'force.auth' => \App\Http\Middleware\ForceAuthenticate::class,
         'two.factor' => \App\Http\Middleware\TwoFactorMiddleware::class,
+        'stock.check' => \App\Http\Middleware\CheckStock::class,
     ];
 }
