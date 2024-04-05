@@ -26,10 +26,10 @@ add('shared_files', ['.env']);
 add('shared_dirs', ['storage']);
 add('writable_dirs', [
     'bootstrap/cache',
+    'resources/fonts',
     'storage',
     'storage/app',
     'storage/app/public',
-    'storage/fonts',
     'storage/framework',
     'storage/framework/cache',
     'storage/framework/cache/data',

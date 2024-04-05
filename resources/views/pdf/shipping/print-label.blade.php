@@ -9,7 +9,7 @@
             font-weight: normal;
             font-style: normal;
             font-variant: normal;
-            src: url({{ storage_path("fonts/Figtree-Regular.ttf") }}) format('truetype');
+            src: url({{ resource_path("fonts/Figtree-Regular.ttf") }}) format('truetype');
         }
 
         @font-face {
@@ -17,7 +17,7 @@
             font-weight: normal;
             font-style: normal;
             font-variant: normal;
-            src: url({{ storage_path("fonts/Figtree-Bold.ttf") }}) format('truetype');
+            src: url({{ resource_path("fonts/Figtree-Bold.ttf") }}) format('truetype');
         }
 
         @font-face {
@@ -25,7 +25,7 @@
             font-weight: normal;
             font-style: normal;
             font-variant: normal;
-            src: url({{ storage_path("fonts/TH-Sarabun-Bold.ttf") }}) format('truetype');
+            src: url({{ resource_path("fonts/TH-Sarabun-Bold.ttf") }}) format('truetype');
         }
 
         @font-face {
@@ -33,7 +33,7 @@
             font-weight: normal;
             font-style: normal;
             font-variant: normal;
-            src: url({{ storage_path("fonts/TH-Sarabun-Bold.ttf") }}) format('truetype');
+            src: url({{ resource_path("fonts/TH-Sarabun-Bold.ttf") }}) format('truetype');
         }
 
         body {
