@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Rules\NoHyphen;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Validator;

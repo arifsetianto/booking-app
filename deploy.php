@@ -29,6 +29,7 @@ add('writable_dirs', [
     'storage',
     'storage/app',
     'storage/app/public',
+    'storage/fonts',
     'storage/framework',
     'storage/framework/cache',
     'storage/framework/cache/data',
