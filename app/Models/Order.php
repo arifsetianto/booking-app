@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
  * @property int $qty
- * @property int $amount
+ * @property float $amount
  * @property OrderStatus $status
  * @property OrderItem $orderItem
  * @property User $user

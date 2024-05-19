@@ -109,10 +109,10 @@ new class extends Component {
                                 <p class="text-sm text-gray-500">Quantity</p>
                                 <p class="pt-1 text-sm">1 pcs ThaiQuran</p>
                             </div>
-{{--                            <div>--}}
-{{--                                <p class="text-sm text-gray-500">Delivery & Service Fee</p>--}}
-{{--                                <p class="pt-1 text-sm">THB 100</p>--}}
-{{--                            </div>--}}
+                            <div>
+                                <p class="text-sm text-gray-500">Delivery & Service Fee</p>
+                                <p class="pt-1 text-sm">THB {{ $order->amount }}</p>
+                            </div>
                         </div>
                         <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">

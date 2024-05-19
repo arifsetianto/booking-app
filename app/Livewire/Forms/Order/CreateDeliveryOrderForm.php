@@ -33,8 +33,8 @@ class CreateDeliveryOrderForm extends Form
     #[Validate('required|uuid|exists:sub_districts,id')]
     public string $subDistrict = '';
 
-    #[Validate('nullable|numeric|min:0')]
-    public ?int $fee;
+    #[Validate('required|numeric')]
+    public float $fee;
 
     #[Validate('required|string')]
     public string $zipCode;

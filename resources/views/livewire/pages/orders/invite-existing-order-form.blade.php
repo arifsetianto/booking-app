@@ -53,7 +53,7 @@ new class extends Component {
             $order->status = OrderStatus::INVITED;
             $order->code = $this->createUniqueOrderCode();
             $order->qty = 1;
-            $order->amount = 0;
+            $order->amount = $this->generateUniqueAmount($batch);
             $order->user_order_sequence = $userOrderCount + 1;
             $order->comment = $this->selectedOrder?->comment;
             $order->reference()->associate($this->selectedOrder);
@@ -95,7 +95,7 @@ new class extends Component {
                 $shipping->name = $this->selectedOrder?->shipping?->name;
                 $shipping->phone = $this->selectedOrder?->shipping?->phone;
                 $shipping->address = $this->selectedOrder?->shipping?->address;
-                $shipping->fee = $this->selectedOrder?->shipping?->fee;
+                $shipping->fee = $order->amount;
 
                 if ($this->selectedOrder?->shipping?->subDistrict) {
                     $shipping->subDistrict()->associate($this->selectedOrder?->shipping?->subDistrict);
@@ -136,6 +136,20 @@ new class extends Component {
                 return $this->generateCode();
             }
         );
+    }
+
+    private function generateUniqueAmount(Batch $batch): float
+    {
+        $lastOrder = Order::where('batch_id', $batch->id)->orderBy('code', 'desc')->first();
+
+        if ($lastOrder) {
+            $lastAmount = $lastOrder->amount;
+            $nextAmount = $lastAmount + 0.01;
+        } else {
+            $nextAmount = 100.00; // Initial amount
+        }
+
+        return round($nextAmount, 2);
     }
 
     public function searchUser(): void

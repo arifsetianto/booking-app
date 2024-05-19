@@ -22,7 +22,6 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
-use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Livewire\Volt\Component;
 use Livewire\WithFileUploads;
 use function Livewire\Volt\{state};
@@ -120,10 +119,10 @@ new class extends Component {
         if ('' !== $this->form->subDistrict) {
             $subDistrict = SubDistrict::findOrFail($this->form->subDistrict);
 
-            //$this->form->fee = 100;
+            $this->form->fee = $this->order->amount;
             $this->form->zipCode = $subDistrict->zip_code;
         } else {
-            //$this->form->fee = 0;
+            $this->form->fee = 0;
             $this->form->zipCode = '';
         }
     }
@@ -141,8 +140,6 @@ new class extends Component {
 
                 $this->redirectRoute(name: 'orders.list');
             } else {
-                $fee = $this->generateUniqueAmount();
-
                 /** @var User $user */
                 $user = User::findOrFail($order->user->id);
                 $user->name = $this->form->name;
@@ -163,7 +160,6 @@ new class extends Component {
                 $order->comment = $this->form->comment ?? null;
                 $order->status = OrderStatus::CONFIRMED;
                 $order->confirmed_at = Carbon::now();
-                $order->amount = $fee;
 
                 $order->save();
 
@@ -196,7 +192,7 @@ new class extends Component {
                 $shipping->phone = $this->form->receiverPhone;
                 $shipping->address = $this->form->address;
                 $shipping->subDistrict()->associate(SubDistrict::findOrFail($this->form->subDistrict));
-                $shipping->fee = $fee;
+                $shipping->fee = $this->form->fee;
 
                 $shipping->save();
 
@@ -226,20 +222,6 @@ new class extends Component {
 
             $this->redirectRoute(name: 'orders.list');
         }
-    }
-
-    protected function generateUniqueAmount(): float
-    {
-        $lastOrder = Order::where('batch_id', $this->order->batch->id)->orderBy('code', 'desc')->first();
-
-        if ($lastOrder) {
-            $lastAmount = $lastOrder->amount;
-            $nextAmount = $lastAmount + 0.01;
-        } else {
-            $nextAmount = 100.00; // Initial amount
-        }
-
-        return round($nextAmount, 2);
     }
 }
 
@@ -440,19 +422,19 @@ new class extends Component {
                                     autofocus/>
                     <x-input-error class="mt-2" :messages="$errors->get('form.subDistrict')"/>
                 </div>
-{{--                <div>--}}
-{{--                    <x-input-label for="delivery_fee" :value="__('Delivery & Service Fee')" class="required"/>--}}
-{{--                    <div class="flex mt-1 w-full">--}}
-{{--                  <span--}}
-{{--                      class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border rounded-e-0 border-gray-300 rounded-s-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">--}}
-{{--                    THB--}}
-{{--                  </span>--}}
-{{--                        <x-text-input wire:model="form.fee" id="delivery_fee" name="delivery_fee" type="text"--}}
-{{--                                      class="block w-full rounded-none rounded-e-lg bg-gray-50 border text-gray-900 flex-1 min-w-0 text-sm border-gray-300 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"--}}
-{{--                                      autofocus autocomplete="delivery_fee" readonly/>--}}
-{{--                    </div>--}}
-{{--                    <x-input-error class="mt-2" :messages="$errors->get('form.fee')"/>--}}
-{{--                </div>--}}
+                <div>
+                    <x-input-label for="delivery_fee" :value="__('Delivery & Service Fee')" class="required"/>
+                    <div class="flex mt-1 w-full">
+                  <span
+                      class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border rounded-e-0 border-gray-300 rounded-s-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
+                    THB
+                  </span>
+                        <x-text-input wire:model="form.fee" id="delivery_fee" name="delivery_fee" type="text"
+                                      class="block w-full rounded-none rounded-e-lg bg-gray-50 border text-gray-900 flex-1 min-w-0 text-sm border-gray-300 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+                                      autofocus autocomplete="delivery_fee" readonly/>
+                    </div>
+                    <x-input-error class="mt-2" :messages="$errors->get('form.fee')"/>
+                </div>
                 <div>
                     <x-input-label for="zip_code" :value="__('Zip Code')" class="required"/>
                     <x-text-input wire:model="form.zipCode" id="zip_code" name="zip_code" type="text"

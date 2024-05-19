@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\ValidationException;
 use Livewire\Volt\Component;
 use Livewire\WithFileUploads;
 use function Livewire\Volt\{state};
@@ -32,7 +33,10 @@ new class extends Component {
     public function mount(): void
     {
         $this->designations =
-            Designation::orderBy('number')->get()->map(fn($item) => ['value' => $item->id, 'label' => $item->name])->toArray();
+            Designation::orderBy('number')
+                       ->get()
+                       ->map(fn($item) => ['value' => $item->id, 'label' => $item->name])
+                       ->toArray();
         $this->genders = Gender::getOptions();
         $this->religions = Religion::get()->map(fn($item) => ['value' => $item->id, 'label' => $item->name])->toArray();
     }
@@ -52,46 +56,61 @@ new class extends Component {
 
             $this->redirectRoute('orders.book');
         } else {
-            $userOrderCount = Order::where('user_id', $user->id)->count();
-            $order =
-                new Order(
-                    $this->form->except(['receiverEnName', 'receiverThName', 'designation', 'gender', 'religion', 'identityFile'])
-                );
-            $order->email = $user->email;
-            $order->phone = $user->profile->phone;
-            $order->name = $user->name;
-            $order->instagram = $user->profile->instagram;
-            $order->user()->associate($user);
-            $order->batch()->associate($batch);
-            $order->source()->associate($user->profile->source);
-            $order->status = OrderStatus::DRAFT;
-            $order->code = $this->createUniqueOrderCode();
-            $order->qty = 1;
-            $order->amount = 0;
-            $order->user_order_sequence = $userOrderCount + 1;
+            $fileContent = $this->form->identityFile->getContent();
+            $fileHash = md5($fileContent);
 
-            $order->save();
+            // Check if the file with the same hash exists
+            $existingFile = OrderItem::where('identity_file_hash', $fileHash)->first();
 
-            $item = new OrderItem();
-            $item->receiver_en_name = $this->form->receiverEnName;
-            $item->receiver_th_name = $this->form->receiverThName;
-            $item->qty = 1;
-            $item->amount = 0;
-            $item->gender = Gender::from($this->form->gender);
-            $item->religion()->associate(Religion::find($this->form->religion));
-            $item->designation()->associate(Designation::find($this->form->designation));
-            $item->order()->associate($order);
-            $item->identity_file = $this->form->identityFile->store('orders/identities');
+            if ($existingFile) {
+                Session::flash('error', 'The Receiver Thai ID file has been uploaded. Please use a different file.');
 
-            $item->save();
+                $this->redirectRoute('orders.book');
+            } else {
+                $userOrderCount = Order::where('user_id', $user->id)->count();
+                $order =
+                    new Order(
+                        $this->form->except(
+                            ['receiverEnName', 'receiverThName', 'designation', 'gender', 'religion', 'identityFile']
+                        )
+                    );
+                $order->email = $user->email;
+                $order->phone = $user->profile->phone;
+                $order->name = $user->name;
+                $order->instagram = $user->profile->instagram;
+                $order->user()->associate($user);
+                $order->batch()->associate($batch);
+                $order->source()->associate($user->profile->source);
+                $order->status = OrderStatus::DRAFT;
+                $order->code = $this->createUniqueOrderCode();
+                $order->qty = 1;
+                $order->amount = $this->generateUniqueAmount($batch);
+                $order->user_order_sequence = $userOrderCount + 1;
 
-            Storage::deleteDirectory('livewire-tmp');
+                $order->save();
 
-            event(new OrderCreated($order));
+                $item = new OrderItem();
+                $item->receiver_en_name = $this->form->receiverEnName;
+                $item->receiver_th_name = $this->form->receiverThName;
+                $item->qty = 1;
+                $item->amount = 0;
+                $item->gender = Gender::from($this->form->gender);
+                $item->religion()->associate(Religion::find($this->form->religion));
+                $item->designation()->associate(Designation::find($this->form->designation));
+                $item->order()->associate($order);
+                $item->identity_file_hash = $fileHash;
+                $item->identity_file = $this->form->identityFile->store('orders/identities');
 
-            Session::flash('message', sprintf('Order %s has been successfully created.', $order->code));
+                $item->save();
 
-            $this->redirectRoute(name: 'orders.delivery', parameters: ['order' => $order->id]);
+                Storage::deleteDirectory('livewire-tmp');
+
+                event(new OrderCreated($order));
+
+                Session::flash('message', sprintf('Order %s has been successfully created.', $order->code));
+
+                $this->redirectRoute(name: 'orders.delivery', parameters: ['order' => $order->id]);
+            }
         }
     }
 
@@ -119,6 +138,20 @@ new class extends Component {
                 return $this->generateCode();
             }
         );
+    }
+
+    private function generateUniqueAmount(Batch $batch): float
+    {
+        $lastOrder = Order::where('batch_id', $batch->id)->orderBy('code', 'desc')->first();
+
+        if ($lastOrder) {
+            $lastAmount = $lastOrder->amount;
+            $nextAmount = $lastAmount + 0.01;
+        } else {
+            $nextAmount = 100.00; // Initial amount
+        }
+
+        return round($nextAmount, 2);
     }
 };
 

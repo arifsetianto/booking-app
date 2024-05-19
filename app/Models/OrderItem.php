@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @property int $qty
- * @property int $amount
+ * @property float $amount
  * @property Gender $gender
  * @property Order $order
  * @property Religion $religion
@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string $receiver_en_name
  * @property string $receiver_th_name
  * @property string $identity_file
+ * @property string $identity_file_hash
  *
  * @author  Arif Setianto <arifsetiantoo@gmail.com>
  */

@@ -60,7 +60,7 @@ new class extends Component {
             $order->status = OrderStatus::INVITED;
             $order->code = $this->createUniqueOrderCode();
             $order->qty = 1;
-            $order->amount = 0;
+            $order->amount = $this->generateUniqueAmount($batch);
             $order->user_order_sequence = $userOrderCount + 1;
 
             if (null !== $user) {
@@ -105,6 +105,20 @@ new class extends Component {
                 return $this->generateCode();
             }
         );
+    }
+
+    private function generateUniqueAmount(Batch $batch): float
+    {
+        $lastOrder = Order::where('batch_id', $batch->id)->orderBy('code', 'desc')->first();
+
+        if ($lastOrder) {
+            $lastAmount = $lastOrder->amount;
+            $nextAmount = $lastAmount + 0.01;
+        } else {
+            $nextAmount = 100.00; // Initial amount
+        }
+
+        return round($nextAmount, 2);
     }
 }
 

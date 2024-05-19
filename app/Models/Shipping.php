@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string $name
  * @property string $phone
  * @property string $address
- * @property int $fee
+ * @property float $fee
  * @property SubDistrict $subDistrict
  * @property string $tracking_code
  *
