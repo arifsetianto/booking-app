@@ -55,7 +55,7 @@ class Order extends Model
 
     protected $casts = [
         'qty'                 => 'integer',
-        'amount'              => 'integer',
+        'amount'              => 'float',
         'confirmed_at'        => 'datetime',
         'verified_at'         => 'datetime',
         'completed_at'        => 'datetime',

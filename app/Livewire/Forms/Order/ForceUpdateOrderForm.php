@@ -34,8 +34,8 @@ class ForceUpdateOrderForm extends UpdateOrderForm
     #[Validate('required|uuid|exists:sub_districts,id')]
     public string $subDistrict = '';
 
-    #[Validate('required|numeric|min:0')]
-    public int $fee;
+    #[Validate('nullable|numeric|min:0')]
+    public ?int $fee;
 
     #[Validate('nullable|image|mimes:jpg,jpeg,png|max:5120', message: ['max' => 'Maximum upload file size is 5MB'])]
     public ?TemporaryUploadedFile $receiptFile = null;

@@ -68,8 +68,8 @@ class CreateOrderFromInvitationForm extends Form
     #[Validate('required|uuid|exists:sub_districts,id')]
     public ?string $subDistrict = '';
 
-    #[Validate('required|numeric|min:0')]
-    public int $fee;
+    #[Validate('nullable|numeric|min:0')]
+    public ?int $fee;
 
     #[Validate('required|string')]
     public ?string $zipCode;

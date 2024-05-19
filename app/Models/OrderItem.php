@@ -36,7 +36,7 @@ class OrderItem extends Model
 
     protected $casts = [
         'qty'    => 'integer',
-        'amount' => 'integer',
+        'amount' => 'float',
         'gender' => Gender::class,
     ];
 

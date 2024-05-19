@@ -24,7 +24,7 @@ class Shipping extends Model
     use HasUuids;
 
     protected $casts = [
-        'fee' => 'integer',
+        'fee' => 'float',
     ];
 
     public function order(): BelongsTo

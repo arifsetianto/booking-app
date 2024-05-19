@@ -331,19 +331,19 @@ new class extends Component {
                 <x-input-error class="mt-2" :messages="$errors->get('form.subDistrict')"/>
             </div>
 
-            <div>
-                <x-input-label for="delivery_fee" :value="__('Delivery Fee')" class="required"/>
-                <div class="flex mt-1 w-full">
-                  <span
-                      class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border rounded-e-0 border-gray-300 rounded-s-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
-                    THB
-                  </span>
-                    <x-text-input wire:model="form.fee" id="delivery_fee" name="delivery_fee" type="text"
-                                  class="block w-full rounded-none rounded-e-lg bg-gray-50 border text-gray-900 flex-1 min-w-0 text-sm border-gray-300 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
-                                  autofocus autocomplete="delivery_fee" readonly/>
-                </div>
-                <x-input-error class="mt-2" :messages="$errors->get('form.fee')"/>
-            </div>
+{{--            <div>--}}
+{{--                <x-input-label for="delivery_fee" :value="__('Delivery Fee')" class="required"/>--}}
+{{--                <div class="flex mt-1 w-full">--}}
+{{--                  <span--}}
+{{--                      class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border rounded-e-0 border-gray-300 rounded-s-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">--}}
+{{--                    THB--}}
+{{--                  </span>--}}
+{{--                    <x-text-input wire:model="form.fee" id="delivery_fee" name="delivery_fee" type="text"--}}
+{{--                                  class="block w-full rounded-none rounded-e-lg bg-gray-50 border text-gray-900 flex-1 min-w-0 text-sm border-gray-300 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"--}}
+{{--                                  autofocus autocomplete="delivery_fee" readonly/>--}}
+{{--                </div>--}}
+{{--                <x-input-error class="mt-2" :messages="$errors->get('form.fee')"/>--}}
+{{--            </div>--}}
         </div>
 
         <div class="pt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -393,10 +393,10 @@ new class extends Component {
                 <p class="text-sm text-gray-500">Account Number</p>
                 <p class="pt-1 text-sm">819-0-47810-9</p>
             </div>
-            <div>
-                <p class="text-sm text-gray-500">Delivery Fee</p>
-                <p class="pt-1 text-sm">THB 100</p>
-            </div>
+{{--            <div>--}}
+{{--                <p class="text-sm text-gray-500">Delivery & Service Fee</p>--}}
+{{--                <p class="pt-1 text-sm">THB 100</p>--}}
+{{--            </div>--}}
             <div>
                 <x-input-label for="receipt_file" :value="__('Upload Payment Receipt')" class="required"/>
                 <input wire:model="form.receiptFile"
