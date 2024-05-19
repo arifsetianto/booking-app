@@ -12,6 +12,9 @@ Route::middleware('guest')->group(function () {
     Volt::route('login-email', 'pages.auth.login-email')
         ->name('email.login');
 
+    Volt::route('login-guest', 'pages.auth.login-guest')
+        ->name('guest.login');
+
     Volt::route('email-link-verification', 'pages.auth.email-link-verification')
         ->name('email.link.verification');
 
@@ -22,8 +25,8 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('guest')->group(function () {
-    //Volt::route('register', 'pages.auth.register')
-    //    ->name('register');
+    Volt::route('register', 'pages.auth.register')
+        ->name('register');
 
     Volt::route('/gate', 'pages.auth.login')
         ->name('login');

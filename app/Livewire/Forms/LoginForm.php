@@ -2,8 +2,10 @@
 
 namespace App\Livewire\Forms;
 
+use App\Models\User;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
@@ -29,6 +31,15 @@ class LoginForm extends Form
     public function authenticate(): void
     {
         $this->ensureIsNotRateLimited();
+
+        $user = User::where(DB::raw('lower(email)'), strtolower($this->email))->first();
+
+        // Check if user exists and if the password is null
+        if ($user && is_null($user->password)) {
+            throw ValidationException::withMessages([
+                'password' => trans('auth.empty-password'),
+            ]);
+        }
 
         if (! Auth::attempt(['email' => Str::lower($this->email), 'password' => $this->password], $this->remember)) {
             RateLimiter::hit($this->throttleKey());
