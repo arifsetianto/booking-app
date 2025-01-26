@@ -142,16 +142,22 @@ new class extends Component {
 
     private function generateUniqueAmount(Batch $batch): float
     {
-        $lastOrder = Order::where('batch_id', $batch->id)->orderBy('code', 'desc')->first();
+        return DB::transaction(function () use ($batch) {
+            // Lock the rows related to this batch to prevent race conditions
+            $lastOrder = Order::where('batch_id', $batch->id)
+                              ->lockForUpdate() // Lock rows until the transaction completes
+                              ->orderBy('code', 'desc')
+                              ->first();
 
-        if ($lastOrder) {
-            $lastAmount = $lastOrder->amount;
-            $nextAmount = $lastAmount + 0.01;
-        } else {
-            $nextAmount = 100.00; // Initial amount
-        }
+            if ($lastOrder) {
+                $lastAmount = $lastOrder->amount;
+                $nextAmount = $lastAmount + 0.01;
+            } else {
+                $nextAmount = 100.00 + 0.01; // Initial amount
+            }
 
-        return round($nextAmount, 2);
+            return round($nextAmount, 2);
+        });
     }
 };
 

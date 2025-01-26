@@ -31,12 +31,12 @@ class CreateAdminUser extends Command
             $user = User::create([
                 'name'              => $name,
                 'email'             => $email,
-                'email_verified_at' => now(),
                 'password'          => Hash::make($password),
                 'remember_token'    => Str::random(10),
                 'status'            => UserStatus::COMPLETED,
             ]);
             $user->roles()->attach(Role::where('name', 'admin')->first());
+            $user->markEmailAsVerified();
 
             $this->info('The command was successful!');
         }
