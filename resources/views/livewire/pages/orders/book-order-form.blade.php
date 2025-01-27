@@ -68,6 +68,7 @@ new class extends Component {
                 $this->redirectRoute('orders.book');
             } else {
                 $userOrderCount = Order::where('user_id', $user->id)->count();
+                $orderData = $this->generateOrderData($batch);
                 $order =
                     new Order(
                         $this->form->except(
@@ -82,9 +83,9 @@ new class extends Component {
                 $order->batch()->associate($batch);
                 $order->source()->associate($user->profile->source);
                 $order->status = OrderStatus::DRAFT;
-                $order->code = $this->createUniqueOrderCode();
+                $order->code = $orderData['code'];
                 $order->qty = 1;
-                $order->amount = $this->generateUniqueAmount($batch);
+                $order->amount = $orderData['amount'];
                 $order->user_order_sequence = $userOrderCount + 1;
 
                 $order->save();
@@ -114,39 +115,25 @@ new class extends Component {
         }
     }
 
-    private function generateCode(): string
-    {
-        $date = now()->format('ymd');
-        $seq =
-            sprintf(
-                "%'.04d",
-                Order::whereYear('created_at', date('Y'))
-                     ->whereMonth('created_at', date('n'))
-                     ->whereDay('created_at', date('d'))
-                     ->count() + 1
-            );
-
-        return $date . $seq;
-    }
-
-    private function createUniqueOrderCode(): string
-    {
-        return DB::transaction(
-            function () {
-                DB::table('orders')->lockForUpdate()->get();
-
-                return $this->generateCode();
-            }
-        );
-    }
-
-    private function generateUniqueAmount(Batch $batch): float
+    private function generateOrderData(Batch $batch): array
     {
         return DB::transaction(function () use ($batch) {
-            // Lock the rows related to this batch to prevent race conditions
+            $date = now()->format('ymd');
+
+            // Generate unique code
+            $orderCount = Order::whereYear('created_at', now()->year)
+                               ->whereMonth('created_at', now()->month)
+                               ->whereDay('created_at', now()->day)
+                               ->lockForUpdate() // Lock rows to avoid race conditions
+                               ->count();
+
+            $seq = sprintf("%'.04d", $orderCount + 1);
+            $code = $date . $seq;
+
+            // Generate unique amount
             $lastOrder = Order::where('batch_id', $batch->id)
-                              ->lockForUpdate() // Lock rows until the transaction completes
-                              ->orderBy('code', 'desc')
+                              ->lockForUpdate() // Lock rows related to this batch
+                              ->orderBy('amount', 'desc')
                               ->first();
 
             if ($lastOrder) {
@@ -156,7 +143,12 @@ new class extends Component {
                 $nextAmount = 100.00 + 0.01; // Initial amount
             }
 
-            return round($nextAmount, 2);
+            $amount = round($nextAmount, 2);
+
+            return [
+                'code'   => $code,
+                'amount' => $amount,
+            ];
         });
     }
 };
