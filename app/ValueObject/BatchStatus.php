@@ -11,6 +11,7 @@ enum BatchStatus: string
 {
     use EnumBehaviourTrait;
 
+    case PENDING = 'pending';
     case PUBLISHED = 'published';
     case COMPLETED = 'completed';
     case CLOSED = 'closed';
@@ -18,6 +19,7 @@ enum BatchStatus: string
     public function getColor(): string
     {
         return match ($this) {
+            self::PENDING => 'gray',
             self::PUBLISHED => 'blue',
             self::COMPLETED => 'green',
             self::CLOSED => 'red',

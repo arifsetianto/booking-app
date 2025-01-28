@@ -47,7 +47,7 @@
                         {{ $batch->total_stock - $batch->purchased_stock }}
                     </td>
                     <td class="px-6 py-4 text-center">
-                        <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300">
+                        <span class="bg-{{ $batch->status->getColor() }}-100 text-{{ $batch->status->getColor() }}-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-{{ $batch->status->getColor() }}-900 dark:text-{{ $batch->status->getColor() }}-300">
                             {{ $batch->status }}
                         </span>
                     </td>

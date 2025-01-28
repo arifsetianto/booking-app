@@ -2,6 +2,7 @@
 
 use App\Models\Batch;
 use App\ValueObject\BatchStatus;
+use Carbon\Carbon;
 use Illuminate\Validation\Rule;
 use Livewire\Volt\Component;
 use function Livewire\Volt\{state};
@@ -10,6 +11,7 @@ new class extends Component {
     public string $batch = '';
     public int $stock = 0;
     public string $status = '';
+    public ?string $publishAt = null;
 
     public array $statuses = [];
 
@@ -17,10 +19,12 @@ new class extends Component {
     {
         $this->batch = $request->route('batch');
 
+        /** @var Batch $batch */
         $batch = Batch::find($this->batch);
 
         $this->stock = $batch->total_stock;
         $this->status = $batch->status->value;
+        $this->publishAt = $batch->publish_at ? $batch->publish_at->format('Y-m-d\TH:i') : null;
         $this->statuses = BatchStatus::getOptions();
     }
 
@@ -31,8 +35,9 @@ new class extends Component {
     {
         $this->validate(
             [
-                'stock'  => ['required', 'numeric', 'min:0'],
-                'status' => ['required', 'string', Rule::in(BatchStatus::getValues())]
+                'stock'     => ['required', 'numeric', 'min:0'],
+                'status'    => ['required', 'string', Rule::in(BatchStatus::getValues())],
+                'publishAt' => ['nullable', 'date'],
             ]
         );
 
@@ -40,6 +45,7 @@ new class extends Component {
         $batch = Batch::find($this->batch);
         $batch->total_stock = $this->stock;
         $batch->status = BatchStatus::from($this->status);
+        $batch->publish_at = $this->publishAt ? Carbon::createFromFormat('Y-m-d\TH:i', $this->publishAt) : null;
 
         $batch->save();
 
@@ -76,6 +82,13 @@ new class extends Component {
                             :options="$statuses"
                             autofocus/>
             <x-input-error class="mt-2" :messages="$errors->get('status')"/>
+        </div>
+
+        <div>
+            <x-input-label for="publishAt" :value="__('Publish At')"/>
+            <x-text-input wire:model="publishAt" id="publishAt" name="publishAt" type="datetime-local"
+                          class="mt-1 block w-full"/>
+            <x-input-error class="mt-2" :messages="$errors->get('publishAt')"/>
         </div>
 
         <div class="flex items-center gap-4">

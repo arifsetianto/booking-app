@@ -111,7 +111,12 @@ new class extends Component {
                             </div>
                             <div>
                                 <p class="text-sm text-gray-500">Delivery & Service Fee</p>
-                                <p class="pt-1 text-sm">THB {{ $order->amount }}</p>
+{{--                                <p class="pt-1 text-lg font-semibold">--}}
+                                <p class="pt-1 text-lg text-gray-900 font-semibold">THB {{ $order->amount }}</p>
+{{--                                    <span class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-red-600/10 ring-inset">--}}
+{{--                                        THB {{ $order->amount }}--}}
+{{--                                    </span>--}}
+{{--                                </p>--}}
                             </div>
                         </div>
                         <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">

@@ -2,11 +2,13 @@
 
 use App\Models\Batch;
 use App\ValueObject\BatchStatus;
+use Carbon\Carbon;
 use Livewire\Volt\Component;
 use function Livewire\Volt\{state};
 
 new class extends Component {
     public int $stock = 0;
+    public ?string $publishAt = null;
 
     /**
      * Update the profile information for the currently authenticated user.
@@ -15,14 +17,18 @@ new class extends Component {
     {
         $this->validate(
             [
-                'stock' => ['required', 'numeric', 'min:0'],
+                'stock'     => ['required', 'numeric', 'min:0'],
+                'publishAt' => ['nullable', 'date'],
             ]
         );
 
         if (Batch::where('status', BatchStatus::PUBLISHED)->exists()) {
             session()->flash('error', 'Can only create 1 active batch.');
         } else {
-            Batch::create($this->stock);
+            Batch::create(
+                $this->stock,
+                $this->publishAt ? Carbon::createFromFormat('Y-m-d\TH:i', $this->publishAt) : null
+            );
 
             session()->flash('message', 'New batch successfully created.');
         }
@@ -50,6 +56,13 @@ new class extends Component {
             <x-text-input wire:model="stock" id="stock" name="stock" type="number" min="0" class="mt-1 block w-full"
                           autofocus autocomplete="stock"/>
             <x-input-error class="mt-2" :messages="$errors->get('stock')"/>
+        </div>
+
+        <div>
+            <x-input-label for="publishAt" :value="__('Publish At')"/>
+            <x-text-input wire:model="publishAt" id="publishAt" name="publishAt" type="datetime-local"
+                          class="mt-1 block w-full"/>
+            <x-input-error class="mt-2" :messages="$errors->get('publishAt')"/>
         </div>
 
         <div class="flex items-center gap-4">
