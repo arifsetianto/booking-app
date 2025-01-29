@@ -13,4 +13,20 @@ enum UserStatus: string
 
     case NEW = 'new';
     case COMPLETED = 'completed';
+
+    public function getColor(): string
+    {
+        return match ($this) {
+            self::NEW => 'red',
+            self::COMPLETED => 'green',
+        };
+    }
+
+    public function getLabel(): string
+    {
+        return match ($this) {
+            self::NEW => 'not completed',
+            self::COMPLETED => 'completed',
+        };
+    }
 }

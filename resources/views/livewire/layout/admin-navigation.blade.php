@@ -51,6 +51,9 @@ new class extends Component
                     <x-nav-link :href="route('order.list-invited')" :active="request()->routeIs('order.list-invited')" wire:navigate>
                         {{ __('Invited Orders') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('customer.list')" :active="request()->routeIs('customer.list')" wire:navigate>
+                        {{ __('Customers') }}
+                    </x-nav-link>
                 </div>
             </div>
 

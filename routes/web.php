@@ -68,6 +68,9 @@ Route::middleware(['auth.admin', 'verified', 'roles.has:admin'])->group(
         Route::view('orders/{order}/invited', 'pages/orders/invited')
              ->name('order.invited');
 
+        Route::view('customers', 'pages/customers/list')
+             ->name('customer.list');
+
         Route::view('profile', 'profile')
              ->name('profile');
 
