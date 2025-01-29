@@ -35,7 +35,7 @@ new class extends Component {
         $batch = Batch::findOrFail($this->form->batch);
 
         if (!$batch || $batch->getAvailableStock() <= 0) {
-            Session::flash('error', 'Unable to place orders due to out-of-stock.');
+            Session::flash('error', 'Unable to place orders due to out-of-stock. / ไม่สามารถสั่งได้เนื่องจากสินค้าหมดสต็อก');
 
             $this->redirectRoute('order.list-invited');
         } else {

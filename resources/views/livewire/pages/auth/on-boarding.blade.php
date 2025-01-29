@@ -36,7 +36,7 @@ new #[Layout('layouts.guest')] class extends Component {
             @endif
         </div>
         <div>
-            <p class="text-base font-normal leading-tight text-gray-500 dark:text-gray-400">ข้อตกลงและเงื่อนไขของการขอรับอัลกุรอานวากัฟ</p>
+            <p class="text-base font-normal leading-tight text-gray-500 dark:text-gray-400">ข้อตกลงและเงื่อนไขของการขอรับอัลกุรอานวากัฟ / Terms and Conditions for Requesting Quran Waqf</p>
         </div>
         <ul role="list" class="space-y-3 mt-4 mb-7">
             <li class="flex items-start">
@@ -45,7 +45,7 @@ new #[Layout('layouts.guest')] class extends Component {
                     <path
                         d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
                 </svg>
-                <span class="text-base font-normal leading-tight text-gray-500 dark:text-gray-400 ms-3">จัดส่งเฉพาะในประเทศไทยเท่านั้น</span>
+                <span class="text-base font-normal leading-tight text-gray-500 dark:text-gray-400 ms-3">จัดส่งเฉพาะในประเทศไทยเท่านั้น / Delivery only in Thailand</span>
             </li>
             <li class="flex items-start">
                 <svg class="flex-shrink-0 w-4 h-4 mt-0.5 text-blue-950 dark:text-blue-500" aria-hidden="true"
@@ -53,7 +53,7 @@ new #[Layout('layouts.guest')] class extends Component {
                     <path
                         d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
                 </svg>
-                <span class="text-base font-normal leading-tight text-gray-500 dark:text-gray-400 ms-3">ขอสงวนสิทธิ์อัลกุรอานแปลไทยให้สำหรับคนไทยที่มีบัตรประจำตัวประชาชนเท่านั้น</span>
+                <span class="text-base font-normal leading-tight text-gray-500 dark:text-gray-400 ms-3">ขอสงวนสิทธิ์อัลกุรอานแปลไทยให้สำหรับคนไทยที่มีบัตรประจำตัวประชาชนเท่านั้น / The Thai translation of the Quran is reserved for Thai people with national ID cards only</span>
             </li>
             <li class="flex items-start">
                 <svg class="flex-shrink-0 w-4 h-4 mt-0.5 text-blue-950 dark:text-blue-500" aria-hidden="true"
@@ -61,7 +61,7 @@ new #[Layout('layouts.guest')] class extends Component {
                     <path
                         d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
                 </svg>
-                <span class="text-base font-normal leading-tight text-gray-500 dark:text-gray-400 ms-3">⁠เราจำเป็นต้องให้สิทธิ์แก่ผู้ที่ลงทะเบียนครบถ้วนและถูกต้องก่อน​  กรุณาลงทะเบียนตามวันเวลาที่กำหนดเท่านั้นและทำตามกฎอย่างเคร่งครัดเพื่อความรวดเร็วในการตรวจสอบข้อมูล</span>
+                <span class="text-base font-normal leading-tight text-gray-500 dark:text-gray-400 ms-3">กรุณาตรวจสอบให้แน่ใจว่าคุณได้สร้างบัญชีส่วนตัวในเว็บไซต์ก่อนลงทะเบียนขอรับอัลกุรอานเพื่อหลีกเลี่ยงเว็บไซต์ล่มในวันลงทะเบียน / Make sure you have a registered account at thaiquran before you can make a booking (<a href="{{ route('register') }}" class="text-blue-950 font-semibold">ลงทะเบียน / Register Now</a>)</span>
             </li>
             <li class="flex items-start">
                 <svg class="flex-shrink-0 w-4 h-4 mt-0.5 text-blue-950 dark:text-blue-500" aria-hidden="true"

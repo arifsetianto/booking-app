@@ -52,7 +52,7 @@ new class extends Component {
         $batch = Batch::where('status', BatchStatus::PUBLISHED)->first();
 
         if (!$batch || $batch->getAvailableStock() <= 0) {
-            Session::flash('error', 'Unable to place orders due to out-of-stock.');
+            Session::flash('error', 'Unable to place orders due to out-of-stock. / ไม่สามารถสั่งได้เนื่องจากสินค้าหมดสต็อก');
 
             $this->redirectRoute('orders.book');
         } else {
@@ -63,7 +63,7 @@ new class extends Component {
             $existingFile = OrderItem::where('identity_file_hash', $fileHash)->first();
 
             if ($existingFile) {
-                Session::flash('error', 'The Receiver Thai ID file has been uploaded. Please use a different file.');
+                Session::flash('error', 'The Receiver Thai ID file has been uploaded. Please use a different file. / บัตรประชาชนของท่านถูกบันทึกแล้ว กรุณาใช้บัตรประชาชนอื่นในการลงทะเบียน');
 
                 $this->redirectRoute('orders.book');
             } else {
