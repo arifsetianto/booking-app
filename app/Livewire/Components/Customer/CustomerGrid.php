@@ -29,6 +29,9 @@ class CustomerGrid extends Component
         return view('livewire.pages.customers.customer-grid')
             ->with(['customers' => User::select('users.*')
                                        ->leftJoin('profiles', 'users.profile_id', '=', 'profiles.id')
+                                       ->join('role_user', 'users.id', '=', 'role_user.user_id')
+                                       ->join('roles', 'roles.id', '=', 'role_user.role_id')
+                                       ->where('roles.name', 'customer')
                                        ->when($this->searchKeyword !== '', function (Builder $query) {
                                             $query
                                                 ->where(function ($qb) {
