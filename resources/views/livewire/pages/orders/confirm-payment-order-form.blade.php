@@ -86,6 +86,21 @@ new class extends Component {
 {{--                <p class="mt-5 text-sm">Note: Please finish the payment before the time limit. You can find this page link--}}
 {{--                    in--}}
 {{--                    your email.</p>--}}
+                <div class="mt-12 mb-20">
+                    <p class="text-sm text-gray-500">Delivery & Service Fee</p>
+                    <h5 class="my-2 text-2xl font-extrabold text-center leading-none tracking-tight text-blue-950 md:text-3xl lg:text-4xl dark:text-gray-400">
+                        <span class="text-gold-400">THB</span> {{ $order->amount }}
+                    </h5>
+
+                    <div class="mt-6">
+                        <div class="bg-yellow-100 text-yellow-700 px-4 py-3 rounded-lg text-sm" role="alert">
+                            <strong class="font-bold">Attention!</strong>
+                            <span class="block sm:inline">
+                                This is the payment amount with a unique code to make it easier for Admin to check the payment manually. Make sure that all digits of your payment amount are correct. / กรุณาตรวจสอบและชำระเงินที่มีเศษสตางค์ตามยอดที่แจ้งในระบบเพื่อให้ทีมทำงานรวดเร็วและง่ายในการตรวจสอบยอดค่ะ.
+                            </span>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="w-full mt-10">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -101,7 +116,16 @@ new class extends Component {
                             </div>
                             <div>
                                 <p class="text-sm text-gray-500">Account Number</p>
-                                <p class="pt-1 text-sm">819-0-47810-9</p>
+                                <div class="flex items-center space-x-2 pt-1">
+                                    <p class="text-sm">
+                                        819-0-47810-9
+                                    </p>
+
+                                    <button onclick="copyAccountNumberToClipboard()"
+                                            class="text-blue-700 text-sm px-3 font-bold">
+                                        Copy
+                                    </button>
+                                </div>
                             </div>
                         </div>
                         <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -111,12 +135,17 @@ new class extends Component {
                             </div>
                             <div>
                                 <p class="text-sm text-gray-500">Delivery & Service Fee</p>
-{{--                                <p class="pt-1 text-lg font-semibold">--}}
-                                <p class="pt-1 text-lg text-gray-900 font-semibold">THB {{ $order->amount }}</p>
-{{--                                    <span class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-red-600/10 ring-inset">--}}
-{{--                                        THB {{ $order->amount }}--}}
-{{--                                    </span>--}}
-{{--                                </p>--}}
+                                <p class="pt-1 text-sm text-gray-900 font-semibold"></p>
+                                <div class="flex items-center space-x-2 pt-1">
+                                    <p class="text-sm">
+                                        THB {{ $order->amount }}
+                                    </p>
+
+                                    <button onclick="copyAmountToClipboard()"
+                                            class="text-blue-700 text-sm px-3 font-bold">
+                                        Copy
+                                    </button>
+                                </div>
                             </div>
                         </div>
                         <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
@@ -200,4 +229,18 @@ new class extends Component {
     setInterval(function () {
     @this.call('decrementCountdown');
     }, 1000);
+
+    function copyAccountNumberToClipboard() {
+        const text = "8190478109";
+        navigator.clipboard.writeText(text)
+            .then(() => alert(`Copied: ${text}`))
+            .catch(() => alert("Failed to copy"));
+    }
+
+    function copyAmountToClipboard() {
+        const text = {{ $order->amount }};
+        navigator.clipboard.writeText(text)
+            .then(() => alert(`Copied: ${text}`))
+            .catch(() => alert("Failed to copy"));
+    }
 </script>
