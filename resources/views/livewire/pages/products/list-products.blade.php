@@ -103,7 +103,7 @@ new class extends Component {
                     @if($countdownTime)
                         <p class="text-sm font-semibold text-red-700 dark:text-white">{{ $this->formatTime($countdownTime) }}</p>
                     @endif
-                @elseif($publishedBatch || $publishedBatch->getAvailableStock() > 0)
+                @elseif($publishedBatch && $publishedBatch->getAvailableStock() > 0)
                     <a href="{{ route('orders.book') }}"
                        class="text-white bg-blue-950 hover:bg-blue-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Book
                         now!</a>

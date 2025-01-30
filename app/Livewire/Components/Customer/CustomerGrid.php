@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Livewire\Components\Customer;
 
+use App\Models\Order;
 use App\Models\User;
+use App\ValueObject\OrderStatus;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
@@ -51,5 +53,43 @@ class CustomerGrid extends Component
     public function updatedSearch(): void
     {
         $this->resetPage();
+    }
+
+    public function goToCustomerOrdersPage(string $customerId): void
+    {
+        $order = Order::where('user_id', $customerId)->latest()->first();
+
+        if (null !== $order) {
+            if ($order->status->is(OrderStatus::CONFIRMED)) {
+                $this->redirectRoute('order.verify', ['order' => $order->id]);
+                return;
+            }
+
+            if ($order->status->is(OrderStatus::VERIFIED)) {
+                $this->redirectRoute('order.complete', ['order' => $order->id]);
+                return;
+            }
+
+            if ($order->status->is(OrderStatus::COMPLETED)) {
+                $this->redirectRoute('order.shipped', ['order' => $order->id]);
+                return;
+            }
+
+            if ($order->status->is(OrderStatus::INVITED)) {
+                $this->redirectRoute('order.invited', ['order' => $order->id]);
+                return;
+            }
+
+            if ($order->status->is(OrderStatus::DRAFT) ||
+                $order->status->is(OrderStatus::PENDING) ||
+                $order->status->is(OrderStatus::CANCELED) ||
+                $order->status->is(OrderStatus::REJECTED) ||
+                $order->status->is(OrderStatus::REVISED)) {
+                $this->redirectRoute('order.archive', ['order' => $order->id]);
+                return;
+            }
+        }
+
+        $this->redirectRoute('customer.order.empty', ['customer' => $customerId]);
     }
 }

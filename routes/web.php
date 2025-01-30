@@ -71,6 +71,9 @@ Route::middleware(['auth.admin', 'verified', 'roles.has:admin'])->group(
         Route::view('customers', 'pages/customers/list')
              ->name('customer.list');
 
+        Route::view('customers/{customer}/empty-orders', 'pages/customers/empty-orders')
+             ->name('customer.order.empty');
+
         Route::view('profile', 'profile')
              ->name('profile');
 
