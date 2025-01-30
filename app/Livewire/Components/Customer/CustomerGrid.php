@@ -19,7 +19,7 @@ class CustomerGrid extends Component
 {
     use WithPagination;
 
-    public string $searchKeyword = '';
+    public string $search = '';
 
     /**
      * @return View|Application|Factory|\Illuminate\Contracts\Foundation\Application
@@ -32,19 +32,24 @@ class CustomerGrid extends Component
                                        ->join('role_user', 'users.id', '=', 'role_user.user_id')
                                        ->join('roles', 'roles.id', '=', 'role_user.role_id')
                                        ->where('roles.name', 'customer')
-                                       ->when($this->searchKeyword !== '', function (Builder $query) {
+                                       ->when($this->search !== '', function (Builder $query) {
                                             $query
                                                 ->where(function ($qb) {
                                                     $qb
-                                                        ->where('users.email', 'LIKE', '%' . $this->searchKeyword . '%')
-                                                        ->orWhere('users.name', 'LIKE', '%' . $this->searchKeyword . '%')
-                                                        ->orWhere('profiles.phone', 'LIKE', '%' . $this->searchKeyword . '%')
-                                                        ->orWhere('profiles.instagram', 'LIKE', '%' . $this->searchKeyword . '%')
+                                                        ->where('users.email', 'LIKE', '%' . $this->search . '%')
+                                                        ->orWhere('users.name', 'LIKE', '%' . $this->search . '%')
+                                                        ->orWhere('profiles.phone', 'LIKE', '%' . $this->search . '%')
+                                                        ->orWhere('profiles.instagram', 'LIKE', '%' . $this->search . '%')
                                                     ;
                                                 });
                                         })
                                        ->with('profile')
                                        ->orderByDesc('created_at')
-                                       ->paginate(10)]);
+                                       ->paginate(5)]);
+    }
+
+    public function updatedSearch(): void
+    {
+        $this->resetPage();
     }
 }
