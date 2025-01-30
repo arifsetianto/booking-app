@@ -38,12 +38,12 @@ class SendOrderInvitedNotification implements ShouldQueue, ShouldHandleEventsAft
         );
     }
 
-    public function middleware(OrderInvited $event): array
-    {
-        return [
-            new RateLimited('emails'),
-        ];
-    }
+    //public function middleware(OrderInvited $event): array
+    //{
+    //    return [
+    //        new RateLimited('emails'),
+    //    ];
+    //}
 
     public function tags(): array
     {

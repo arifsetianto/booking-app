@@ -1,5 +1,6 @@
 <?php
 
+use App\Event\Auth\NewMemberRegistered;
 use App\Models\Profile;
 use App\Models\Role;
 use App\Models\User;
@@ -49,6 +50,8 @@ new #[Layout('layouts.guest')] class extends Component {
             //$user->name = $validated['name'];
             $user->password = Hash::make($validated['password']);
 
+            event(new NewMemberRegistered($user));
+
             $user->save();
 
             Auth::login($user);
@@ -73,6 +76,7 @@ new #[Layout('layouts.guest')] class extends Component {
             $validated['password'] = Hash::make($validated['password']);
 
             event(new Registered($user = User::create([...$validated, 'status' => UserStatus::NEW])));
+            event(new NewMemberRegistered($user));
 
             $user->roles()->attach(Role::where('name', 'customer')->first());
             $user->profile()->associate(Profile::create());
@@ -102,12 +106,12 @@ new #[Layout('layouts.guest')] class extends Component {
     </div>
     <form wire:submit="register">
         <!-- Name -->
-{{--        <div>--}}
-{{--            <x-input-label for="name" :value="__('Name')"/>--}}
-{{--            <x-text-input wire:model="name" id="name" class="block mt-1 w-full" type="text" name="name" required--}}
-{{--                          autofocus autocomplete="name"/>--}}
-{{--            <x-input-error :messages="$errors->get('name')" class="mt-2"/>--}}
-{{--        </div>--}}
+        {{--        <div>--}}
+        {{--            <x-input-label for="name" :value="__('Name')"/>--}}
+        {{--            <x-text-input wire:model="name" id="name" class="block mt-1 w-full" type="text" name="name" required--}}
+        {{--                          autofocus autocomplete="name"/>--}}
+        {{--            <x-input-error :messages="$errors->get('name')" class="mt-2"/>--}}
+        {{--        </div>--}}
 
         <!-- Email Address -->
         <div class="mt-4">
@@ -129,9 +133,9 @@ new #[Layout('layouts.guest')] class extends Component {
                 <button type="button" wire:click="toggleVisibilityNewPassword"
                         class="absolute inset-y-0 right-0 px-2 flex items-center text-gray-500 hover:text-gray-700 focus:outline-none">
                     @if ($newPasswordVisible)
-                        <x-heroicon-s-eye-slash class="h-5 w-5" />
+                        <x-heroicon-s-eye-slash class="h-5 w-5"/>
                     @else
-                        <x-heroicon-s-eye class="h-5 w-5" />
+                        <x-heroicon-s-eye class="h-5 w-5"/>
                     @endif
                 </button>
             </div>
@@ -150,9 +154,9 @@ new #[Layout('layouts.guest')] class extends Component {
                 <button type="button" wire:click="toggleVisibilityConfirmNewPassword"
                         class="absolute inset-y-0 right-0 px-2 flex items-center text-gray-500 hover:text-gray-700 focus:outline-none">
                     @if ($confirmNewPasswordVisible)
-                        <x-heroicon-s-eye-slash class="h-5 w-5" />
+                        <x-heroicon-s-eye-slash class="h-5 w-5"/>
                     @else
-                        <x-heroicon-s-eye class="h-5 w-5" />
+                        <x-heroicon-s-eye class="h-5 w-5"/>
                     @endif
                 </button>
             </div>

@@ -37,12 +37,12 @@ class SendOrderForceCanceledNotification implements ShouldQueue, ShouldHandleEve
         );
     }
 
-    public function middleware(OrderForceCanceled $event): array
-    {
-        return [
-            new RateLimited('emails'),
-        ];
-    }
+    //public function middleware(OrderForceCanceled $event): array
+    //{
+    //    return [
+    //        new RateLimited('emails'),
+    //    ];
+    //}
 
     public function tags(): array
     {

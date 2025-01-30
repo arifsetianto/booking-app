@@ -37,12 +37,12 @@ class SendOrderInvitationConfirmedNotification implements ShouldQueue, ShouldHan
         );
     }
 
-    public function middleware(OrderInvitationConfirmed $event): array
-    {
-        return [
-            new RateLimited('emails'),
-        ];
-    }
+    //public function middleware(OrderInvitationConfirmed $event): array
+    //{
+    //    return [
+    //        new RateLimited('emails'),
+    //    ];
+    //}
 
     public function tags(): array
     {

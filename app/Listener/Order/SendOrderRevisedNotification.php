@@ -37,12 +37,12 @@ class SendOrderRevisedNotification implements ShouldQueue, ShouldHandleEventsAft
         );
     }
 
-    public function middleware(OrderRevised $event): array
-    {
-        return [
-            new RateLimited('emails'),
-        ];
-    }
+    //public function middleware(OrderRevised $event): array
+    //{
+    //    return [
+    //        new RateLimited('emails'),
+    //    ];
+    //}
 
     public function tags(): array
     {

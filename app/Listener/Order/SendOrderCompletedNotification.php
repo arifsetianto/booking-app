@@ -37,12 +37,12 @@ class SendOrderCompletedNotification implements ShouldQueue, ShouldHandleEventsA
         );
     }
 
-    public function middleware(OrderCompleted $event): array
-    {
-        return [
-            new RateLimited('emails'),
-        ];
-    }
+    //public function middleware(OrderCompleted $event): array
+    //{
+    //    return [
+    //        new RateLimited('emails'),
+    //    ];
+    //}
 
     public function tags(): array
     {

@@ -37,12 +37,12 @@ class SendOrderVerifiedNotification implements ShouldQueue, ShouldHandleEventsAf
         );
     }
 
-    public function middleware(OrderVerified $event): array
-    {
-        return [
-            new RateLimited('emails'),
-        ];
-    }
+    //public function middleware(OrderVerified $event): array
+    //{
+    //    return [
+    //        new RateLimited('emails'),
+    //    ];
+    //}
 
     public function tags(): array
     {

@@ -37,12 +37,12 @@ class SendOrderRejectedNotification implements ShouldQueue, ShouldHandleEventsAf
         );
     }
 
-    public function middleware(OrderRejected $event): array
-    {
-        return [
-            new RateLimited('emails'),
-        ];
-    }
+    //public function middleware(OrderRejected $event): array
+    //{
+    //    return [
+    //        new RateLimited('emails'),
+    //    ];
+    //}
 
     public function tags(): array
     {

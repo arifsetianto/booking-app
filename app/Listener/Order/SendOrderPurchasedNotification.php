@@ -37,12 +37,12 @@ class SendOrderPurchasedNotification implements ShouldQueue, ShouldHandleEventsA
         );
     }
 
-    public function middleware(OrderPurchased $event): array
-    {
-        return [
-            new RateLimited('emails'),
-        ];
-    }
+    //public function middleware(OrderPurchased $event): array
+    //{
+    //    return [
+    //        new RateLimited('emails'),
+    //    ];
+    //}
 
     public function tags(): array
     {

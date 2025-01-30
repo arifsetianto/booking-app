@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Event\Auth\NewMemberRegistered;
 use App\Event\Auth\UserLoginRequested;
 use App\Event\Order\OrderCanceled;
 use App\Event\Order\OrderCompleted;
@@ -15,6 +16,7 @@ use App\Event\Order\OrderRevised;
 use App\Event\Order\OrderVerified;
 use App\Event\Payment\PaymentDeleted;
 use App\Listener\Auth\SendLoginLinkVerification;
+use App\Listener\Auth\SendNewMemberNotification;
 use App\Listener\Batch\AddStock;
 use App\Listener\Batch\SubtractStock;
 use App\Listener\Order\SendOrderCompletedNotification;
@@ -40,6 +42,9 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
+        ],
+        NewMemberRegistered::class => [
+            SendNewMemberNotification::class,
         ],
         UserLoginRequested::class => [
             SendLoginLinkVerification::class,
