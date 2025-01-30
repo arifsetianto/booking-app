@@ -38,7 +38,12 @@
                         {{ $customer->name }}
                     </th>
                     <td class="px-6 py-4 text-center">
-                        {{ $customer->email }}
+                        <div class="flex items-center">
+                            @if($customer->email_verified_at)
+                                <x-heroicon-s-check-circle class="w-4 h-4 text-green-500" />
+                            @endif
+                            <span class="ml-2">{{ $customer->email }}</span>
+                        </div>
                     </td>
                     <td class="px-6 py-4 text-center">
                         {{ $customer->profile?->phone ?? '-' }}
