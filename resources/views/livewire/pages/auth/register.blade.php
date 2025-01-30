@@ -19,6 +19,9 @@ new #[Layout('layouts.guest')] class extends Component {
     public string $password = '';
     public string $password_confirmation = '';
 
+    public $newPasswordVisible = false;
+    public $confirmNewPasswordVisible = false;
+
     /**
      * Handle an incoming registration request.
      */
@@ -81,9 +84,22 @@ new #[Layout('layouts.guest')] class extends Component {
             $this->redirect('verify-email', navigate: true);
         }
     }
+
+    public function toggleVisibilityNewPassword(): void
+    {
+        $this->newPasswordVisible = !$this->newPasswordVisible;
+    }
+
+    public function toggleVisibilityConfirmNewPassword(): void
+    {
+        $this->confirmNewPasswordVisible = !$this->confirmNewPasswordVisible;
+    }
 }; ?>
 
 <div>
+    <h4 class="mb-6 text-2xl font-bold text-center leading-none tracking-tight text-blue-950 md:text-2xl lg:text-3xl dark:text-gray-400">
+        Member Account<br/>Registration Form
+    </h4>
     <form wire:submit="register">
         <!-- Name -->
         <div>
@@ -103,23 +119,43 @@ new #[Layout('layouts.guest')] class extends Component {
 
         <!-- Password -->
         <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')"/>
+            <x-input-label for="password" :value="__('New Password')"/>
 
-            <x-text-input wire:model="password" id="password" class="block mt-1 w-full"
-                          type="password"
-                          name="password"
-                          required autocomplete="new-password"/>
+            <div class="relative">
+                <x-text-input wire:model="password" id="password" class="block w-full pr-10"
+                              type="{{ $newPasswordVisible ? 'text' : 'password' }}"
+                              name="password"
+                              required autocomplete="new-password"/>
+                <button type="button" wire:click="toggleVisibilityNewPassword"
+                        class="absolute inset-y-0 right-0 px-2 flex items-center text-gray-500 hover:text-gray-700 focus:outline-none">
+                    @if ($newPasswordVisible)
+                        <x-heroicon-s-eye-slash class="h-5 w-5" />
+                    @else
+                        <x-heroicon-s-eye class="h-5 w-5" />
+                    @endif
+                </button>
+            </div>
 
             <x-input-error :messages="$errors->get('password')" class="mt-2"/>
         </div>
 
         <!-- Confirm Password -->
         <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')"/>
+            <x-input-label for="password_confirmation" :value="__('Confirm New Password')"/>
 
-            <x-text-input wire:model="password_confirmation" id="password_confirmation" class="block mt-1 w-full"
-                          type="password"
-                          name="password_confirmation" required autocomplete="new-password"/>
+            <div class="relative">
+                <x-text-input wire:model="password_confirmation" id="password_confirmation" class="block w-full pr-10"
+                              type="{{ $confirmNewPasswordVisible ? 'text' : 'password' }}"
+                              name="password_confirmation" required autocomplete="new-password"/>
+                <button type="button" wire:click="toggleVisibilityConfirmNewPassword"
+                        class="absolute inset-y-0 right-0 px-2 flex items-center text-gray-500 hover:text-gray-700 focus:outline-none">
+                    @if ($confirmNewPasswordVisible)
+                        <x-heroicon-s-eye-slash class="h-5 w-5" />
+                    @else
+                        <x-heroicon-s-eye class="h-5 w-5" />
+                    @endif
+                </button>
+            </div>
 
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2"/>
         </div>

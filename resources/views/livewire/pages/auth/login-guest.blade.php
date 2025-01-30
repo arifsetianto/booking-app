@@ -10,6 +10,7 @@ use Livewire\Volt\Component;
 
 new #[Layout('layouts.guest')] class extends Component {
     public LoginForm $form;
+    public $passwordVisible = false;
 
     /**
      * Handle an incoming authentication request.
@@ -30,6 +31,11 @@ new #[Layout('layouts.guest')] class extends Component {
         }
 
         $this->redirectIntended(default: RouteServiceProvider::HOME, navigate: true);
+    }
+
+    public function toggleVisibility(): void
+    {
+        $this->passwordVisible = !$this->passwordVisible;
     }
 }; ?>
 
@@ -60,10 +66,20 @@ new #[Layout('layouts.guest')] class extends Component {
         <div class="mt-4">
             <x-input-label for="password" :value="__('Password')"/>
 
-            <x-text-input wire:model="form.password" id="password" class="block mt-1 w-full"
-                          type="password"
-                          name="password"
-                          required autocomplete="current-password"/>
+            <div class="relative">
+                <x-text-input wire:model="form.password" id="password" class="block w-full pr-10"
+                              type="{{ $passwordVisible ? 'text' : 'password' }}"
+                              name="password"
+                              required autocomplete="current-password"/>
+                <button type="button" wire:click="toggleVisibility"
+                        class="absolute inset-y-0 right-0 px-2 flex items-center text-gray-500 hover:text-gray-700 focus:outline-none">
+                    @if ($passwordVisible)
+                        <x-heroicon-s-eye-slash class="h-5 w-5" />
+                    @else
+                        <x-heroicon-s-eye class="h-5 w-5" />
+                    @endif
+                </button>
+            </div>
 
             <x-input-error :messages="$errors->get('password')" class="mt-2"/>
         </div>
@@ -91,3 +107,4 @@ new #[Layout('layouts.guest')] class extends Component {
         </div>
     </form>
 </div>
+

@@ -53,7 +53,7 @@ new class extends Component {
                     'max:255',
                     Rule::unique(User::class)->ignore($user->id)
                 ],
-                'phone'     => ['required', 'string', 'max:30'],
+                'phone'     => ['required', 'numeric', 'max:30'],
                 'instagram' => ['nullable', 'string', 'max:100'],
                 'source'    => ['required', 'uuid', 'exists:sources,id'],
             ]
