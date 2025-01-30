@@ -47,7 +47,7 @@ class CustomerGrid extends Component
                                         })
                                        ->with('profile')
                                        ->orderByDesc('created_at')
-                                       ->paginate(5)]);
+                                       ->paginate(10)]);
     }
 
     public function updatedSearch(): void
