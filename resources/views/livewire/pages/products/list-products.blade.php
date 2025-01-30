@@ -2,15 +2,43 @@
 
 use App\Models\Batch;
 use App\ValueObject\BatchStatus;
+use Carbon\Carbon;
 use Livewire\Volt\Component;
 use function Livewire\Volt\{state};
 
 new class extends Component {
-    public ?Batch $batch = null;
+    public ?Batch $publishedBatch = null;
+    public ?Batch $pendingBatch = null;
+
+    public int $countdownTime = 0;
 
     public function mount(): void
     {
-        $this->batch = Batch::where('status', BatchStatus::PUBLISHED)->first();
+        $this->publishedBatch = Batch::where('status', BatchStatus::PUBLISHED)->first();
+        $this->pendingBatch = Batch::where('status', BatchStatus::PENDING)->orderBy('publish_at')->first();
+
+        if ($this->pendingBatch) {
+            $this->countdownTime = Carbon::now()->diffInSeconds($this->pendingBatch->publish_at);
+        }
+    }
+
+    public function decrementCountdown(): void
+    {
+        if ($this->countdownTime > 0) {
+            $this->countdownTime--;
+        } else {
+            $this->dispatch('refresh-page');
+        }
+    }
+
+    public function formatTime($seconds): string
+    {
+        $days = floor($seconds / 86400);
+        $hours = floor(($seconds % 86400) / 3600);
+        $minutes = floor(($seconds % 3600) / 60);
+        $seconds = $seconds % 60;
+
+        return sprintf('%02d:%02d:%02d:%02d', $days, $hours, $minutes, $seconds);
     }
 };
 
@@ -61,22 +89,46 @@ new class extends Component {
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-xl font-bold text-gray-900 dark:text-white">Free</p>
-                    @if($batch && $batch->getAvailableStock() >= 1)
-                        <p class="text-sm font-normal text-gray-900 dark:text-white">Available Stock {{ $batch->getAvailableStock() }}</p>
+                    @if($pendingBatch)
+                        <p class="text-sm font-normal text-gray-900 dark:text-white">Available
+                            Stock {{ number_format(num: $pendingBatch->getAvailableStock(), thousands_separator: '.') }}</p>
+                    @elseif($publishedBatch && $publishedBatch->getAvailableStock() > 0)
+                        <p class="text-sm font-normal text-gray-900 dark:text-white">Available
+                            Stock {{ number_format(num: $publishedBatch->getAvailableStock(), thousands_separator: '.') }}</p>
                     @else
                         <p class="text-sm font-semibold text-red-700 dark:text-white">Out of stock</p>
                     @endif
                 </div>
-                @if(!$batch || $batch->getAvailableStock() <= 0)
+                @if($pendingBatch)
+                    @if($countdownTime)
+                        <p class="text-sm font-semibold text-red-700 dark:text-white">{{ $this->formatTime($countdownTime) }}</p>
+                    @endif
+                @elseif($publishedBatch || $publishedBatch->getAvailableStock() > 0)
                     <a href="{{ route('orders.book') }}"
-                       class="text-white bg-blue-950 hover:bg-blue-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 pointer-events-none opacity-50 cursor-not-allowed">Book
+                       class="text-white bg-blue-950 hover:bg-blue-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Book
                         now!</a>
                 @else
                     <a href="{{ route('orders.book') }}"
-                       class="text-white bg-blue-950 hover:bg-blue-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Book
+                       class="text-white bg-blue-950 hover:bg-blue-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 pointer-events-none opacity-50 cursor-not-allowed">Book
                         now!</a>
                 @endif
             </div>
         </div>
     </div>
 </div>
+
+@if($countdownTime > 0)
+    <script>
+        setInterval(function () {
+        @this.call('decrementCountdown');
+        }, 1000);
+    </script>
+@endif
+
+<script>
+    window.addEventListener('refresh-page', () => {
+        setTimeout(() => {
+            location.reload();
+        }, 2000);
+    });
+</script>
