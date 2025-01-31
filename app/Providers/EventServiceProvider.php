@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Event\Auth\NewMemberRegistered;
 use App\Event\Auth\UserLoginRequested;
 use App\Event\Order\OrderCanceled;
 use App\Event\Order\OrderCompleted;
@@ -29,6 +28,7 @@ use App\Listener\Order\SendOrderRejectedNotification;
 use App\Listener\Order\SendOrderRevisedNotification;
 use App\Listener\Order\SendOrderVerifiedNotification;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Auth\Events\Verified;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
@@ -43,7 +43,7 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
-        NewMemberRegistered::class => [
+        Verified::class => [
             SendNewMemberNotification::class,
         ],
         UserLoginRequested::class => [

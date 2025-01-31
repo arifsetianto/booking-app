@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Listener\Auth;
 
-use App\Event\Auth\NewMemberRegistered;
 use App\Mail\Auth\NewMemberMail;
+use Illuminate\Auth\Events\Verified;
 use Illuminate\Contracts\Events\ShouldHandleEventsAfterCommit;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Mail;
@@ -17,9 +17,9 @@ class SendNewMemberNotification implements ShouldQueue, ShouldHandleEventsAfterC
 {
     public string $queue = 'user';
 
-    public function handle(NewMemberRegistered $event): void
+    public function handle(Verified $event): void
     {
-        Mail::to(users: $event->user->email)->send(mailable: new NewMemberMail());
+        Mail::to(users: $event->user->getEmailForVerification())->send(mailable: new NewMemberMail());
     }
 
     public function tags(): array

@@ -1,12 +1,12 @@
 <?php
 
-use App\Event\Auth\NewMemberRegistered;
 use App\Models\Profile;
 use App\Models\Role;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use App\ValueObject\UserStatus;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Auth\Events\Verified;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -50,7 +50,11 @@ new #[Layout('layouts.guest')] class extends Component {
             //$user->name = $validated['name'];
             $user->password = Hash::make($validated['password']);
 
-            event(new NewMemberRegistered($user));
+            if ($user->email_verified_at) {
+                event(new Verified($user));
+            } else {
+                event(new Registered($user));
+            }
 
             $user->save();
 
@@ -76,7 +80,6 @@ new #[Layout('layouts.guest')] class extends Component {
             $validated['password'] = Hash::make($validated['password']);
 
             event(new Registered($user = User::create([...$validated, 'status' => UserStatus::NEW])));
-            event(new NewMemberRegistered($user));
 
             $user->roles()->attach(Role::where('name', 'customer')->first());
             $user->profile()->associate(Profile::create());
