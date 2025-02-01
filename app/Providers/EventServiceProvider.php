@@ -53,37 +53,37 @@ class EventServiceProvider extends ServiceProvider
         ],
         OrderPurchased::class => [
             SubtractStock::class,
-            SendOrderPurchasedNotification::class,
+            //SendOrderPurchasedNotification::class,
         ],
         OrderCanceled::class => [
             AddStock::class,
         ],
         OrderRejected::class => [
             AddStock::class,
-            SendOrderRejectedNotification::class,
+            //SendOrderRejectedNotification::class,
         ],
         OrderConfirmed::class => [
-            SendOrderConfirmedNotification::class,
+            //SendOrderConfirmedNotification::class,
         ],
         OrderVerified::class => [
-            SendOrderVerifiedNotification::class,
+            //SendOrderVerifiedNotification::class,
         ],
         OrderCompleted::class => [
-            SendOrderCompletedNotification::class,
+            //SendOrderCompletedNotification::class,
         ],
         OrderRevised::class => [
-            SendOrderRevisedNotification::class,
+            //SendOrderRevisedNotification::class,
         ],
         OrderForceCanceled::class => [
             AddStock::class,
-            SendOrderForceCanceledNotification::class,
+            //SendOrderForceCanceledNotification::class,
         ],
         OrderInvited::class => [
-            SendOrderInvitedNotification::class,
+            //SendOrderInvitedNotification::class,
         ],
         OrderInvitationConfirmed::class => [
             SubtractStock::class,
-            SendOrderInvitationConfirmedNotification::class,
+            //SendOrderInvitationConfirmedNotification::class,
         ],
         PaymentDeleted::class => [
             AddStock::class,
