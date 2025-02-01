@@ -74,9 +74,9 @@ new #[Layout('layouts.guest')] class extends Component {
                 <button type="button" wire:click="toggleVisibility"
                         class="absolute inset-y-0 right-0 px-2 flex items-center text-gray-500 hover:text-gray-700 focus:outline-none">
                     @if ($passwordVisible)
-                        <x-heroicon-s-eye-slash class="h-5 w-5" />
+                        <x-heroicon-s-eye-slash class="h-5 w-5"/>
                     @else
-                        <x-heroicon-s-eye class="h-5 w-5" />
+                        <x-heroicon-s-eye class="h-5 w-5"/>
                     @endif
                 </button>
             </div>
