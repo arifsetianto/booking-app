@@ -68,7 +68,7 @@ new class extends Component {
                 $this->redirectRoute('orders.book');
             } else {
                 $userOrderCount = Order::where('user_id', $user->id)->count();
-                $orderData = $this->generateOrderData($batch);
+                //$orderData = $this->generateOrderData($batch);
                 $order =
                     new Order(
                         $this->form->except(
@@ -83,12 +83,10 @@ new class extends Component {
                 $order->batch()->associate($batch);
                 $order->source()->associate($user->profile->source);
                 $order->status = OrderStatus::DRAFT;
-                $order->code = $orderData['code'];
                 $order->qty = 1;
-                $order->amount = $orderData['amount'];
                 $order->user_order_sequence = $userOrderCount + 1;
 
-                $order->save();
+                $order = $this->generateAmountAndPersist($order, $batch);
 
                 $item = new OrderItem();
                 $item->receiver_en_name = $this->form->receiverEnName;
@@ -115,9 +113,9 @@ new class extends Component {
         }
     }
 
-    private function generateOrderData(Batch $batch): array
+    private function generateAmountAndPersist(Order $order, Batch $batch): Order
     {
-        return DB::transaction(function () use ($batch) {
+        return DB::transaction(function () use ($order, $batch) {
             $date = now()->format('ymd');
 
             // Generate unique code
@@ -145,10 +143,12 @@ new class extends Component {
 
             $amount = round($nextAmount, 2);
 
-            return [
-                'code'   => $code,
-                'amount' => $amount,
-            ];
+            $order->code = $code;
+            $order->amount = $amount;
+
+            $order->save();
+
+            return $order;
         });
     }
 };
