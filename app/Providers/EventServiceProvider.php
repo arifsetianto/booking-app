@@ -46,7 +46,7 @@ class EventServiceProvider extends ServiceProvider
             //SendEmailVerificationNotification::class,
         ],
         Verified::class => [
-            SendNewMemberNotification::class,
+            //SendNewMemberNotification::class,
         ],
         UserLoginRequested::class => [
             //SendLoginLinkVerification::class,
@@ -69,7 +69,7 @@ class EventServiceProvider extends ServiceProvider
             //SendOrderVerifiedNotification::class,
         ],
         OrderCompleted::class => [
-            SendOrderCompletedNotification::class,
+            //SendOrderCompletedNotification::class,
         ],
         OrderRevised::class => [
             //SendOrderRevisedNotification::class,
@@ -79,7 +79,7 @@ class EventServiceProvider extends ServiceProvider
             //SendOrderForceCanceledNotification::class,
         ],
         OrderInvited::class => [
-            SendOrderInvitedNotification::class,
+            //SendOrderInvitedNotification::class,
         ],
         OrderInvitationConfirmed::class => [
             SubtractStock::class,
