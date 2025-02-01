@@ -101,7 +101,17 @@ new class extends Component {
                 </div>
                 @if($pendingBatch)
                     @if($countdownTime)
-                        <p class="text-sm font-semibold text-red-700 dark:text-white">{{ $this->formatTime($countdownTime) }}</p>
+                        <a href="{{ route('orders.book') }}"
+                           class="text-white bg-blue-950 hover:bg-blue-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 pointer-events-none opacity-50 cursor-not-allowed">
+                            <span class="flex items-center justify-between">
+                                <span class="mr-2 whitespace-nowrap text-gray-100">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6" data-tooltip-target="tooltip-lock">
+                                          <path fill-rule="evenodd" d="M12 1.5a5.25 5.25 0 0 0-5.25 5.25v3a3 3 0 0 0-3 3v6.75a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3v-6.75a3 3 0 0 0-3-3v-3c0-2.9-2.35-5.25-5.25-5.25Zm3.75 8.25v-3a3.75 3.75 0 1 0-7.5 0v3h7.5Z" clip-rule="evenodd" />
+                                        </svg>
+                                    </span>
+                                <span class="text-sm font-semibold text-gray-100 dark:text-white">{{ $this->formatTime($countdownTime) }}</span>
+                            </span>
+                        </a>
                     @endif
                 @elseif($publishedBatch && $publishedBatch->getAvailableStock() > 0)
                     <a href="{{ route('orders.book') }}"
