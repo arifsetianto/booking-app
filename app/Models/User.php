@@ -133,10 +133,4 @@ class User extends Authenticatable implements MustVerifyEmail
 
         $this->save();
     }
-
-    public function sendPasswordResetNotification($token)
-    {
-        // You can leave this method empty to prevent the email from being sent
-        // or log the request for internal monitoring.
-    }
 }
