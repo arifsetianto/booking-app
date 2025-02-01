@@ -21,7 +21,7 @@ class InvitedOrderGrid extends Component
 {
     use WithPagination;
 
-    public string $searchKeyword = '';
+    public string $search = '';
     public string $searchBatch = '';
 
     /**
@@ -32,15 +32,15 @@ class InvitedOrderGrid extends Component
         return view('livewire.pages.orders.invited-order-grid')->with([
             'orders' => Order::select('orders.*')
                              ->where('orders.status', OrderStatus::INVITED)
-                             ->when($this->searchKeyword !== '', function (Builder $query) {
+                             ->when($this->search !== '', function (Builder $query) {
                                  $query
                                      ->where(function ($qb) {
                                          $qb
-                                             ->where('orders.code', 'LIKE', '%' . $this->searchKeyword . '%')
-                                             ->orWhere('orders.email', 'LIKE', '%' . $this->searchKeyword . '%')
-                                             ->orWhere('orders.name', 'LIKE', '%' . $this->searchKeyword . '%')
-                                             ->orWhere('orders.phone', 'LIKE', '%' . $this->searchKeyword . '%')
-                                             ->orWhere('orders.instagram', 'LIKE', '%' . $this->searchKeyword . '%')
+                                             ->where('orders.code', 'LIKE', '%' . $this->search . '%')
+                                             ->orWhere('orders.email', 'LIKE', '%' . $this->search . '%')
+                                             ->orWhere('orders.name', 'LIKE', '%' . $this->search . '%')
+                                             ->orWhere('orders.phone', 'LIKE', '%' . $this->search . '%')
+                                             ->orWhere('orders.instagram', 'LIKE', '%' . $this->search . '%')
                                          ;
                                      });
                              })
@@ -50,6 +50,11 @@ class InvitedOrderGrid extends Component
                              ->paginate(10),
             'batches' => Batch::orderBy('number')->get(),
         ]);
+    }
+
+    public function updatedSearch(): void
+    {
+        $this->resetPage();
     }
 
     public function redirectToInviteOrderPage(): void

@@ -29,7 +29,7 @@ class CompletedOrderGrid extends Component
 {
     use WithPagination, WithFileUploads;
 
-    public string $searchKeyword = '';
+    public string $search = '';
     public string $searchBatch = '';
     public ?Order $selectedOrder = null;
     public CompleteOrderForm $form;
@@ -46,22 +46,22 @@ class CompletedOrderGrid extends Component
 //                             ->join('shippings', 'orders.id', '=', 'shippings.order_id')
 //                             ->join('sub_districts', 'shippings.sub_district_id', '=', 'sub_districts.id')
                              ->where('orders.status', OrderStatus::VERIFIED)
-                             ->when($this->searchKeyword !== '', function (Builder $query) {
+                             ->when($this->search !== '', function (Builder $query) {
                                  $query
                                      ->where(function ($qb) {
                                          $qb
-                                             ->where('orders.code', 'LIKE', '%' . $this->searchKeyword . '%')
-                                             ->orWhere('orders.email', 'LIKE', '%' . $this->searchKeyword . '%')
-                                             ->orWhere('orders.name', 'LIKE', '%' . $this->searchKeyword . '%')
-                                             ->orWhere('orders.phone', 'LIKE', '%' . $this->searchKeyword . '%')
-                                             ->orWhere('orders.instagram', 'LIKE', '%' . $this->searchKeyword . '%')
-                                             ->orWhere('order_items.receiver_th_name', 'LIKE', '%' . $this->searchKeyword . '%')
-                                             ->orWhere('order_items.receiver_en_name', 'LIKE', '%' . $this->searchKeyword . '%')
+                                             ->where('orders.code', 'LIKE', '%' . $this->search . '%')
+                                             ->orWhere('orders.email', 'LIKE', '%' . $this->search . '%')
+                                             ->orWhere('orders.name', 'LIKE', '%' . $this->search . '%')
+                                             ->orWhere('orders.phone', 'LIKE', '%' . $this->search . '%')
+                                             ->orWhere('orders.instagram', 'LIKE', '%' . $this->search . '%')
+                                             ->orWhere('order_items.receiver_th_name', 'LIKE', '%' . $this->search . '%')
+                                             ->orWhere('order_items.receiver_en_name', 'LIKE', '%' . $this->search . '%')
                                              ->orWhereHas('shipping', function (Builder $query) {
-                                                 $query->where('shippings.phone', 'LIKE', '%' . $this->searchKeyword . '%');
-                                                 $query->orWhere('shippings.name', 'LIKE', '%' . $this->searchKeyword . '%');
+                                                 $query->where('shippings.phone', 'LIKE', '%' . $this->search . '%');
+                                                 $query->orWhere('shippings.name', 'LIKE', '%' . $this->search . '%');
                                                  $query->orWhereHas('subDistrict', function (Builder $query) {
-                                                     $query->where('sub_districts.zip_code', 'LIKE', '%' . $this->searchKeyword . '%');
+                                                     $query->where('sub_districts.zip_code', 'LIKE', '%' . $this->search . '%');
                                                  });
                                              })
 //                                             ->orWhere('shippings.phone', 'LIKE', '%' . $this->searchKeyword . '%')
@@ -75,6 +75,11 @@ class CompletedOrderGrid extends Component
                              ->paginate(10),
             'batches' => Batch::orderBy('number')->get(),
         ]);
+    }
+
+    public function updatedSearch(): void
+    {
+        $this->resetPage();
     }
 
     public function selectOrder(string $orderId): void
