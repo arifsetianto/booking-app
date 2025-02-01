@@ -50,17 +50,22 @@ new #[Layout('layouts.guest')] class extends Component {
             //$user->name = $validated['name'];
             $user->password = Hash::make($validated['password']);
 
-            if ($user->email_verified_at) {
-                event(new Verified($user));
-            } else {
+            if (!$user->hasVerifiedEmail()) {
+                $user->markEmailAsVerified();
                 event(new Registered($user));
             }
+
+            event(new Verified($user));
 
             $user->save();
 
             Auth::login($user);
 
-            $this->redirect(RouteServiceProvider::HOME, navigate: true);
+            if ($user->status->is(UserStatus::NEW)) {
+                $this->redirectIntended(default: 'complete-profile', navigate: true);
+            } else {
+                $this->redirect(RouteServiceProvider::HOME, navigate: true);
+            }
         } else {
             $validated = $this->validate(
                 [
@@ -86,9 +91,12 @@ new #[Layout('layouts.guest')] class extends Component {
 
             $user->save();
 
+            $user->markEmailAsVerified();
+
             Auth::login($user);
 
-            $this->redirect('verify-email', navigate: true);
+            //$this->redirect('verify-email', navigate: true);
+            redirect()->intended('/complete-profile'.'?verified=1');
         }
     }
 
@@ -104,8 +112,20 @@ new #[Layout('layouts.guest')] class extends Component {
 }; ?>
 
 <div>
-    <div class="mt-2 mb-6 text-xl text-gray-600 font-semibold text-center">
-        {{ __('Member Account Registration Form') }}
+    <div class="mt-2 mb-6 text-xl text-gray-600">
+        <h4 class="text-center font-semibold">{{ __('Member Account Registration Form') }}</h4>
+
+        <div class="alert alert-warning flex items-center justify-between bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-4 rounded mt-4">
+            <div class="flex items-center">
+                <span class="text-sm">
+                    🚨 No Email Verification Needed – Due to an issue with our email server (Mailgun services down), we have skipped the email verification step to ensure a smooth experience.
+
+No need to worry! You can now fully access your account and continue using ThaiQuran services as usual after register
+
+Thank you for your patience and understanding!
+                </span>
+            </div>
+        </div>
     </div>
     <form wire:submit="register">
         <!-- Name -->

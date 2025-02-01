@@ -31,6 +31,8 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+use Illuminate\Mail\Events\MessageSending;
+use Illuminate\Support\Facades\Event;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -41,47 +43,47 @@ class EventServiceProvider extends ServiceProvider
      */
     protected $listen = [
         Registered::class => [
-            SendEmailVerificationNotification::class,
+            //SendEmailVerificationNotification::class,
         ],
         Verified::class => [
             SendNewMemberNotification::class,
         ],
         UserLoginRequested::class => [
-            SendLoginLinkVerification::class,
+            //SendLoginLinkVerification::class,
         ],
         OrderPurchased::class => [
             SubtractStock::class,
-            SendOrderPurchasedNotification::class,
+            //SendOrderPurchasedNotification::class,
         ],
         OrderCanceled::class => [
             AddStock::class,
         ],
         OrderRejected::class => [
             AddStock::class,
-            SendOrderRejectedNotification::class,
+            //SendOrderRejectedNotification::class,
         ],
         OrderConfirmed::class => [
-            SendOrderConfirmedNotification::class,
+            //SendOrderConfirmedNotification::class,
         ],
         OrderVerified::class => [
-            SendOrderVerifiedNotification::class,
+            //SendOrderVerifiedNotification::class,
         ],
         OrderCompleted::class => [
             SendOrderCompletedNotification::class,
         ],
         OrderRevised::class => [
-            SendOrderRevisedNotification::class,
+            //SendOrderRevisedNotification::class,
         ],
         OrderForceCanceled::class => [
             AddStock::class,
-            SendOrderForceCanceledNotification::class,
+            //SendOrderForceCanceledNotification::class,
         ],
         OrderInvited::class => [
             SendOrderInvitedNotification::class,
         ],
         OrderInvitationConfirmed::class => [
             SubtractStock::class,
-            SendOrderInvitationConfirmedNotification::class,
+            //SendOrderInvitationConfirmedNotification::class,
         ],
         PaymentDeleted::class => [
             AddStock::class,

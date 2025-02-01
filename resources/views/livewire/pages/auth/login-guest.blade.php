@@ -28,9 +28,9 @@ new #[Layout('layouts.guest')] class extends Component {
 
         if ($user->status->is(UserStatus::NEW)) {
             $this->redirectIntended(default: 'complete-profile', navigate: true);
+        } else {
+            $this->redirectIntended(default: RouteServiceProvider::HOME, navigate: true);
         }
-
-        $this->redirectIntended(default: RouteServiceProvider::HOME, navigate: true);
     }
 
     public function toggleVisibility(): void

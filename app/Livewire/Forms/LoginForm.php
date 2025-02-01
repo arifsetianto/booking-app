@@ -4,6 +4,7 @@ namespace App\Livewire\Forms;
 
 use App\Models\User;
 use Illuminate\Auth\Events\Lockout;
+use Illuminate\Auth\Events\Verified;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\RateLimiter;
@@ -39,6 +40,11 @@ class LoginForm extends Form
             throw ValidationException::withMessages([
                 'password' => trans('auth.empty-password'),
             ]);
+        }
+
+        if ($user && !$user->hasVerifiedEmail()) {
+            $user->markEmailAsVerified();
+            event(new Verified($user));
         }
 
         if (! Auth::attempt(['email' => Str::lower($this->email), 'password' => $this->password], $this->remember)) {

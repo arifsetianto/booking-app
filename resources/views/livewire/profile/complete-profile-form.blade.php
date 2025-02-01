@@ -1,8 +1,10 @@
 <?php
 
+use App\Models\Profile;
 use App\Models\Source;
 use App\Models\User;
 use App\ValueObject\UserStatus;
+use Illuminate\Auth\Events\Verified;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
@@ -28,9 +30,9 @@ new class extends Component {
 
         $this->name = $user->name;
         $this->email = $user->email;
-        $this->phone = $user->profile->phone;
-        $this->instagram = $user->profile->instagram;
-        $this->source = $user->profile->source?->id;
+        $this->phone = $user->profile?->phone;
+        $this->instagram = $user->profile?->instagram;
+        $this->source = $user->profile?->source?->id;
 
         $this->sources = Source::get()->map(fn($item) => ['value' => $item->id, 'label' => $item->name])->toArray();
     }
@@ -62,12 +64,24 @@ new class extends Component {
         $user->fill(Arr::only($validated, ['name', 'email']));
         $user->status = UserStatus::COMPLETED;
 
+        if (!$user->profile) {
+            $user->profile()->associate(Profile::create());
+        }
+
         $user->profile->phone = $this->phone;
         $user->profile->instagram = $this->instagram ?? null;
         $user->profile->source()->associate(Source::findOrFail($this->source));
 
         $user->save();
         $user->profile->save();
+
+        if (!$user->hasVerifiedEmail()) {
+            $user->markEmailAsVerified();
+        }
+
+        if ($user->hasVerifiedEmail()) {
+            event(new Verified($user));
+        }
 
         //$this->dispatch('profile-updated', name: $user->name);
 
