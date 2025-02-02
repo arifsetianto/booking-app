@@ -65,7 +65,7 @@ new class extends Component {
 
         $payment->save();
 
-        Storage::deleteDirectory('livewire-tmp');
+        //Storage::deleteDirectory('livewire-tmp');
 
         event(new OrderConfirmed($order));
 

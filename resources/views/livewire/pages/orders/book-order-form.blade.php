@@ -102,7 +102,7 @@ new class extends Component {
 
                 $item->save();
 
-                Storage::deleteDirectory('livewire-tmp');
+                //Storage::deleteDirectory('livewire-tmp');
 
                 event(new OrderCreated($order));
 

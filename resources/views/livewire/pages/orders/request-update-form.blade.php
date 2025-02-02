@@ -163,7 +163,7 @@ new class extends Component {
             event(new OrderUpdated($order));
 
             if (Storage::directoryExists('livewire-tmp')) {
-                Storage::deleteDirectory('livewire-tmp');
+                //Storage::deleteDirectory('livewire-tmp');
             }
 
             $this->redirectRoute(name: 'orders.update.success', parameters: ['order' => $order->id]);

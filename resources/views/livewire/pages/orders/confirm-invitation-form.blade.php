@@ -208,7 +208,7 @@ new class extends Component {
                 }
 
                 if (Storage::directoryExists('livewire-tmp')) {
-                    Storage::deleteDirectory('livewire-tmp');
+                    //Storage::deleteDirectory('livewire-tmp');
                 }
 
                 event(new OrderInvitationConfirmed($order));

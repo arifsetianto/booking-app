@@ -69,7 +69,7 @@ new class extends Component {
 
             $item->identity_file = $this->form->identityFile->store('orders/identities');
 
-            Storage::deleteDirectory('livewire-tmp');
+            //Storage::deleteDirectory('livewire-tmp');
         }
 
         $item->save();
