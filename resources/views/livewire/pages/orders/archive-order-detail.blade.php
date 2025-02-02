@@ -1,20 +1,64 @@
 <?php
 
+use App\Event\Order\OrderConfirmed;
+use App\Livewire\Forms\Order\ConfirmPaymentForm;
 use App\Models\Order;
+use App\Models\Payment;
 use App\ValueObject\OrderStatus;
 use App\ValueObject\PaymentStatus;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Livewire\Volt\Component;
+use Livewire\WithFileUploads;
 use function Livewire\Volt\{state};
 
 new class extends Component {
+    use WithFileUploads;
+
     public Order|null $order = null;
+    public ConfirmPaymentForm $confirmPaymentForm;
 
     public function mount(Request $request): void
     {
-        $this->order = Order::whereIn('status', [OrderStatus::DRAFT, OrderStatus::PENDING, OrderStatus::CANCELED, OrderStatus::REJECTED, OrderStatus::REVISED])
-                            ->where('id', $request->route('order'))
-                            ->first();
+        $this->order =
+            Order::whereIn(
+                'status',
+                [
+                    OrderStatus::DRAFT,
+                    OrderStatus::PENDING,
+                    OrderStatus::CANCELED,
+                    OrderStatus::REJECTED,
+                    OrderStatus::REVISED
+                ]
+            )
+                 ->where('id', $request->route('order'))
+                 ->first();
+    }
+
+    public function confirmPayment(): void
+    {
+        $this->confirmPaymentForm->validate();
+
+        /** @var Order $order */
+        $order = Order::findOrFail($this->order->id);
+        $order->status = OrderStatus::CONFIRMED;
+        $order->confirmed_at = Carbon::now();
+
+        $order->save();
+
+        /** @var Payment $payment */
+        $payment = Payment::findOrFail($order->payment->id);
+        $payment->status = PaymentStatus::PAID;
+        $payment->paid_at = Carbon::now();
+        $payment->receipt_file = $this->confirmPaymentForm->receiptFile->store('payments/receipts');
+
+        $payment->save();
+
+        //Storage::deleteDirectory('livewire-tmp');
+
+        event(new OrderConfirmed($order));
+
+        $this->redirectRoute(name: 'order.verify', parameters: ['order' => $order->id]);
     }
 };
 
@@ -245,5 +289,50 @@ new class extends Component {
                 </div>
             </div>
         </div>
+
+        @if($order->status->is(OrderStatus::PENDING))
+            <div class="flex items-center gap-4 mt-14">
+                <x-primary-button x-data=""
+                                  x-on:click.prevent="$dispatch('open-modal', 'confirm-payment-order')">
+                    {{ __('Confirm Payment Order') }}
+                </x-primary-button>
+            </div>
+
+            <x-modal name="confirm-payment-order" :show="$errors->isNotEmpty()" focusable>
+                <form wire:submit="confirmPayment" class="p-6">
+
+                    <h2 class="text-lg font-medium text-gray-900">
+                        {{ __('Are you sure you want to confirm payment this order?') }}
+                    </h2>
+
+                    <p class="mt-1 text-sm text-gray-600">
+                        {{ __('Please upload the payment receipt for confirm this order.') }}
+                    </p>
+
+                    <div class="mt-6">
+                        <x-input-label for="receipt_file" :value="__('Upload Payment Receipt')" class="required"/>
+                        <input wire:model="confirmPaymentForm.receiptFile"
+                               class="mt-1 block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                               aria-describedby="file_input_help" id="receipt_file" type="file"
+                               accept="image/png, image/jpg, image/jpeg">
+                        <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">jpeg, jpg,
+                            or png
+                            (max.
+                            5MB).</p>
+                        <x-input-error class="mt-2" :messages="$errors->get('confirmPaymentForm.receiptFile')"/>
+                    </div>
+
+                    <div class="mt-6 flex justify-end">
+                        <x-secondary-button x-on:click="$dispatch('close')">
+                            {{ __('Cancel') }}
+                        </x-secondary-button>
+
+                        <x-primary-button class="ms-3">
+                            {{ __('Confirm Now') }}
+                        </x-primary-button>
+                    </div>
+                </form>
+            </x-modal>
+        @endif
     @endif
 </section>
