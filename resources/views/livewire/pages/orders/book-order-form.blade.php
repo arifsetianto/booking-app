@@ -91,21 +91,7 @@ new class extends Component {
                     $order->qty = 1;
                     $order->user_order_sequence = $userOrderCount + 1;
 
-                    $order = $this->generateAmountAndPersist($order, $batch);
-
-                    $item = new OrderItem();
-                    $item->receiver_en_name = $this->form->receiverEnName;
-                    $item->receiver_th_name = $this->form->receiverThName;
-                    $item->qty = 1;
-                    $item->amount = 0;
-                    $item->gender = Gender::from($this->form->gender);
-                    $item->religion()->associate(Religion::find($this->form->religion));
-                    $item->designation()->associate(Designation::find($this->form->designation));
-                    $item->order()->associate($order);
-                    $item->identity_file_hash = $fileHash;
-                    $item->identity_file = $this->form->identityFile->store('orders/identities');
-
-                    $item->save();
+                    $order = $this->generateAmountAndPersist($order, $batch, $fileHash);
 
                     //Storage::deleteDirectory('livewire-tmp');
 
@@ -119,9 +105,9 @@ new class extends Component {
         }
     }
 
-    private function generateAmountAndPersist(Order $order, Batch $batch): Order
+    private function generateAmountAndPersist(Order $order, Batch $batch, string $fileHash): Order
     {
-        return DB::transaction(function () use ($order, $batch) {
+        return DB::transaction(function () use ($order, $batch, $fileHash) {
             $date = now()->format('ymd');
 
             // Generate unique code
@@ -153,6 +139,20 @@ new class extends Component {
             $order->amount = $amount;
 
             $order->save();
+
+            $item = new OrderItem();
+            $item->receiver_en_name = $this->form->receiverEnName;
+            $item->receiver_th_name = $this->form->receiverThName;
+            $item->qty = 1;
+            $item->amount = 0;
+            $item->gender = Gender::from($this->form->gender);
+            $item->religion()->associate(Religion::find($this->form->religion));
+            $item->designation()->associate(Designation::find($this->form->designation));
+            $item->order()->associate($order);
+            $item->identity_file_hash = $fileHash;
+            $item->identity_file = $this->form->identityFile->store('orders/identities');
+
+            $item->save();
 
             return $order;
         });
