@@ -6,6 +6,7 @@ namespace App\Livewire\Components\Order;
 
 use App\Models\Batch;
 use App\Models\Order;
+use App\ValueObject\BatchStatus;
 use App\ValueObject\OrderStatus;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Contracts\View\Factory;
@@ -23,6 +24,11 @@ class IncomingOrderGrid extends Component
 
     public string $search = '';
     public string $searchBatch = '';
+
+    public function mount(): void
+    {
+        $this->searchBatch = Batch::latest()->firstOrFail()->id;
+    }
 
     /**
      * @return View|Application|Factory|\Illuminate\Contracts\Foundation\Application

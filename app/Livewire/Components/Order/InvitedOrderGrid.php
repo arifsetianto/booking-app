@@ -24,6 +24,11 @@ class InvitedOrderGrid extends Component
     public string $search = '';
     public string $searchBatch = '';
 
+    public function mount(): void
+    {
+        $this->searchBatch = Batch::latest()->firstOrFail()->id;
+    }
+
     /**
      * @return View|Application|Factory|\Illuminate\Contracts\Foundation\Application
      */

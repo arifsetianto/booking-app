@@ -25,6 +25,11 @@ class ArchiveOrderGrid extends Component
     public string $searchBatch = '';
     public string $searchStatus = '';
 
+    public function mount(): void
+    {
+        $this->searchBatch = Batch::latest()->firstOrFail()->id;
+    }
+
     /**
      * @return View|Application|Factory|\Illuminate\Contracts\Foundation\Application
      */

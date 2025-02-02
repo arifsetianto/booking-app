@@ -35,6 +35,11 @@ class CompletedOrderGrid extends Component
     public CompleteOrderForm $form;
     public ImportOrderForm $importOrderForm;
 
+    public function mount(): void
+    {
+        $this->searchBatch = Batch::latest()->firstOrFail()->id;
+    }
+
     /**
      * @return View|Application|Factory|\Illuminate\Contracts\Foundation\Application
      */
