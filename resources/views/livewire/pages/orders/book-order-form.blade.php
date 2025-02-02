@@ -48,67 +48,73 @@ new class extends Component {
         /** @var User $user */
         $user = Auth::user();
 
-        /** @var Batch $batch */
-        $batch = Batch::where('status', BatchStatus::PUBLISHED)->first();
-
-        if (!$batch || $batch->getAvailableStock() <= 0) {
-            Session::flash('error', 'Unable to place orders due to out-of-stock. / ไม่สามารถสั่งได้เนื่องจากสินค้าหมดสต็อก');
+        if (!$user->profile) {
+            Session::flash('error', 'Please complete your profile information first before making a booking');
 
             $this->redirectRoute('orders.book');
         } else {
-            $fileContent = $this->form->identityFile->getContent();
-            $fileHash = md5($fileContent);
+            /** @var Batch $batch */
+            $batch = Batch::where('status', BatchStatus::PUBLISHED)->first();
 
-            // Check if the file with the same hash exists
-            $existingFile = OrderItem::where('identity_file_hash', $fileHash)->first();
-
-            if ($existingFile) {
-                Session::flash('error', 'The Receiver Thai ID file has been uploaded. Please use a different file. / บัตรประชาชนของท่านถูกบันทึกแล้ว กรุณาใช้บัตรประชาชนอื่นในการลงทะเบียน');
+            if (!$batch || $batch->getAvailableStock() <= 0) {
+                Session::flash('error', 'Unable to place orders due to out-of-stock. / ไม่สามารถสั่งได้เนื่องจากสินค้าหมดสต็อก');
 
                 $this->redirectRoute('orders.book');
             } else {
-                $userOrderCount = Order::where('user_id', $user->id)->count();
-                //$orderData = $this->generateOrderData($batch);
-                $order =
-                    new Order(
-                        $this->form->except(
-                            ['receiverEnName', 'receiverThName', 'designation', 'gender', 'religion', 'identityFile']
-                        )
-                    );
-                $order->email = $user->email;
-                $order->phone = $user->profile->phone;
-                $order->name = $user->name;
-                $order->instagram = $user->profile->instagram;
-                $order->user()->associate($user);
-                $order->batch()->associate($batch);
-                $order->source()->associate($user->profile->source);
-                $order->status = OrderStatus::DRAFT;
-                $order->qty = 1;
-                $order->user_order_sequence = $userOrderCount + 1;
+                $fileContent = $this->form->identityFile->getContent();
+                $fileHash = md5($fileContent);
 
-                $order = $this->generateAmountAndPersist($order, $batch);
+                // Check if the file with the same hash exists
+                $existingFile = OrderItem::where('identity_file_hash', $fileHash)->first();
 
-                $item = new OrderItem();
-                $item->receiver_en_name = $this->form->receiverEnName;
-                $item->receiver_th_name = $this->form->receiverThName;
-                $item->qty = 1;
-                $item->amount = 0;
-                $item->gender = Gender::from($this->form->gender);
-                $item->religion()->associate(Religion::find($this->form->religion));
-                $item->designation()->associate(Designation::find($this->form->designation));
-                $item->order()->associate($order);
-                $item->identity_file_hash = $fileHash;
-                $item->identity_file = $this->form->identityFile->store('orders/identities');
+                if ($existingFile) {
+                    Session::flash('error', 'The Receiver Thai ID file has been uploaded. Please use a different file. / บัตรประชาชนของท่านถูกบันทึกแล้ว กรุณาใช้บัตรประชาชนอื่นในการลงทะเบียน');
 
-                $item->save();
+                    $this->redirectRoute('orders.book');
+                } else {
+                    $userOrderCount = Order::where('user_id', $user->id)->count();
+                    //$orderData = $this->generateOrderData($batch);
+                    $order =
+                        new Order(
+                            $this->form->except(
+                                ['receiverEnName', 'receiverThName', 'designation', 'gender', 'religion', 'identityFile']
+                            )
+                        );
+                    $order->email = $user->email;
+                    $order->phone = $user->profile->phone;
+                    $order->name = $user->name;
+                    $order->instagram = $user->profile->instagram;
+                    $order->user()->associate($user);
+                    $order->batch()->associate($batch);
+                    $order->source()->associate($user->profile->source);
+                    $order->status = OrderStatus::DRAFT;
+                    $order->qty = 1;
+                    $order->user_order_sequence = $userOrderCount + 1;
 
-                //Storage::deleteDirectory('livewire-tmp');
+                    $order = $this->generateAmountAndPersist($order, $batch);
 
-                event(new OrderCreated($order));
+                    $item = new OrderItem();
+                    $item->receiver_en_name = $this->form->receiverEnName;
+                    $item->receiver_th_name = $this->form->receiverThName;
+                    $item->qty = 1;
+                    $item->amount = 0;
+                    $item->gender = Gender::from($this->form->gender);
+                    $item->religion()->associate(Religion::find($this->form->religion));
+                    $item->designation()->associate(Designation::find($this->form->designation));
+                    $item->order()->associate($order);
+                    $item->identity_file_hash = $fileHash;
+                    $item->identity_file = $this->form->identityFile->store('orders/identities');
 
-                Session::flash('message', sprintf('Order %s has been successfully created.', $order->code));
+                    $item->save();
 
-                $this->redirectRoute(name: 'orders.delivery', parameters: ['order' => $order->id]);
+                    //Storage::deleteDirectory('livewire-tmp');
+
+                    event(new OrderCreated($order));
+
+                    Session::flash('message', sprintf('Order %s has been successfully created.', $order->code));
+
+                    $this->redirectRoute(name: 'orders.delivery', parameters: ['order' => $order->id]);
+                }
             }
         }
     }
