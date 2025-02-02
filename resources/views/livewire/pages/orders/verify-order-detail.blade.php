@@ -130,7 +130,7 @@ new class extends Component {
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <p class="text-sm text-gray-500">Full Name</p>
-                        <p class="pt-1 text-sm">{{ $order->name }}</p>
+                        <p class="pt-1 text-sm">{{ $order->name ?? '-' }}</p>
                     </div>
                     <div>
                         <p class="text-sm text-gray-500">Email</p>
@@ -138,15 +138,15 @@ new class extends Component {
                     </div>
                     <div>
                         <p class="text-sm text-gray-500">Phone</p>
-                        <p class="pt-1 text-sm">{{ $order->phone }}</p>
+                        <p class="pt-1 text-sm">{{ $order->phone ?? '-' }}</p>
                     </div>
                     <div>
                         <p class="text-sm text-gray-500">Instagram</p>
-                        <p class="pt-1 text-sm">{{ $order->instagram }}</p>
+                        <p class="pt-1 text-sm">{{ $order->instagram ?? '-' }}</p>
                     </div>
                     <div>
                         <p class="text-sm text-gray-500">How do you know us</p>
-                        <p class="pt-1 text-sm">{{ $order->source->name }}</p>
+                        <p class="pt-1 text-sm">{{ $order->source?->name ?? '-' }}</p>
                     </div>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-9">
