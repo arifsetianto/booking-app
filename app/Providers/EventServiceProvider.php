@@ -72,7 +72,7 @@ class EventServiceProvider extends ServiceProvider
             SendOrderCompletedNotification::class,
         ],
         OrderRevised::class => [
-            //SendOrderRevisedNotification::class,
+            SendOrderRevisedNotification::class,
         ],
         OrderForceCanceled::class => [
             AddStock::class,
