@@ -121,7 +121,7 @@ class CompletedOrderGrid extends Component
     {
         $this->importOrderForm->validate();
 
-        Excel::import(new OrdersVerifiedImport, $this->importOrderForm->importFile);
+        Excel::queueImport(new OrdersVerifiedImport, $this->importOrderForm->importFile);
 
         Session::flash('message', 'Orders data successfully imported.');
 
