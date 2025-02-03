@@ -66,10 +66,10 @@ class EventServiceProvider extends ServiceProvider
             //SendOrderConfirmedNotification::class,
         ],
         OrderVerified::class => [
-            SendOrderVerifiedNotification::class,
+            //SendOrderVerifiedNotification::class,
         ],
         OrderCompleted::class => [
-            SendOrderCompletedNotification::class,
+            //SendOrderCompletedNotification::class,
         ],
         OrderRevised::class => [
             SendOrderRevisedNotification::class,
@@ -79,11 +79,11 @@ class EventServiceProvider extends ServiceProvider
             //SendOrderForceCanceledNotification::class,
         ],
         OrderInvited::class => [
-            //SendOrderInvitedNotification::class,
+            SendOrderInvitedNotification::class,
         ],
         OrderInvitationConfirmed::class => [
             SubtractStock::class,
-            //SendOrderInvitationConfirmedNotification::class,
+            SendOrderInvitationConfirmedNotification::class,
         ],
         PaymentDeleted::class => [
             AddStock::class,
