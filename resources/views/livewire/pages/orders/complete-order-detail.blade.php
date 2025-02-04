@@ -213,7 +213,7 @@ new class extends Component {
                     </div>
                     <div>
                         <p class="text-sm text-gray-500">Paid At</p>
-                        <p class="pt-1 text-sm">{{ $order->payment->paid_at->format('d-m-Y H:i:s') }}</p>
+                        <p class="pt-1 text-sm">{{ $order->payment->paid_at?->format('d-m-Y H:i:s') ?? '-' }}</p>
                     </div>
                 </div>
             </div>
