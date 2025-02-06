@@ -53,7 +53,7 @@ class CreateOrderFromInvitationForm extends Form
     #[Validate('required|numeric|max_digits:30')]
     public ?string $receiverPhone;
 
-    #[Validate('required|string|no_hyphen')]
+    #[Validate('required|string')]
     public ?string $address;
 
     #[Validate('required|uuid|exists:regions,id')]

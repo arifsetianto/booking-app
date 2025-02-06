@@ -19,7 +19,7 @@ class ForceUpdateOrderForm extends UpdateOrderForm
     #[Validate('required|string|no_hyphen|max:30')]
     public string $receiverPhone;
 
-    #[Validate('required|string|no_hyphen')]
+    #[Validate('required|string')]
     public string $address;
 
     #[Validate('required|uuid|exists:regions,id')]

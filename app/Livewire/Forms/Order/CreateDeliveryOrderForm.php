@@ -18,7 +18,7 @@ class CreateDeliveryOrderForm extends Form
     #[Validate('required|numeric|max_digits:30')]
     public string $phone;
 
-    #[Validate('required|string|no_hyphen')]
+    #[Validate('required|string')]
     public string $address;
 
     #[Validate('required|uuid|exists:regions,id')]
