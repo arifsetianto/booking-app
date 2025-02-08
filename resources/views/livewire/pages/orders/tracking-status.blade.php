@@ -83,11 +83,11 @@ new class extends Component {
                 </table>
             </div>
         </div>
-        @if($order->shipping->tracking_code)
+        @if($order->shipping?->tracking_code)
             <p class="my-5 text-sm text-gray-500">Copy this parcel code to track parcel in ThaiPost website or click
                 this
                 link icon</p>
-            <a href="https://track.thailandpost.com/?trackNumber={{ $order->shipping->tracking_code }}" target="_blank" class="hover:underline text-blue-700 font-semibold">{{ $order->shipping->tracking_code }}</a>
+            <a href="https://track.thailandpost.com/?trackNumber={{ $order->shipping?->tracking_code }}" target="_blank" class="hover:underline text-blue-700 font-semibold">{{ $order->shipping?->tracking_code }}</a>
         @endif
         <div class="mt-5">
             <x-primary-button wire:click="redirectToOrderDetail">
