@@ -11,13 +11,18 @@ use Maatwebsite\Excel\Concerns\WithHeadingRow;
 class OrdersVerifiedImport implements ToModel, WithHeadingRow, WithChunkReading, ShouldQueue
 {
     /**
-    * @param array $row
-    *
-    * @return void
-    */
+     * @param array $row
+     *
+     * @return void
+     */
     public function model(array $row): void
     {
-        ProcessImportOrdersVerified::dispatch($row['order_number'], $row['tracking_code'] ?? null)->onQueue('import');
+        if (isset($row['order_number'])) {
+            ProcessImportOrdersVerified::dispatch(
+                $row['order_number'],
+                $row['tracking_code'] ?? null
+            )->onQueue('import');
+        }
     }
 
     public function headingRow(): int
